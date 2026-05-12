@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ticket.v1;
 
-option go_package = "github.com/FIZZI-77/automatic-system-contract.git/ticket/v1";
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/ticket/v1";
 
 import "google/protobuf/timestamp.proto";
 

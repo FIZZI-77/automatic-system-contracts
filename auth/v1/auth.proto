@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth.v1;
 
-option go_package = "github.com/FIZZI-77/automatic-system-contract.git/auth/v1";
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/auth/v1";
 
 service AuthService {
   rpc Register(RegisterRequest) returns (RegisterResponse);
