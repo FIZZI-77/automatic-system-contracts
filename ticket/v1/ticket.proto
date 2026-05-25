@@ -262,7 +262,7 @@ message UpdateCategoryRequest {
   string category_id = 1;
   string name = 2;
   string description = 3;
-  bool is_active = 4;
+  optional bool is_active = 4;
 }
 
 message UpdateCategoryResponse {
