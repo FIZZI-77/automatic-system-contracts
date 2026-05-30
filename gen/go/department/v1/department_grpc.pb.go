@@ -19,20 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DepartmentService_CreateDepartment_FullMethodName            = "/department.v1.DepartmentService/CreateDepartment"
-	DepartmentService_GetDepartmentByID_FullMethodName           = "/department.v1.DepartmentService/GetDepartmentByID"
-	DepartmentService_ListDepartments_FullMethodName             = "/department.v1.DepartmentService/ListDepartments"
-	DepartmentService_UpdateDepartment_FullMethodName            = "/department.v1.DepartmentService/UpdateDepartment"
-	DepartmentService_DeleteDepartment_FullMethodName            = "/department.v1.DepartmentService/DeleteDepartment"
-	DepartmentService_AssignUserToDepartment_FullMethodName      = "/department.v1.DepartmentService/AssignUserToDepartment"
-	DepartmentService_RemoveUserFromDepartment_FullMethodName    = "/department.v1.DepartmentService/RemoveUserFromDepartment"
-	DepartmentService_ListDepartmentUsers_FullMethodName         = "/department.v1.DepartmentService/ListDepartmentUsers"
-	DepartmentService_AssignServiceToDepartment_FullMethodName   = "/department.v1.DepartmentService/AssignServiceToDepartment"
-	DepartmentService_RemoveServiceFromDepartment_FullMethodName = "/department.v1.DepartmentService/RemoveServiceFromDepartment"
-	DepartmentService_ListDepartmentServices_FullMethodName      = "/department.v1.DepartmentService/ListDepartmentServices"
-	DepartmentService_AssignBrigadeToDepartment_FullMethodName   = "/department.v1.DepartmentService/AssignBrigadeToDepartment"
-	DepartmentService_RemoveBrigadeFromDepartment_FullMethodName = "/department.v1.DepartmentService/RemoveBrigadeFromDepartment"
-	DepartmentService_ListDepartmentBrigades_FullMethodName      = "/department.v1.DepartmentService/ListDepartmentBrigades"
+	DepartmentService_CreateDepartment_FullMethodName  = "/department.v1.DepartmentService/CreateDepartment"
+	DepartmentService_GetDepartmentByID_FullMethodName = "/department.v1.DepartmentService/GetDepartmentByID"
+	DepartmentService_ListDepartments_FullMethodName   = "/department.v1.DepartmentService/ListDepartments"
+	DepartmentService_UpdateDepartment_FullMethodName  = "/department.v1.DepartmentService/UpdateDepartment"
+	DepartmentService_DeleteDepartment_FullMethodName  = "/department.v1.DepartmentService/DeleteDepartment"
 )
 
 // DepartmentServiceClient is the client API for DepartmentService service.
@@ -44,15 +35,6 @@ type DepartmentServiceClient interface {
 	ListDepartments(ctx context.Context, in *ListDepartmentsRequest, opts ...grpc.CallOption) (*ListDepartmentsResponse, error)
 	UpdateDepartment(ctx context.Context, in *UpdateDepartmentRequest, opts ...grpc.CallOption) (*UpdateDepartmentResponse, error)
 	DeleteDepartment(ctx context.Context, in *DeleteDepartmentRequest, opts ...grpc.CallOption) (*DeleteDepartmentResponse, error)
-	AssignUserToDepartment(ctx context.Context, in *AssignUserToDepartmentRequest, opts ...grpc.CallOption) (*AssignUserToDepartmentResponse, error)
-	RemoveUserFromDepartment(ctx context.Context, in *RemoveUserFromDepartmentRequest, opts ...grpc.CallOption) (*RemoveUserFromDepartmentResponse, error)
-	ListDepartmentUsers(ctx context.Context, in *ListDepartmentUsersRequest, opts ...grpc.CallOption) (*ListDepartmentUsersResponse, error)
-	AssignServiceToDepartment(ctx context.Context, in *AssignServiceToDepartmentRequest, opts ...grpc.CallOption) (*AssignServiceToDepartmentResponse, error)
-	RemoveServiceFromDepartment(ctx context.Context, in *RemoveServiceFromDepartmentRequest, opts ...grpc.CallOption) (*RemoveServiceFromDepartmentResponse, error)
-	ListDepartmentServices(ctx context.Context, in *ListDepartmentServicesRequest, opts ...grpc.CallOption) (*ListDepartmentServicesResponse, error)
-	AssignBrigadeToDepartment(ctx context.Context, in *AssignBrigadeToDepartmentRequest, opts ...grpc.CallOption) (*AssignBrigadeToDepartmentResponse, error)
-	RemoveBrigadeFromDepartment(ctx context.Context, in *RemoveBrigadeFromDepartmentRequest, opts ...grpc.CallOption) (*RemoveBrigadeFromDepartmentResponse, error)
-	ListDepartmentBrigades(ctx context.Context, in *ListDepartmentBrigadesRequest, opts ...grpc.CallOption) (*ListDepartmentBrigadesResponse, error)
 }
 
 type departmentServiceClient struct {
@@ -113,96 +95,6 @@ func (c *departmentServiceClient) DeleteDepartment(ctx context.Context, in *Dele
 	return out, nil
 }
 
-func (c *departmentServiceClient) AssignUserToDepartment(ctx context.Context, in *AssignUserToDepartmentRequest, opts ...grpc.CallOption) (*AssignUserToDepartmentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AssignUserToDepartmentResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_AssignUserToDepartment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) RemoveUserFromDepartment(ctx context.Context, in *RemoveUserFromDepartmentRequest, opts ...grpc.CallOption) (*RemoveUserFromDepartmentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RemoveUserFromDepartmentResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_RemoveUserFromDepartment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) ListDepartmentUsers(ctx context.Context, in *ListDepartmentUsersRequest, opts ...grpc.CallOption) (*ListDepartmentUsersResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListDepartmentUsersResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_ListDepartmentUsers_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) AssignServiceToDepartment(ctx context.Context, in *AssignServiceToDepartmentRequest, opts ...grpc.CallOption) (*AssignServiceToDepartmentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AssignServiceToDepartmentResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_AssignServiceToDepartment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) RemoveServiceFromDepartment(ctx context.Context, in *RemoveServiceFromDepartmentRequest, opts ...grpc.CallOption) (*RemoveServiceFromDepartmentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RemoveServiceFromDepartmentResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_RemoveServiceFromDepartment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) ListDepartmentServices(ctx context.Context, in *ListDepartmentServicesRequest, opts ...grpc.CallOption) (*ListDepartmentServicesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListDepartmentServicesResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_ListDepartmentServices_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) AssignBrigadeToDepartment(ctx context.Context, in *AssignBrigadeToDepartmentRequest, opts ...grpc.CallOption) (*AssignBrigadeToDepartmentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AssignBrigadeToDepartmentResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_AssignBrigadeToDepartment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) RemoveBrigadeFromDepartment(ctx context.Context, in *RemoveBrigadeFromDepartmentRequest, opts ...grpc.CallOption) (*RemoveBrigadeFromDepartmentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RemoveBrigadeFromDepartmentResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_RemoveBrigadeFromDepartment_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *departmentServiceClient) ListDepartmentBrigades(ctx context.Context, in *ListDepartmentBrigadesRequest, opts ...grpc.CallOption) (*ListDepartmentBrigadesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListDepartmentBrigadesResponse)
-	err := c.cc.Invoke(ctx, DepartmentService_ListDepartmentBrigades_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // DepartmentServiceServer is the server API for DepartmentService service.
 // All implementations must embed UnimplementedDepartmentServiceServer
 // for forward compatibility.
@@ -212,15 +104,6 @@ type DepartmentServiceServer interface {
 	ListDepartments(context.Context, *ListDepartmentsRequest) (*ListDepartmentsResponse, error)
 	UpdateDepartment(context.Context, *UpdateDepartmentRequest) (*UpdateDepartmentResponse, error)
 	DeleteDepartment(context.Context, *DeleteDepartmentRequest) (*DeleteDepartmentResponse, error)
-	AssignUserToDepartment(context.Context, *AssignUserToDepartmentRequest) (*AssignUserToDepartmentResponse, error)
-	RemoveUserFromDepartment(context.Context, *RemoveUserFromDepartmentRequest) (*RemoveUserFromDepartmentResponse, error)
-	ListDepartmentUsers(context.Context, *ListDepartmentUsersRequest) (*ListDepartmentUsersResponse, error)
-	AssignServiceToDepartment(context.Context, *AssignServiceToDepartmentRequest) (*AssignServiceToDepartmentResponse, error)
-	RemoveServiceFromDepartment(context.Context, *RemoveServiceFromDepartmentRequest) (*RemoveServiceFromDepartmentResponse, error)
-	ListDepartmentServices(context.Context, *ListDepartmentServicesRequest) (*ListDepartmentServicesResponse, error)
-	AssignBrigadeToDepartment(context.Context, *AssignBrigadeToDepartmentRequest) (*AssignBrigadeToDepartmentResponse, error)
-	RemoveBrigadeFromDepartment(context.Context, *RemoveBrigadeFromDepartmentRequest) (*RemoveBrigadeFromDepartmentResponse, error)
-	ListDepartmentBrigades(context.Context, *ListDepartmentBrigadesRequest) (*ListDepartmentBrigadesResponse, error)
 	mustEmbedUnimplementedDepartmentServiceServer()
 }
 
@@ -245,33 +128,6 @@ func (UnimplementedDepartmentServiceServer) UpdateDepartment(context.Context, *U
 }
 func (UnimplementedDepartmentServiceServer) DeleteDepartment(context.Context, *DeleteDepartmentRequest) (*DeleteDepartmentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) AssignUserToDepartment(context.Context, *AssignUserToDepartmentRequest) (*AssignUserToDepartmentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method AssignUserToDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) RemoveUserFromDepartment(context.Context, *RemoveUserFromDepartmentRequest) (*RemoveUserFromDepartmentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RemoveUserFromDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) ListDepartmentUsers(context.Context, *ListDepartmentUsersRequest) (*ListDepartmentUsersResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListDepartmentUsers not implemented")
-}
-func (UnimplementedDepartmentServiceServer) AssignServiceToDepartment(context.Context, *AssignServiceToDepartmentRequest) (*AssignServiceToDepartmentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method AssignServiceToDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) RemoveServiceFromDepartment(context.Context, *RemoveServiceFromDepartmentRequest) (*RemoveServiceFromDepartmentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RemoveServiceFromDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) ListDepartmentServices(context.Context, *ListDepartmentServicesRequest) (*ListDepartmentServicesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListDepartmentServices not implemented")
-}
-func (UnimplementedDepartmentServiceServer) AssignBrigadeToDepartment(context.Context, *AssignBrigadeToDepartmentRequest) (*AssignBrigadeToDepartmentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method AssignBrigadeToDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) RemoveBrigadeFromDepartment(context.Context, *RemoveBrigadeFromDepartmentRequest) (*RemoveBrigadeFromDepartmentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RemoveBrigadeFromDepartment not implemented")
-}
-func (UnimplementedDepartmentServiceServer) ListDepartmentBrigades(context.Context, *ListDepartmentBrigadesRequest) (*ListDepartmentBrigadesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListDepartmentBrigades not implemented")
 }
 func (UnimplementedDepartmentServiceServer) mustEmbedUnimplementedDepartmentServiceServer() {}
 func (UnimplementedDepartmentServiceServer) testEmbeddedByValue()                           {}
@@ -384,168 +240,6 @@ func _DepartmentService_DeleteDepartment_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DepartmentService_AssignUserToDepartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignUserToDepartmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).AssignUserToDepartment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_AssignUserToDepartment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).AssignUserToDepartment(ctx, req.(*AssignUserToDepartmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_RemoveUserFromDepartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveUserFromDepartmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).RemoveUserFromDepartment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_RemoveUserFromDepartment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).RemoveUserFromDepartment(ctx, req.(*RemoveUserFromDepartmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_ListDepartmentUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListDepartmentUsersRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).ListDepartmentUsers(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_ListDepartmentUsers_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).ListDepartmentUsers(ctx, req.(*ListDepartmentUsersRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_AssignServiceToDepartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignServiceToDepartmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).AssignServiceToDepartment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_AssignServiceToDepartment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).AssignServiceToDepartment(ctx, req.(*AssignServiceToDepartmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_RemoveServiceFromDepartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveServiceFromDepartmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).RemoveServiceFromDepartment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_RemoveServiceFromDepartment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).RemoveServiceFromDepartment(ctx, req.(*RemoveServiceFromDepartmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_ListDepartmentServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListDepartmentServicesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).ListDepartmentServices(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_ListDepartmentServices_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).ListDepartmentServices(ctx, req.(*ListDepartmentServicesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_AssignBrigadeToDepartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignBrigadeToDepartmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).AssignBrigadeToDepartment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_AssignBrigadeToDepartment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).AssignBrigadeToDepartment(ctx, req.(*AssignBrigadeToDepartmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_RemoveBrigadeFromDepartment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveBrigadeFromDepartmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).RemoveBrigadeFromDepartment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_RemoveBrigadeFromDepartment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).RemoveBrigadeFromDepartment(ctx, req.(*RemoveBrigadeFromDepartmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DepartmentService_ListDepartmentBrigades_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListDepartmentBrigadesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DepartmentServiceServer).ListDepartmentBrigades(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DepartmentService_ListDepartmentBrigades_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DepartmentServiceServer).ListDepartmentBrigades(ctx, req.(*ListDepartmentBrigadesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // DepartmentService_ServiceDesc is the grpc.ServiceDesc for DepartmentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -572,42 +266,6 @@ var DepartmentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteDepartment",
 			Handler:    _DepartmentService_DeleteDepartment_Handler,
-		},
-		{
-			MethodName: "AssignUserToDepartment",
-			Handler:    _DepartmentService_AssignUserToDepartment_Handler,
-		},
-		{
-			MethodName: "RemoveUserFromDepartment",
-			Handler:    _DepartmentService_RemoveUserFromDepartment_Handler,
-		},
-		{
-			MethodName: "ListDepartmentUsers",
-			Handler:    _DepartmentService_ListDepartmentUsers_Handler,
-		},
-		{
-			MethodName: "AssignServiceToDepartment",
-			Handler:    _DepartmentService_AssignServiceToDepartment_Handler,
-		},
-		{
-			MethodName: "RemoveServiceFromDepartment",
-			Handler:    _DepartmentService_RemoveServiceFromDepartment_Handler,
-		},
-		{
-			MethodName: "ListDepartmentServices",
-			Handler:    _DepartmentService_ListDepartmentServices_Handler,
-		},
-		{
-			MethodName: "AssignBrigadeToDepartment",
-			Handler:    _DepartmentService_AssignBrigadeToDepartment_Handler,
-		},
-		{
-			MethodName: "RemoveBrigadeFromDepartment",
-			Handler:    _DepartmentService_RemoveBrigadeFromDepartment_Handler,
-		},
-		{
-			MethodName: "ListDepartmentBrigades",
-			Handler:    _DepartmentService_ListDepartmentBrigades_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
