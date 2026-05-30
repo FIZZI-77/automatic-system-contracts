@@ -109,7 +109,7 @@ message ChangePasswordRequest {
   string old_password = 2;
   string new_password = 3;
   string session_id = 4;
-  bool revoke_other_sessions  = 5;
+  optional bool revoke_other_sessions  = 5;
 }
 
 message ChangePasswordResponse{

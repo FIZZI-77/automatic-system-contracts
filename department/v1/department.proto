@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package department.v1;
+
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/department/v1";
+
+import "google/protobuf/timestamp.proto";
+
+service DepartmentService {
+  rpc CreateDepartment(CreateDepartmentRequest) returns (CreateDepartmentResponse);
+  rpc GetDepartmentByID(GetDepartmentByIDRequest) returns (GetDepartmentByIDResponse);
+  rpc ListDepartments(ListDepartmentsRequest) returns (ListDepartmentsResponse);
+  rpc UpdateDepartment(UpdateDepartmentRequest) returns (UpdateDepartmentResponse);
+  rpc DeleteDepartment(DeleteDepartmentRequest) returns (DeleteDepartmentResponse);
+
+  rpc AssignUserToDepartment(AssignUserToDepartmentRequest) returns (AssignUserToDepartmentResponse);
+  rpc RemoveUserFromDepartment(RemoveUserFromDepartmentRequest) returns (RemoveUserFromDepartmentResponse);
+  rpc ListDepartmentUsers(ListDepartmentUsersRequest) returns (ListDepartmentUsersResponse);
+
+  rpc AssignServiceToDepartment(AssignServiceToDepartmentRequest) returns (AssignServiceToDepartmentResponse);
+  rpc RemoveServiceFromDepartment(RemoveServiceFromDepartmentRequest) returns (RemoveServiceFromDepartmentResponse);
+  rpc ListDepartmentServices(ListDepartmentServicesRequest) returns (ListDepartmentServicesResponse);
+
+  rpc AssignBrigadeToDepartment(AssignBrigadeToDepartmentRequest) returns (AssignBrigadeToDepartmentResponse);
+  rpc RemoveBrigadeFromDepartment(RemoveBrigadeFromDepartmentRequest) returns (RemoveBrigadeFromDepartmentResponse);
+  rpc ListDepartmentBrigades(ListDepartmentBrigadesRequest) returns (ListDepartmentBrigadesResponse);
+}
+
+enum DepartmentStatus {
+  DEPARTMENT_STATUS_UNSPECIFIED = 0;
+  DEPARTMENT_STATUS_ACTIVE = 1;
+  DEPARTMENT_STATUS_INACTIVE = 2;
+  DEPARTMENT_STATUS_ARCHIVED = 3;
+}
+
+enum DepartmentSortBy {
+  DEPARTMENT_SORT_BY_UNSPECIFIED = 0;
+  DEPARTMENT_SORT_BY_CREATED_AT = 1;
+  DEPARTMENT_SORT_BY_UPDATED_AT = 2;
+  DEPARTMENT_SORT_BY_NAME = 3;
+  DEPARTMENT_SORT_BY_STATUS = 4;
+}
+
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+
+message Department {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  DepartmentStatus status = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message CreateDepartmentRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateDepartmentResponse {
+  Department department = 1;
+}
+
+message GetDepartmentByIDRequest {
+  string id = 1;
+}
+
+message GetDepartmentByIDResponse {
+  Department department = 1;
+}
+
+message ListDepartmentsRequest {
+  optional DepartmentStatus status = 1;
+  optional google.protobuf.Timestamp created_from = 2;
+  optional google.protobuf.Timestamp created_to = 3;
+
+  int32 limit = 4;
+  int32 offset = 5;
+
+  optional DepartmentSortBy sort_by = 6;
+  optional SortOrder sort_order = 7;
+}
+
+message ListDepartmentsResponse {
+  repeated Department departments = 1;
+  int64 total = 2;
+}
+
+message UpdateDepartmentRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional DepartmentStatus status = 4;
+}
+
+message UpdateDepartmentResponse {
+  Department department = 1;
+}
+
+message DeleteDepartmentRequest {
+  string id = 1;
+}
+
+message DeleteDepartmentResponse {
+  Department department = 1;
+}
+
+
+message DepartmentUser {
+  string id = 1;
+  string department_id = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp assigned_at = 4;
+}
+
+message AssignUserToDepartmentRequest {
+  string department_id = 1;
+  string user_id = 2;
+}
+
+message AssignUserToDepartmentResponse {
+  DepartmentUser department_user = 1;
+}
+
+message RemoveUserFromDepartmentRequest {
+  string department_id = 1;
+  string user_id = 2;
+}
+
+message RemoveUserFromDepartmentResponse {
+  bool success = 1;
+}
+
+message ListDepartmentUsersRequest {
+  string department_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListDepartmentUsersResponse {
+  repeated DepartmentUser users = 1;
+  int64 total = 2;
+}
+
+message DepartmentServiceRef {
+  string id = 1;
+  string department_id = 2;
+  string service_id = 3;
+  google.protobuf.Timestamp assigned_at = 4;
+}
+
+message AssignServiceToDepartmentRequest {
+  string department_id = 1;
+  string service_id = 2;
+}
+
+message AssignServiceToDepartmentResponse {
+  DepartmentServiceRef department_service = 1;
+}
+
+message RemoveServiceFromDepartmentRequest {
+  string department_id = 1;
+  string service_id = 2;
+}
+
+message RemoveServiceFromDepartmentResponse {
+  bool success = 1;
+}
+
+message ListDepartmentServicesRequest {
+  string department_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListDepartmentServicesResponse {
+  repeated DepartmentServiceRef services = 1;
+  int64 total = 2;
+}
+
+message DepartmentBrigade {
+  string id = 1;
+  string department_id = 2;
+  string brigade_id = 3;
+  google.protobuf.Timestamp assigned_at = 4;
+}
+
+message AssignBrigadeToDepartmentRequest {
+  string department_id = 1;
+  string brigade_id = 2;
+}
+
+message AssignBrigadeToDepartmentResponse {
+  DepartmentBrigade department_brigade = 1;
+}
+
+message RemoveBrigadeFromDepartmentRequest {
+  string department_id = 1;
+  string brigade_id = 2;
+}
+
+message RemoveBrigadeFromDepartmentResponse {
+  bool success = 1;
+}
+
+message ListDepartmentBrigadesRequest {
+  string department_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListDepartmentBrigadesResponse {
+  repeated DepartmentBrigade brigades = 1;
+  int64 total = 2;
+}

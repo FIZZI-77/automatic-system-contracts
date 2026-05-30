@@ -604,8 +604,8 @@ type CreateTicketRequest struct {
 	Description   string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	Priority      TicketPriority         `protobuf:"varint,6,opt,name=priority,proto3,enum=ticket.v1.TicketPriority" json:"priority,omitempty"`
 	Address       string                 `protobuf:"bytes,7,opt,name=address,proto3" json:"address,omitempty"`
-	Latitude      float64                `protobuf:"fixed64,8,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude     float64                `protobuf:"fixed64,9,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Latitude      *float64               `protobuf:"fixed64,8,opt,name=latitude,proto3,oneof" json:"latitude,omitempty"`
+	Longitude     *float64               `protobuf:"fixed64,9,opt,name=longitude,proto3,oneof" json:"longitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -690,15 +690,15 @@ func (x *CreateTicketRequest) GetAddress() string {
 }
 
 func (x *CreateTicketRequest) GetLatitude() float64 {
-	if x != nil {
-		return x.Latitude
+	if x != nil && x.Latitude != nil {
+		return *x.Latitude
 	}
 	return 0
 }
 
 func (x *CreateTicketRequest) GetLongitude() float64 {
-	if x != nil {
-		return x.Longitude
+	if x != nil && x.Longitude != nil {
+		return *x.Longitude
 	}
 	return 0
 }
@@ -837,18 +837,18 @@ func (x *GetTicketResponse) GetTicket() *Ticket {
 
 type ListTicketsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	DepartmentId  string                 `protobuf:"bytes,1,opt,name=department_id,json=departmentId,proto3" json:"department_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	BrigadeId     string                 `protobuf:"bytes,3,opt,name=brigade_id,json=brigadeId,proto3" json:"brigade_id,omitempty"`
-	CategoryId    string                 `protobuf:"bytes,4,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	Status        TicketStatus           `protobuf:"varint,5,opt,name=status,proto3,enum=ticket.v1.TicketStatus" json:"status,omitempty"`
-	Priority      TicketPriority         `protobuf:"varint,6,opt,name=priority,proto3,enum=ticket.v1.TicketPriority" json:"priority,omitempty"`
+	DepartmentId  *string                `protobuf:"bytes,1,opt,name=department_id,json=departmentId,proto3,oneof" json:"department_id,omitempty"`
+	UserId        *string                `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`
+	BrigadeId     *string                `protobuf:"bytes,3,opt,name=brigade_id,json=brigadeId,proto3,oneof" json:"brigade_id,omitempty"`
+	CategoryId    *string                `protobuf:"bytes,4,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	Status        *TicketStatus          `protobuf:"varint,5,opt,name=status,proto3,enum=ticket.v1.TicketStatus,oneof" json:"status,omitempty"`
+	Priority      *TicketPriority        `protobuf:"varint,6,opt,name=priority,proto3,enum=ticket.v1.TicketPriority,oneof" json:"priority,omitempty"`
 	CreatedFrom   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_from,json=createdFrom,proto3" json:"created_from,omitempty"`
 	CreatedTo     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_to,json=createdTo,proto3" json:"created_to,omitempty"`
 	Limit         int32                  `protobuf:"varint,9,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,10,opt,name=offset,proto3" json:"offset,omitempty"`
-	SortBy        TicketSortBy           `protobuf:"varint,11,opt,name=sort_by,json=sortBy,proto3,enum=ticket.v1.TicketSortBy" json:"sort_by,omitempty"`
-	SortOrder     SortOrder              `protobuf:"varint,12,opt,name=sort_order,json=sortOrder,proto3,enum=ticket.v1.SortOrder" json:"sort_order,omitempty"`
+	SortBy        *TicketSortBy          `protobuf:"varint,11,opt,name=sort_by,json=sortBy,proto3,enum=ticket.v1.TicketSortBy,oneof" json:"sort_by,omitempty"`
+	SortOrder     *SortOrder             `protobuf:"varint,12,opt,name=sort_order,json=sortOrder,proto3,enum=ticket.v1.SortOrder,oneof" json:"sort_order,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -884,43 +884,43 @@ func (*ListTicketsRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *ListTicketsRequest) GetDepartmentId() string {
-	if x != nil {
-		return x.DepartmentId
+	if x != nil && x.DepartmentId != nil {
+		return *x.DepartmentId
 	}
 	return ""
 }
 
 func (x *ListTicketsRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
+	if x != nil && x.UserId != nil {
+		return *x.UserId
 	}
 	return ""
 }
 
 func (x *ListTicketsRequest) GetBrigadeId() string {
-	if x != nil {
-		return x.BrigadeId
+	if x != nil && x.BrigadeId != nil {
+		return *x.BrigadeId
 	}
 	return ""
 }
 
 func (x *ListTicketsRequest) GetCategoryId() string {
-	if x != nil {
-		return x.CategoryId
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
 	}
 	return ""
 }
 
 func (x *ListTicketsRequest) GetStatus() TicketStatus {
-	if x != nil {
-		return x.Status
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return TicketStatus_TICKET_STATUS_UNSPECIFIED
 }
 
 func (x *ListTicketsRequest) GetPriority() TicketPriority {
-	if x != nil {
-		return x.Priority
+	if x != nil && x.Priority != nil {
+		return *x.Priority
 	}
 	return TicketPriority_TICKET_PRIORITY_UNSPECIFIED
 }
@@ -954,15 +954,15 @@ func (x *ListTicketsRequest) GetOffset() int32 {
 }
 
 func (x *ListTicketsRequest) GetSortBy() TicketSortBy {
-	if x != nil {
-		return x.SortBy
+	if x != nil && x.SortBy != nil {
+		return *x.SortBy
 	}
 	return TicketSortBy_TICKET_SORT_BY_UNSPECIFIED
 }
 
 func (x *ListTicketsRequest) GetSortOrder() SortOrder {
-	if x != nil {
-		return x.SortOrder
+	if x != nil && x.SortOrder != nil {
+		return *x.SortOrder
 	}
 	return SortOrder_SORT_ORDER_UNSPECIFIED
 }
@@ -1022,11 +1022,11 @@ func (x *ListTicketsResponse) GetTotal() int64 {
 type UpdateTicketRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TicketId      string                 `protobuf:"bytes,1,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
-	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	CategoryId    string                 `protobuf:"bytes,4,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	Priority      TicketPriority         `protobuf:"varint,5,opt,name=priority,proto3,enum=ticket.v1.TicketPriority" json:"priority,omitempty"`
-	Address       string                 `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty"`
+	Title         *string                `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty"`
+	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	CategoryId    *string                `protobuf:"bytes,4,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	Priority      *TicketPriority        `protobuf:"varint,5,opt,name=priority,proto3,enum=ticket.v1.TicketPriority,oneof" json:"priority,omitempty"`
+	Address       *string                `protobuf:"bytes,6,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	Latitude      *float64               `protobuf:"fixed64,7,opt,name=latitude,proto3,oneof" json:"latitude,omitempty"`
 	Longitude     *float64               `protobuf:"fixed64,8,opt,name=longitude,proto3,oneof" json:"longitude,omitempty"`
 	UpdatedBy     string                 `protobuf:"bytes,9,opt,name=updated_by,json=updatedBy,proto3" json:"updated_by,omitempty"`
@@ -1072,36 +1072,36 @@ func (x *UpdateTicketRequest) GetTicketId() string {
 }
 
 func (x *UpdateTicketRequest) GetTitle() string {
-	if x != nil {
-		return x.Title
+	if x != nil && x.Title != nil {
+		return *x.Title
 	}
 	return ""
 }
 
 func (x *UpdateTicketRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
+	if x != nil && x.Description != nil {
+		return *x.Description
 	}
 	return ""
 }
 
 func (x *UpdateTicketRequest) GetCategoryId() string {
-	if x != nil {
-		return x.CategoryId
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
 	}
 	return ""
 }
 
 func (x *UpdateTicketRequest) GetPriority() TicketPriority {
-	if x != nil {
-		return x.Priority
+	if x != nil && x.Priority != nil {
+		return *x.Priority
 	}
 	return TicketPriority_TICKET_PRIORITY_UNSPECIFIED
 }
 
 func (x *UpdateTicketRequest) GetAddress() string {
-	if x != nil {
-		return x.Address
+	if x != nil && x.Address != nil {
+		return *x.Address
 	}
 	return ""
 }
@@ -1909,7 +1909,7 @@ func (x *GetCategoryResponse) GetCategory() *TicketCategory {
 
 type ListCategoriesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	OnlyActive    bool                   `protobuf:"varint,1,opt,name=only_active,json=onlyActive,proto3" json:"only_active,omitempty"`
+	OnlyActive    *bool                  `protobuf:"varint,1,opt,name=only_active,json=onlyActive,proto3,oneof" json:"only_active,omitempty"`
 	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1947,8 +1947,8 @@ func (*ListCategoriesRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *ListCategoriesRequest) GetOnlyActive() bool {
-	if x != nil {
-		return x.OnlyActive
+	if x != nil && x.OnlyActive != nil {
+		return *x.OnlyActive
 	}
 	return false
 }
@@ -2022,8 +2022,8 @@ func (x *ListCategoriesResponse) GetTotal() int64 {
 type UpdateCategoryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
 	IsActive      *bool                  `protobuf:"varint,4,opt,name=is_active,json=isActive,proto3,oneof" json:"is_active,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2067,15 +2067,15 @@ func (x *UpdateCategoryRequest) GetCategoryId() string {
 }
 
 func (x *UpdateCategoryRequest) GetName() string {
-	if x != nil {
-		return x.Name
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
 
 func (x *UpdateCategoryRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
+	if x != nil && x.Description != nil {
+		return *x.Description
 	}
 	return ""
 }
@@ -2270,7 +2270,7 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"changed_by\x18\x05 \x01(\tR\tchangedBy\x12\x18\n" +
 	"\acomment\x18\x06 \x01(\tR\acomment\x129\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xb7\x02\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xdc\x02\n" +
 	"\x13CreateTicketRequest\x12#\n" +
 	"\rdepartment_id\x18\x01 \x01(\tR\fdepartmentId\x12\x1f\n" +
 	"\vcategory_id\x18\x02 \x01(\tR\n" +
@@ -2279,48 +2279,67 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\x05title\x18\x04 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x05 \x01(\tR\vdescription\x125\n" +
 	"\bpriority\x18\x06 \x01(\x0e2\x19.ticket.v1.TicketPriorityR\bpriority\x12\x18\n" +
-	"\aaddress\x18\a \x01(\tR\aaddress\x12\x1a\n" +
-	"\blatitude\x18\b \x01(\x01R\blatitude\x12\x1c\n" +
-	"\tlongitude\x18\t \x01(\x01R\tlongitude\"A\n" +
+	"\aaddress\x18\a \x01(\tR\aaddress\x12\x1f\n" +
+	"\blatitude\x18\b \x01(\x01H\x00R\blatitude\x88\x01\x01\x12!\n" +
+	"\tlongitude\x18\t \x01(\x01H\x01R\tlongitude\x88\x01\x01B\v\n" +
+	"\t_latitudeB\f\n" +
+	"\n" +
+	"_longitude\"A\n" +
 	"\x14CreateTicketResponse\x12)\n" +
 	"\x06ticket\x18\x01 \x01(\v2\x11.ticket.v1.TicketR\x06ticket\"/\n" +
 	"\x10GetTicketRequest\x12\x1b\n" +
 	"\tticket_id\x18\x01 \x01(\tR\bticketId\">\n" +
 	"\x11GetTicketResponse\x12)\n" +
-	"\x06ticket\x18\x01 \x01(\v2\x11.ticket.v1.TicketR\x06ticket\"\x89\x04\n" +
-	"\x12ListTicketsRequest\x12#\n" +
-	"\rdepartment_id\x18\x01 \x01(\tR\fdepartmentId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1d\n" +
+	"\x06ticket\x18\x01 \x01(\v2\x11.ticket.v1.TicketR\x06ticket\"\xa1\x05\n" +
+	"\x12ListTicketsRequest\x12(\n" +
+	"\rdepartment_id\x18\x01 \x01(\tH\x00R\fdepartmentId\x88\x01\x01\x12\x1c\n" +
+	"\auser_id\x18\x02 \x01(\tH\x01R\x06userId\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"brigade_id\x18\x03 \x01(\tR\tbrigadeId\x12\x1f\n" +
-	"\vcategory_id\x18\x04 \x01(\tR\n" +
-	"categoryId\x12/\n" +
-	"\x06status\x18\x05 \x01(\x0e2\x17.ticket.v1.TicketStatusR\x06status\x125\n" +
-	"\bpriority\x18\x06 \x01(\x0e2\x19.ticket.v1.TicketPriorityR\bpriority\x12=\n" +
+	"brigade_id\x18\x03 \x01(\tH\x02R\tbrigadeId\x88\x01\x01\x12$\n" +
+	"\vcategory_id\x18\x04 \x01(\tH\x03R\n" +
+	"categoryId\x88\x01\x01\x124\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x17.ticket.v1.TicketStatusH\x04R\x06status\x88\x01\x01\x12:\n" +
+	"\bpriority\x18\x06 \x01(\x0e2\x19.ticket.v1.TicketPriorityH\x05R\bpriority\x88\x01\x01\x12=\n" +
 	"\fcreated_from\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedFrom\x129\n" +
 	"\n" +
 	"created_to\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedTo\x12\x14\n" +
 	"\x05limit\x18\t \x01(\x05R\x05limit\x12\x16\n" +
 	"\x06offset\x18\n" +
-	" \x01(\x05R\x06offset\x120\n" +
-	"\asort_by\x18\v \x01(\x0e2\x17.ticket.v1.TicketSortByR\x06sortBy\x123\n" +
+	" \x01(\x05R\x06offset\x125\n" +
+	"\asort_by\x18\v \x01(\x0e2\x17.ticket.v1.TicketSortByH\x06R\x06sortBy\x88\x01\x01\x128\n" +
 	"\n" +
-	"sort_order\x18\f \x01(\x0e2\x14.ticket.v1.SortOrderR\tsortOrder\"X\n" +
+	"sort_order\x18\f \x01(\x0e2\x14.ticket.v1.SortOrderH\aR\tsortOrder\x88\x01\x01B\x10\n" +
+	"\x0e_department_idB\n" +
+	"\n" +
+	"\b_user_idB\r\n" +
+	"\v_brigade_idB\x0e\n" +
+	"\f_category_idB\t\n" +
+	"\a_statusB\v\n" +
+	"\t_priorityB\n" +
+	"\n" +
+	"\b_sort_byB\r\n" +
+	"\v_sort_order\"X\n" +
 	"\x13ListTicketsResponse\x12+\n" +
 	"\atickets\x18\x01 \x03(\v2\x11.ticket.v1.TicketR\atickets\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x03R\x05total\"\xda\x02\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\xb6\x03\n" +
 	"\x13UpdateTicketRequest\x12\x1b\n" +
-	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1f\n" +
-	"\vcategory_id\x18\x04 \x01(\tR\n" +
-	"categoryId\x125\n" +
-	"\bpriority\x18\x05 \x01(\x0e2\x19.ticket.v1.TicketPriorityR\bpriority\x12\x18\n" +
-	"\aaddress\x18\x06 \x01(\tR\aaddress\x12\x1f\n" +
-	"\blatitude\x18\a \x01(\x01H\x00R\blatitude\x88\x01\x01\x12!\n" +
-	"\tlongitude\x18\b \x01(\x01H\x01R\tlongitude\x88\x01\x01\x12\x1d\n" +
+	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x19\n" +
+	"\x05title\x18\x02 \x01(\tH\x00R\x05title\x88\x01\x01\x12%\n" +
+	"\vdescription\x18\x03 \x01(\tH\x01R\vdescription\x88\x01\x01\x12$\n" +
+	"\vcategory_id\x18\x04 \x01(\tH\x02R\n" +
+	"categoryId\x88\x01\x01\x12:\n" +
+	"\bpriority\x18\x05 \x01(\x0e2\x19.ticket.v1.TicketPriorityH\x03R\bpriority\x88\x01\x01\x12\x1d\n" +
+	"\aaddress\x18\x06 \x01(\tH\x04R\aaddress\x88\x01\x01\x12\x1f\n" +
+	"\blatitude\x18\a \x01(\x01H\x05R\blatitude\x88\x01\x01\x12!\n" +
+	"\tlongitude\x18\b \x01(\x01H\x06R\tlongitude\x88\x01\x01\x12\x1d\n" +
 	"\n" +
-	"updated_by\x18\t \x01(\tR\tupdatedByB\v\n" +
+	"updated_by\x18\t \x01(\tR\tupdatedByB\b\n" +
+	"\x06_titleB\x0e\n" +
+	"\f_descriptionB\x0e\n" +
+	"\f_category_idB\v\n" +
+	"\t_priorityB\n" +
+	"\n" +
+	"\b_addressB\v\n" +
 	"\t_latitudeB\f\n" +
 	"\n" +
 	"_longitude\"A\n" +
@@ -2374,23 +2393,26 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\vcategory_id\x18\x01 \x01(\tR\n" +
 	"categoryId\"L\n" +
 	"\x13GetCategoryResponse\x125\n" +
-	"\bcategory\x18\x01 \x01(\v2\x19.ticket.v1.TicketCategoryR\bcategory\"f\n" +
-	"\x15ListCategoriesRequest\x12\x1f\n" +
-	"\vonly_active\x18\x01 \x01(\bR\n" +
-	"onlyActive\x12\x14\n" +
+	"\bcategory\x18\x01 \x01(\v2\x19.ticket.v1.TicketCategoryR\bcategory\"{\n" +
+	"\x15ListCategoriesRequest\x12$\n" +
+	"\vonly_active\x18\x01 \x01(\bH\x00R\n" +
+	"onlyActive\x88\x01\x01\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x03 \x01(\x05R\x06offset\"i\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offsetB\x0e\n" +
+	"\f_only_active\"i\n" +
 	"\x16ListCategoriesResponse\x129\n" +
 	"\n" +
 	"categories\x18\x01 \x03(\v2\x19.ticket.v1.TicketCategoryR\n" +
 	"categories\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x03R\x05total\"\x9e\x01\n" +
+	"\x05total\x18\x02 \x01(\x03R\x05total\"\xc1\x01\n" +
 	"\x15UpdateCategoryRequest\x12\x1f\n" +
 	"\vcategory_id\x18\x01 \x01(\tR\n" +
-	"categoryId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12 \n" +
-	"\tis_active\x18\x04 \x01(\bH\x00R\bisActive\x88\x01\x01B\f\n" +
+	"categoryId\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12%\n" +
+	"\vdescription\x18\x03 \x01(\tH\x01R\vdescription\x88\x01\x01\x12 \n" +
+	"\tis_active\x18\x04 \x01(\bH\x02R\bisActive\x88\x01\x01B\a\n" +
+	"\x05_nameB\x0e\n" +
+	"\f_descriptionB\f\n" +
 	"\n" +
 	"_is_active\"O\n" +
 	"\x16UpdateCategoryResponse\x125\n" +
@@ -2567,7 +2589,10 @@ func file_ticket_v1_ticket_proto_init() {
 	if File_ticket_v1_ticket_proto != nil {
 		return
 	}
+	file_ticket_v1_ticket_proto_msgTypes[3].OneofWrappers = []any{}
+	file_ticket_v1_ticket_proto_msgTypes[7].OneofWrappers = []any{}
 	file_ticket_v1_ticket_proto_msgTypes[9].OneofWrappers = []any{}
+	file_ticket_v1_ticket_proto_msgTypes[25].OneofWrappers = []any{}
 	file_ticket_v1_ticket_proto_msgTypes[27].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
