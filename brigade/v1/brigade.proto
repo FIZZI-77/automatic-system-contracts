@@ -1,0 +1,581 @@
+syntax = "proto3";
+
+package brigade.v1;
+
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/brigade/v1";
+
+import "google/protobuf/timestamp.proto";
+
+service BrigadeService {
+  rpc CreateBrigade(CreateBrigadeRequest) returns (CreateBrigadeResponse);
+  rpc GetBrigadeByID(GetBrigadeByIDRequest) returns (GetBrigadeByIDResponse);
+  rpc ListBrigades(ListBrigadesRequest) returns (ListBrigadesResponse);
+  rpc UpdateBrigade(UpdateBrigadeRequest) returns (UpdateBrigadeResponse);
+  rpc DeactivateBrigade(DeactivateBrigadeRequest) returns (DeactivateBrigadeResponse);
+  rpc ArchiveBrigade(ArchiveBrigadeRequest) returns (ArchiveBrigadeResponse);
+
+  rpc SetBrigadeStatus(SetBrigadeStatusRequest) returns (SetBrigadeStatusResponse);
+  rpc GetBrigadeStatusHistory(GetBrigadeStatusHistoryRequest) returns (GetBrigadeStatusHistoryResponse);
+
+  rpc AddBrigadeMember(AddBrigadeMemberRequest) returns (AddBrigadeMemberResponse);
+  rpc RemoveBrigadeMember(RemoveBrigadeMemberRequest) returns (RemoveBrigadeMemberResponse);
+  rpc ChangeBrigadeMemberRole(ChangeBrigadeMemberRoleRequest) returns (ChangeBrigadeMemberRoleResponse);
+  rpc SetBrigadeMemberAvailability(SetBrigadeMemberAvailabilityRequest) returns (SetBrigadeMemberAvailabilityResponse);
+  rpc ListBrigadeMembers(ListBrigadeMembersRequest) returns (ListBrigadeMembersResponse);
+  rpc GetBrigadeMemberHistory(GetBrigadeMemberHistoryRequest) returns (GetBrigadeMemberHistoryResponse);
+  rpc GetBrigadeMemberStatusHistory(GetBrigadeMemberStatusHistoryRequest) returns (GetBrigadeMemberStatusHistoryResponse);
+  rpc GetBrigadeByUserID(GetBrigadeByUserIDRequest) returns (GetBrigadeByUserIDResponse);
+
+  rpc CreateSkill(CreateSkillRequest) returns (CreateSkillResponse);
+  rpc UpdateSkill(UpdateSkillRequest) returns (UpdateSkillResponse);
+  rpc DeactivateSkill(DeactivateSkillRequest) returns (DeactivateSkillResponse);
+  rpc ListSkills(ListSkillsRequest) returns (ListSkillsResponse);
+
+  rpc AddBrigadeSkill(AddBrigadeSkillRequest) returns (AddBrigadeSkillResponse);
+  rpc RemoveBrigadeSkill(RemoveBrigadeSkillRequest) returns (RemoveBrigadeSkillResponse);
+  rpc ListBrigadeSkills(ListBrigadeSkillsRequest) returns (ListBrigadeSkillsResponse);
+
+  rpc SetBrigadeSchedule(SetBrigadeScheduleRequest) returns (SetBrigadeScheduleResponse);
+  rpc ListBrigadeSchedule(ListBrigadeScheduleRequest) returns (ListBrigadeScheduleResponse);
+
+  rpc CreateBrigadeZone(CreateBrigadeZoneRequest) returns (CreateBrigadeZoneResponse);
+  rpc UpdateBrigadeZone(UpdateBrigadeZoneRequest) returns (UpdateBrigadeZoneResponse);
+  rpc DeleteBrigadeZone(DeleteBrigadeZoneRequest) returns (DeleteBrigadeZoneResponse);
+  rpc ListBrigadeZones(ListBrigadeZonesRequest) returns (ListBrigadeZonesResponse);
+  rpc CheckBrigadeCoversPoint(CheckBrigadeCoversPointRequest) returns (CheckBrigadeCoversPointResponse);
+  rpc FindBrigadesByPoint(FindBrigadesByPointRequest) returns (FindBrigadesByPointResponse);
+
+  rpc GetAvailableBrigades(GetAvailableBrigadesRequest) returns (GetAvailableBrigadesResponse);
+  rpc CheckBrigadeCanHandleTicket(CheckBrigadeCanHandleTicketRequest) returns (CheckBrigadeCanHandleTicketResponse);
+}
+
+enum BrigadeStatus {
+  BRIGADE_STATUS_UNSPECIFIED = 0;
+  BRIGADE_STATUS_ACTIVE = 1;
+  BRIGADE_STATUS_INACTIVE = 2;
+  BRIGADE_STATUS_AVAILABLE = 3;
+  BRIGADE_STATUS_BUSY = 4;
+  BRIGADE_STATUS_ON_ROUTE = 5;
+  BRIGADE_STATUS_ON_SITE = 6;
+  BRIGADE_STATUS_OFFLINE = 7;
+  BRIGADE_STATUS_ARCHIVED = 8;
+}
+
+enum BrigadeMemberRole {
+  BRIGADE_MEMBER_ROLE_UNSPECIFIED = 0;
+  BRIGADE_MEMBER_ROLE_LEAD = 1;
+  BRIGADE_MEMBER_ROLE_DRIVER = 2;
+  BRIGADE_MEMBER_ROLE_TECHNICIAN = 3;
+  BRIGADE_MEMBER_ROLE_TRAINEE = 4;
+}
+
+enum BrigadeMemberAvailabilityStatus {
+  BRIGADE_MEMBER_AVAILABILITY_STATUS_UNSPECIFIED = 0;
+  BRIGADE_MEMBER_AVAILABILITY_STATUS_AVAILABLE = 1;
+  BRIGADE_MEMBER_AVAILABILITY_STATUS_UNAVAILABLE = 2;
+}
+
+enum BrigadeMemberHistoryAction {
+  BRIGADE_MEMBER_HISTORY_ACTION_UNSPECIFIED = 0;
+  BRIGADE_MEMBER_HISTORY_ACTION_ADDED = 1;
+  BRIGADE_MEMBER_HISTORY_ACTION_REMOVED = 2;
+  BRIGADE_MEMBER_HISTORY_ACTION_ROLE_CHANGED = 3;
+}
+
+enum BrigadeSortBy {
+  BRIGADE_SORT_BY_UNSPECIFIED = 0;
+  BRIGADE_SORT_BY_CREATED_AT = 1;
+  BRIGADE_SORT_BY_UPDATED_AT = 2;
+  BRIGADE_SORT_BY_NAME = 3;
+  BRIGADE_SORT_BY_STATUS = 4;
+}
+
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+
+message Brigade {
+  string id = 1;
+  string department_id = 2;
+  string name = 3;
+  string description = 4;
+  BrigadeStatus status = 5;
+  string specialization = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+  google.protobuf.Timestamp deactivated_at = 9;
+  google.protobuf.Timestamp archived_at = 10;
+}
+
+message BrigadeMember {
+  string id = 1;
+  string brigade_id = 2;
+  string user_id = 3;
+  string profile_id = 4;
+  BrigadeMemberRole role = 5;
+  bool active = 6;
+  BrigadeMemberAvailabilityStatus availability_status = 7;
+  google.protobuf.Timestamp availability_status_changed_at = 8;
+  google.protobuf.Timestamp joined_at = 9;
+  google.protobuf.Timestamp left_at = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}
+
+message Skill {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string description = 4;
+  bool active = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message BrigadeSkill {
+  string id = 1;
+  string brigade_id = 2;
+  Skill skill = 3;
+  bool active = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message BrigadeSchedule {
+  string id = 1;
+  string brigade_id = 2;
+  int32 day_of_week = 3;
+  string starts_at = 4;
+  string ends_at = 5;
+  string timezone = 6;
+  bool active = 7;
+  string valid_from = 8;
+  string valid_to = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+message BrigadeZone {
+  string id = 1;
+  string brigade_id = 2;
+  string department_id = 3;
+  string name = 4;
+  string geo_json = 5;
+  int32 priority = 6;
+  bool active = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message BrigadeStatusHistory {
+  string id = 1;
+  string brigade_id = 2;
+  BrigadeStatus from_status = 3;
+  BrigadeStatus to_status = 4;
+  string reason = 5;
+  string changed_by_user_id = 6;
+  string request_id = 7;
+  google.protobuf.Timestamp created_at = 8;
+}
+
+message BrigadeMemberHistory {
+  string id = 1;
+  string brigade_id = 2;
+  string member_id = 3;
+  string user_id = 4;
+  string profile_id = 5;
+  BrigadeMemberHistoryAction action = 6;
+  BrigadeMemberRole old_role = 7;
+  BrigadeMemberRole new_role = 8;
+  string changed_by_user_id = 9;
+  string request_id = 10;
+  google.protobuf.Timestamp created_at = 11;
+}
+
+message BrigadeMemberStatusHistory {
+  string id = 1;
+  string brigade_id = 2;
+  string member_id = 3;
+  string user_id = 4;
+  BrigadeMemberAvailabilityStatus from_status = 5;
+  BrigadeMemberAvailabilityStatus to_status = 6;
+  string reason = 7;
+  string changed_by_user_id = 8;
+  string request_id = 9;
+  google.protobuf.Timestamp created_at = 10;
+}
+
+message CreateBrigadeRequest {
+  string department_id = 1;
+  string name = 2;
+  string description = 3;
+  string specialization = 4;
+}
+
+message CreateBrigadeResponse {
+  Brigade brigade = 1;
+}
+
+message GetBrigadeByIDRequest {
+  string id = 1;
+}
+
+message GetBrigadeByIDResponse {
+  Brigade brigade = 1;
+}
+
+message ListBrigadesRequest {
+  optional string department_id = 1;
+  optional BrigadeStatus status = 2;
+  optional string specialization = 3;
+  optional google.protobuf.Timestamp created_from = 4;
+  optional google.protobuf.Timestamp created_to = 5;
+  int32 limit = 6;
+  int32 offset = 7;
+  optional BrigadeSortBy sort_by = 8;
+  optional SortOrder sort_order = 9;
+}
+
+message ListBrigadesResponse {
+  repeated Brigade brigades = 1;
+  int64 total = 2;
+}
+
+message UpdateBrigadeRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string specialization = 4;
+}
+
+message UpdateBrigadeResponse {
+  Brigade brigade = 1;
+}
+
+message DeactivateBrigadeRequest {
+  string id = 1;
+  string reason = 2;
+  string changed_by_user_id = 3;
+}
+
+message DeactivateBrigadeResponse {
+  Brigade brigade = 1;
+}
+
+message ArchiveBrigadeRequest {
+  string id = 1;
+  string reason = 2;
+  string changed_by_user_id = 3;
+}
+
+message ArchiveBrigadeResponse {
+  Brigade brigade = 1;
+}
+
+message SetBrigadeStatusRequest {
+  string brigade_id = 1;
+  BrigadeStatus status = 2;
+  string reason = 3;
+  string changed_by_user_id = 4;
+}
+
+message SetBrigadeStatusResponse {
+  Brigade brigade = 1;
+}
+
+message GetBrigadeStatusHistoryRequest {
+  string brigade_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message GetBrigadeStatusHistoryResponse {
+  repeated BrigadeStatusHistory history = 1;
+  int64 total = 2;
+}
+
+message AddBrigadeMemberRequest {
+  string brigade_id = 1;
+  string user_id = 2;
+  optional string profile_id = 3;
+  BrigadeMemberRole role = 4;
+  string changed_by_user_id = 5;
+}
+
+message AddBrigadeMemberResponse {
+  BrigadeMember member = 1;
+}
+
+message RemoveBrigadeMemberRequest {
+  string brigade_id = 1;
+  string member_id = 2;
+  string reason = 3;
+  string changed_by_user_id = 4;
+}
+
+message RemoveBrigadeMemberResponse {
+  BrigadeMember member = 1;
+}
+
+message ChangeBrigadeMemberRoleRequest {
+  string brigade_id = 1;
+  string member_id = 2;
+  BrigadeMemberRole role = 3;
+  string changed_by_user_id = 4;
+}
+
+message ChangeBrigadeMemberRoleResponse {
+  BrigadeMember member = 1;
+}
+
+message SetBrigadeMemberAvailabilityRequest {
+  string brigade_id = 1;
+  string member_id = 2;
+  BrigadeMemberAvailabilityStatus status = 3;
+  string reason = 4;
+  string changed_by_user_id = 5;
+}
+
+message SetBrigadeMemberAvailabilityResponse {
+  BrigadeMember member = 1;
+}
+
+message ListBrigadeMembersRequest {
+  string brigade_id = 1;
+  optional bool active = 2;
+  optional BrigadeMemberRole role = 3;
+  optional BrigadeMemberAvailabilityStatus availability_status = 4;
+  int32 limit = 5;
+  int32 offset = 6;
+}
+
+message ListBrigadeMembersResponse {
+  repeated BrigadeMember members = 1;
+  int64 total = 2;
+}
+
+message GetBrigadeMemberHistoryRequest {
+  string brigade_id = 1;
+  optional string member_id = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message GetBrigadeMemberHistoryResponse {
+  repeated BrigadeMemberHistory history = 1;
+  int64 total = 2;
+}
+
+message GetBrigadeMemberStatusHistoryRequest {
+  string brigade_id = 1;
+  optional string member_id = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message GetBrigadeMemberStatusHistoryResponse {
+  repeated BrigadeMemberStatusHistory history = 1;
+  int64 total = 2;
+}
+
+message GetBrigadeByUserIDRequest {
+  string user_id = 1;
+  optional bool only_active = 2;
+}
+
+message GetBrigadeByUserIDResponse {
+  Brigade brigade = 1;
+  BrigadeMember member = 2;
+}
+
+message CreateSkillRequest {
+  string code = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateSkillResponse {
+  Skill skill = 1;
+}
+
+message UpdateSkillRequest {
+  string id = 1;
+  optional string code = 2;
+  optional string name = 3;
+  optional string description = 4;
+  optional bool active = 5;
+}
+
+message UpdateSkillResponse {
+  Skill skill = 1;
+}
+
+message DeactivateSkillRequest {
+  string id = 1;
+}
+
+message DeactivateSkillResponse {
+  Skill skill = 1;
+}
+
+message ListSkillsRequest {
+  optional bool active = 1;
+  optional string query = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message ListSkillsResponse {
+  repeated Skill skills = 1;
+  int64 total = 2;
+}
+
+message AddBrigadeSkillRequest {
+  string brigade_id = 1;
+  string skill_id = 2;
+}
+
+message AddBrigadeSkillResponse {
+  BrigadeSkill brigade_skill = 1;
+}
+
+message RemoveBrigadeSkillRequest {
+  string brigade_id = 1;
+  string skill_id = 2;
+}
+
+message RemoveBrigadeSkillResponse {
+  BrigadeSkill brigade_skill = 1;
+}
+
+message ListBrigadeSkillsRequest {
+  string brigade_id = 1;
+  optional bool active = 2;
+}
+
+message ListBrigadeSkillsResponse {
+  repeated BrigadeSkill skills = 1;
+}
+
+message SetBrigadeScheduleRequest {
+  string brigade_id = 1;
+  repeated BrigadeScheduleItem items = 2;
+}
+
+message BrigadeScheduleItem {
+  int32 day_of_week = 1;
+  string starts_at = 2;
+  string ends_at = 3;
+  string timezone = 4;
+  optional string valid_from = 5;
+  optional string valid_to = 6;
+}
+
+message SetBrigadeScheduleResponse {
+  repeated BrigadeSchedule schedule = 1;
+}
+
+message ListBrigadeScheduleRequest {
+  string brigade_id = 1;
+  optional bool active = 2;
+}
+
+message ListBrigadeScheduleResponse {
+  repeated BrigadeSchedule schedule = 1;
+}
+
+message CreateBrigadeZoneRequest {
+  string brigade_id = 1;
+  string department_id = 2;
+  string name = 3;
+  string geo_json = 4;
+  int32 priority = 5;
+}
+
+message CreateBrigadeZoneResponse {
+  BrigadeZone zone = 1;
+}
+
+message UpdateBrigadeZoneRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string geo_json = 3;
+  optional int32 priority = 4;
+  optional bool active = 5;
+}
+
+message UpdateBrigadeZoneResponse {
+  BrigadeZone zone = 1;
+}
+
+message DeleteBrigadeZoneRequest {
+  string id = 1;
+}
+
+message DeleteBrigadeZoneResponse {
+  BrigadeZone zone = 1;
+}
+
+message ListBrigadeZonesRequest {
+  string brigade_id = 1;
+  optional bool active = 2;
+}
+
+message ListBrigadeZonesResponse {
+  repeated BrigadeZone zones = 1;
+}
+
+message CheckBrigadeCoversPointRequest {
+  string brigade_id = 1;
+  double longitude = 2;
+  double latitude = 3;
+}
+
+message CheckBrigadeCoversPointResponse {
+  bool covers = 1;
+  repeated BrigadeZone matched_zones = 2;
+}
+
+message FindBrigadesByPointRequest {
+  string department_id = 1;
+  double longitude = 2;
+  double latitude = 3;
+  optional bool only_available = 4;
+  repeated string required_skill_ids = 5;
+  int32 limit = 6;
+  int32 offset = 7;
+}
+
+message FindBrigadesByPointResponse {
+  repeated Brigade brigades = 1;
+  int64 total = 2;
+}
+
+message GetAvailableBrigadesRequest {
+  string department_id = 1;
+  optional double longitude = 2;
+  optional double latitude = 3;
+  repeated string required_skill_ids = 4;
+  int32 limit = 5;
+  int32 offset = 6;
+}
+
+message GetAvailableBrigadesResponse {
+  repeated Brigade brigades = 1;
+  int64 total = 2;
+}
+
+message CheckBrigadeCanHandleTicketRequest {
+  string brigade_id = 1;
+  string department_id = 2;
+  double longitude = 3;
+  double latitude = 4;
+  repeated string required_skill_ids = 5;
+}
+
+message CheckBrigadeCanHandleTicketResponse {
+  bool can_handle = 1;
+  repeated string reasons = 2;
+}
