@@ -544,8 +544,9 @@ message FindBrigadesByPointRequest {
   double latitude = 3;
   optional bool only_available = 4;
   repeated string required_skill_ids = 5;
-  int32 limit = 6;
-  int32 offset = 7;
+  repeated BrigadeMemberRole required_roles = 6;
+  int32 limit = 7;
+  int32 offset = 8;
 }
 
 message FindBrigadesByPointResponse {
@@ -558,8 +559,9 @@ message GetAvailableBrigadesRequest {
   optional double longitude = 2;
   optional double latitude = 3;
   repeated string required_skill_ids = 4;
-  int32 limit = 5;
-  int32 offset = 6;
+  repeated BrigadeMemberRole required_roles = 5;
+  int32 limit = 6;
+  int32 offset = 7;
 }
 
 message GetAvailableBrigadesResponse {
@@ -573,6 +575,7 @@ message CheckBrigadeCanHandleTicketRequest {
   double longitude = 3;
   double latitude = 4;
   repeated string required_skill_ids = 5;
+  repeated BrigadeMemberRole required_roles = 6;
 }
 
 message CheckBrigadeCanHandleTicketResponse {
