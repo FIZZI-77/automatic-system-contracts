@@ -1,0 +1,571 @@
+syntax = "proto3";
+
+package profile.v1;
+
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/profile/v1";
+
+import "google/protobuf/timestamp.proto";
+
+service ProfileService {
+  rpc CreateUserProfile(CreateUserProfileRequest) returns (CreateUserProfileResponse);
+  rpc GetUserProfileByID(GetUserProfileByIDRequest) returns (GetUserProfileByIDResponse);
+  rpc GetUserProfileByUserID(GetUserProfileByUserIDRequest) returns (GetUserProfileByUserIDResponse);
+  rpc GetMyUserProfile(GetMyUserProfileRequest) returns (GetMyUserProfileResponse);
+  rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse);
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+
+  rpc CreateWorkProfile(CreateWorkProfileRequest) returns (CreateWorkProfileResponse);
+  rpc GetWorkProfileByID(GetWorkProfileByIDRequest) returns (GetWorkProfileByIDResponse);
+  rpc GetWorkProfileByUserID(GetWorkProfileByUserIDRequest) returns (GetWorkProfileByUserIDResponse);
+  rpc ListWorkProfiles(ListWorkProfilesRequest) returns (ListWorkProfilesResponse);
+  rpc UpdateWorkProfile(UpdateWorkProfileRequest) returns (UpdateWorkProfileResponse);
+  rpc DeactivateWorkProfile(DeactivateWorkProfileRequest) returns (DeactivateWorkProfileResponse);
+  rpc ChangeWorkProfileDepartment(ChangeWorkProfileDepartmentRequest) returns (ChangeWorkProfileDepartmentResponse);
+  rpc SetWorkProfileStatus(SetWorkProfileStatusRequest) returns (SetWorkProfileStatusResponse);
+  rpc GetWorkProfileStatusHistory(GetWorkProfileStatusHistoryRequest) returns (GetWorkProfileStatusHistoryResponse);
+
+  rpc ResolveWorkingDepartment(ResolveWorkingDepartmentRequest) returns (ResolveWorkingDepartmentResponse);
+  rpc CheckProfileCanJoinBrigade(CheckProfileCanJoinBrigadeRequest) returns (CheckProfileCanJoinBrigadeResponse);
+
+  rpc CreateCertificationType(CreateCertificationTypeRequest) returns (CreateCertificationTypeResponse);
+  rpc UpdateCertificationType(UpdateCertificationTypeRequest) returns (UpdateCertificationTypeResponse);
+  rpc ListCertificationTypes(ListCertificationTypesRequest) returns (ListCertificationTypesResponse);
+
+  rpc AddCertificationTypeSkill(AddCertificationTypeSkillRequest) returns (AddCertificationTypeSkillResponse);
+  rpc RemoveCertificationTypeSkill(RemoveCertificationTypeSkillRequest) returns (RemoveCertificationTypeSkillResponse);
+  rpc ListCertificationTypeSkills(ListCertificationTypeSkillsRequest) returns (ListCertificationTypeSkillsResponse);
+
+  rpc UploadWorkProfileCertification(UploadWorkProfileCertificationRequest) returns (UploadWorkProfileCertificationResponse);
+  rpc VerifyWorkProfileCertification(VerifyWorkProfileCertificationRequest) returns (VerifyWorkProfileCertificationResponse);
+  rpc RejectWorkProfileCertification(RejectWorkProfileCertificationRequest) returns (RejectWorkProfileCertificationResponse);
+  rpc RevokeWorkProfileCertification(RevokeWorkProfileCertificationRequest) returns (RevokeWorkProfileCertificationResponse);
+  rpc ExpireWorkProfileCertifications(ExpireWorkProfileCertificationsRequest) returns (ExpireWorkProfileCertificationsResponse);
+  rpc ListWorkProfileCertifications(ListWorkProfileCertificationsRequest) returns (ListWorkProfileCertificationsResponse);
+
+  rpc GrantManualWorkProfileSkill(GrantManualWorkProfileSkillRequest) returns (GrantManualWorkProfileSkillResponse);
+  rpc RevokeWorkProfileSkillGrant(RevokeWorkProfileSkillGrantRequest) returns (RevokeWorkProfileSkillGrantResponse);
+  rpc ListEffectiveWorkProfileSkills(ListEffectiveWorkProfileSkillsRequest) returns (ListEffectiveWorkProfileSkillsResponse);
+  rpc BatchListEffectiveWorkProfileSkills(BatchListEffectiveWorkProfileSkillsRequest) returns (BatchListEffectiveWorkProfileSkillsResponse);
+  rpc CheckWorkProfileHasSkills(CheckWorkProfileHasSkillsRequest) returns (CheckWorkProfileHasSkillsResponse);
+}
+
+enum PreferredContactMethod {
+  PREFERRED_CONTACT_METHOD_UNSPECIFIED = 0;
+  PREFERRED_CONTACT_METHOD_EMAIL = 1;
+  PREFERRED_CONTACT_METHOD_PHONE = 2;
+  PREFERRED_CONTACT_METHOD_PUSH = 3;
+}
+
+enum WorkProfileStatus {
+  WORK_PROFILE_STATUS_UNSPECIFIED = 0;
+  WORK_PROFILE_STATUS_ACTIVE = 1;
+  WORK_PROFILE_STATUS_INACTIVE = 2;
+  WORK_PROFILE_STATUS_ON_SHIFT = 3;
+  WORK_PROFILE_STATUS_OFF_SHIFT = 4;
+  WORK_PROFILE_STATUS_SUSPENDED = 5;
+}
+
+enum UserProfileSortBy {
+  USER_PROFILE_SORT_BY_UNSPECIFIED = 0;
+  USER_PROFILE_SORT_BY_CREATED_AT = 1;
+  USER_PROFILE_SORT_BY_UPDATED_AT = 2;
+  USER_PROFILE_SORT_BY_FULL_NAME = 3;
+}
+
+enum WorkProfileSortBy {
+  WORK_PROFILE_SORT_BY_UNSPECIFIED = 0;
+  WORK_PROFILE_SORT_BY_CREATED_AT = 1;
+  WORK_PROFILE_SORT_BY_UPDATED_AT = 2;
+  WORK_PROFILE_SORT_BY_FULL_NAME = 3;
+  WORK_PROFILE_SORT_BY_POSITION = 4;
+  WORK_PROFILE_SORT_BY_STATUS = 5;
+  WORK_PROFILE_SORT_BY_EMPLOYEE_NUMBER = 6;
+}
+
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+
+enum CanJoinBrigadeReason {
+  CAN_JOIN_BRIGADE_REASON_UNSPECIFIED = 0;
+  CAN_JOIN_BRIGADE_REASON_ALLOWED = 1;
+  CAN_JOIN_BRIGADE_REASON_NO_WORK_PROFILE = 2;
+  CAN_JOIN_BRIGADE_REASON_PROFILE_INACTIVE = 3;
+  CAN_JOIN_BRIGADE_REASON_PROFILE_SUSPENDED = 4;
+  CAN_JOIN_BRIGADE_REASON_PROFILE_OFF_SHIFT = 5;
+  CAN_JOIN_BRIGADE_REASON_DEPARTMENT_MISMATCH = 6;
+}
+
+enum CertificationStatus {
+  CERTIFICATION_STATUS_UNSPECIFIED = 0;
+  CERTIFICATION_STATUS_PENDING = 1;
+  CERTIFICATION_STATUS_VERIFIED = 2;
+  CERTIFICATION_STATUS_REJECTED = 3;
+  CERTIFICATION_STATUS_EXPIRED = 4;
+  CERTIFICATION_STATUS_REVOKED = 5;
+}
+
+enum SkillGrantSourceType {
+  SKILL_GRANT_SOURCE_TYPE_UNSPECIFIED = 0;
+  SKILL_GRANT_SOURCE_TYPE_MANUAL = 1;
+  SKILL_GRANT_SOURCE_TYPE_CERTIFICATION = 2;
+}
+
+message UserProfile {
+  string id = 1;
+  string user_id = 2;
+  string full_name = 3;
+  optional string phone = 4;
+  optional string avatar_file_id = 5;
+  PreferredContactMethod preferred_contact_method = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message WorkProfile {
+  string id = 1;
+  string user_profile_id = 2;
+  string department_id = 3;
+  optional string employee_number = 4;
+  string position = 5;
+  WorkProfileStatus status = 6;
+  optional google.protobuf.Timestamp deactivated_at = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message WorkProfileDetails {
+  WorkProfile work_profile = 1;
+  UserProfile user_profile = 2;
+}
+
+message WorkProfileStatusHistory {
+  string id = 1;
+  string work_profile_id = 2;
+  optional WorkProfileStatus from_status = 3;
+  WorkProfileStatus to_status = 4;
+  string reason = 5;
+  optional string changed_by_user_id = 6;
+  optional string request_id = 7;
+  google.protobuf.Timestamp created_at = 8;
+}
+
+message CertificationType {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  optional string description = 4;
+  optional int32 default_validity_days = 5;
+  bool requires_file = 6;
+  bool active = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message CertificationTypeSkill {
+  string id = 1;
+  string certification_type_id = 2;
+  string skill_id = 3;
+  optional string proficiency_level = 4;
+  bool active = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message WorkProfileCertification {
+  string id = 1;
+  string work_profile_id = 2;
+  string certification_type_id = 3;
+  optional string certificate_number = 4;
+  optional string issuer = 5;
+  optional google.protobuf.Timestamp issued_at = 6;
+  optional google.protobuf.Timestamp expires_at = 7;
+  CertificationStatus status = 8;
+  optional string certificate_file_id = 9;
+  optional string verified_by_user_id = 10;
+  optional google.protobuf.Timestamp verified_at = 11;
+  optional string rejection_reason = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+message WorkProfileSkillGrant {
+  string id = 1;
+  string work_profile_id = 2;
+  string skill_id = 3;
+  SkillGrantSourceType source_type = 4;
+  optional string source_id = 5;
+  optional string proficiency_level = 6;
+  optional google.protobuf.Timestamp valid_until = 7;
+  bool active = 8;
+  google.protobuf.Timestamp created_at = 9;
+  optional google.protobuf.Timestamp revoked_at = 10;
+}
+
+message EffectiveWorkProfileSkills {
+  string work_profile_id = 1;
+  repeated WorkProfileSkillGrant skill_grants = 2;
+}
+
+message CreateUserProfileRequest {
+  string user_id = 1;
+  string full_name = 2;
+  optional string phone = 3;
+  optional string avatar_file_id = 4;
+  PreferredContactMethod preferred_contact_method = 5;
+}
+
+message CreateUserProfileResponse {
+  UserProfile user_profile = 1;
+}
+
+message GetUserProfileByIDRequest {
+  string id = 1;
+}
+
+message GetUserProfileByIDResponse {
+  UserProfile user_profile = 1;
+}
+
+message GetUserProfileByUserIDRequest {
+  string user_id = 1;
+}
+
+message GetUserProfileByUserIDResponse {
+  UserProfile user_profile = 1;
+}
+
+message GetMyUserProfileRequest {}
+
+message GetMyUserProfileResponse {
+  UserProfile user_profile = 1;
+}
+
+message ListUserProfilesRequest {
+  optional string query = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+  optional UserProfileSortBy sort_by = 4;
+  optional SortOrder sort_order = 5;
+}
+
+message ListUserProfilesResponse {
+  repeated UserProfile user_profiles = 1;
+  int64 total = 2;
+}
+
+message UpdateUserProfileRequest {
+  string id = 1;
+  optional string full_name = 2;
+  optional string phone = 3;
+  optional bool clear_phone = 4;
+  optional string avatar_file_id = 5;
+  optional bool clear_avatar_file_id = 6;
+  optional PreferredContactMethod preferred_contact_method = 7;
+}
+
+message UpdateUserProfileResponse {
+  UserProfile user_profile = 1;
+}
+
+message CreateWorkProfileRequest {
+  string user_profile_id = 1;
+  string department_id = 2;
+  optional string employee_number = 3;
+  string position = 4;
+}
+
+message CreateWorkProfileResponse {
+  WorkProfileDetails details = 1;
+}
+
+message GetWorkProfileByIDRequest {
+  string id = 1;
+}
+
+message GetWorkProfileByIDResponse {
+  WorkProfileDetails details = 1;
+}
+
+message GetWorkProfileByUserIDRequest {
+  string user_id = 1;
+}
+
+message GetWorkProfileByUserIDResponse {
+  WorkProfileDetails details = 1;
+}
+
+message ListWorkProfilesRequest {
+  optional string department_id = 1;
+  optional WorkProfileStatus status = 2;
+  optional string query = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+  optional WorkProfileSortBy sort_by = 6;
+  optional SortOrder sort_order = 7;
+}
+
+message ListWorkProfilesResponse {
+  repeated WorkProfileDetails work_profiles = 1;
+  int64 total = 2;
+}
+
+message UpdateWorkProfileRequest {
+  string id = 1;
+  optional string employee_number = 2;
+  optional bool clear_employee_number = 3;
+  optional string position = 4;
+}
+
+message UpdateWorkProfileResponse {
+  WorkProfileDetails details = 1;
+}
+
+message DeactivateWorkProfileRequest {
+  string id = 1;
+  string reason = 2;
+}
+
+message DeactivateWorkProfileResponse {
+  WorkProfileDetails details = 1;
+}
+
+message ChangeWorkProfileDepartmentRequest {
+  string id = 1;
+  string department_id = 2;
+  string reason = 3;
+}
+
+message ChangeWorkProfileDepartmentResponse {
+  WorkProfileDetails details = 1;
+}
+
+message SetWorkProfileStatusRequest {
+  string id = 1;
+  WorkProfileStatus status = 2;
+  string reason = 3;
+}
+
+message SetWorkProfileStatusResponse {
+  WorkProfileDetails details = 1;
+}
+
+message GetWorkProfileStatusHistoryRequest {
+  string work_profile_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message GetWorkProfileStatusHistoryResponse {
+  repeated WorkProfileStatusHistory history = 1;
+  int64 total = 2;
+}
+
+message ResolveWorkingDepartmentRequest {
+  string user_id = 1;
+}
+
+message ResolveWorkingDepartmentResponse {
+  string user_profile_id = 1;
+  string work_profile_id = 2;
+  string user_id = 3;
+  string department_id = 4;
+  WorkProfileStatus work_profile_status = 5;
+  bool can_operate = 6;
+}
+
+message CheckProfileCanJoinBrigadeRequest {
+  optional string user_id = 1;
+  optional string work_profile_id = 2;
+  string brigade_department_id = 3;
+}
+
+message CheckProfileCanJoinBrigadeResponse {
+  string user_profile_id = 1;
+  string work_profile_id = 2;
+  string user_id = 3;
+  string department_id = 4;
+  bool allowed = 5;
+  CanJoinBrigadeReason reason = 6;
+}
+
+message CreateCertificationTypeRequest {
+  string code = 1;
+  string name = 2;
+  optional string description = 3;
+  optional int32 default_validity_days = 4;
+  bool requires_file = 5;
+}
+
+message CreateCertificationTypeResponse {
+  CertificationType certification_type = 1;
+}
+
+message UpdateCertificationTypeRequest {
+  string id = 1;
+  optional string code = 2;
+  optional string name = 3;
+  optional string description = 4;
+  optional bool clear_description = 5;
+  optional int32 default_validity_days = 6;
+  optional bool clear_validity_days = 7;
+  optional bool requires_file = 8;
+  optional bool active = 9;
+}
+
+message UpdateCertificationTypeResponse {
+  CertificationType certification_type = 1;
+}
+
+message ListCertificationTypesRequest {
+  optional bool active = 1;
+  optional string query = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message ListCertificationTypesResponse {
+  repeated CertificationType certification_types = 1;
+  int64 total = 2;
+}
+
+message AddCertificationTypeSkillRequest {
+  string certification_type_id = 1;
+  string skill_id = 2;
+  optional string proficiency_level = 3;
+}
+
+message AddCertificationTypeSkillResponse {
+  CertificationTypeSkill certification_type_skill = 1;
+}
+
+message RemoveCertificationTypeSkillRequest {
+  string certification_type_id = 1;
+  string skill_id = 2;
+}
+
+message RemoveCertificationTypeSkillResponse {
+  bool success = 1;
+}
+
+message ListCertificationTypeSkillsRequest {
+  string certification_type_id = 1;
+  bool active_only = 2;
+}
+
+message ListCertificationTypeSkillsResponse {
+  repeated CertificationTypeSkill skills = 1;
+}
+
+message UploadWorkProfileCertificationRequest {
+  string work_profile_id = 1;
+  string certification_type_id = 2;
+  optional string certificate_number = 3;
+  optional string issuer = 4;
+  optional google.protobuf.Timestamp issued_at = 5;
+  optional google.protobuf.Timestamp expires_at = 6;
+  optional string certificate_file_id = 7;
+}
+
+message UploadWorkProfileCertificationResponse {
+  WorkProfileCertification certification = 1;
+}
+
+message VerifyWorkProfileCertificationRequest {
+  string id = 1;
+}
+
+message VerifyWorkProfileCertificationResponse {
+  WorkProfileCertification certification = 1;
+  repeated WorkProfileSkillGrant skill_grants = 2;
+}
+
+message RejectWorkProfileCertificationRequest {
+  string id = 1;
+  string rejection_reason = 2;
+}
+
+message RejectWorkProfileCertificationResponse {
+  WorkProfileCertification certification = 1;
+}
+
+message RevokeWorkProfileCertificationRequest {
+  string id = 1;
+  string reason = 2;
+}
+
+message RevokeWorkProfileCertificationResponse {
+  WorkProfileCertification certification = 1;
+  repeated WorkProfileSkillGrant revoked_grants = 2;
+}
+
+message ExpireWorkProfileCertificationsRequest {
+  int32 limit = 1;
+}
+
+message ExpireWorkProfileCertificationsResponse {
+  repeated WorkProfileCertification expired_certifications = 1;
+  repeated WorkProfileSkillGrant revoked_grants = 2;
+}
+
+message ListWorkProfileCertificationsRequest {
+  string work_profile_id = 1;
+  optional string certification_type_id = 2;
+  optional CertificationStatus status = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message ListWorkProfileCertificationsResponse {
+  repeated WorkProfileCertification certifications = 1;
+  int64 total = 2;
+}
+
+message GrantManualWorkProfileSkillRequest {
+  string work_profile_id = 1;
+  string skill_id = 2;
+  optional string proficiency_level = 3;
+  optional google.protobuf.Timestamp valid_until = 4;
+  string reason = 5;
+}
+
+message GrantManualWorkProfileSkillResponse {
+  WorkProfileSkillGrant skill_grant = 1;
+}
+
+message RevokeWorkProfileSkillGrantRequest {
+  string id = 1;
+  string reason = 2;
+}
+
+message RevokeWorkProfileSkillGrantResponse {
+  WorkProfileSkillGrant skill_grant = 1;
+}
+
+message ListEffectiveWorkProfileSkillsRequest {
+  string work_profile_id = 1;
+}
+
+message ListEffectiveWorkProfileSkillsResponse {
+  repeated WorkProfileSkillGrant skill_grants = 1;
+}
+
+message BatchListEffectiveWorkProfileSkillsRequest {
+  repeated string work_profile_ids = 1;
+}
+
+message BatchListEffectiveWorkProfileSkillsResponse {
+  repeated EffectiveWorkProfileSkills items = 1;
+}
+
+message CheckWorkProfileHasSkillsRequest {
+  string work_profile_id = 1;
+  repeated string required_skill_ids = 2;
+}
+
+message CheckWorkProfileHasSkillsResponse {
+  bool allowed = 1;
+  repeated string missing_skill_ids = 2;
+}
