@@ -1,0 +1,55 @@
+﻿syntax = "proto3";
+package dispatch.v1;
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/dispatch/v1";
+
+service DispatchService {
+  rpc PreviewDispatch(PreviewDispatchRequest) returns (PreviewDispatchResponse);
+  rpc ReserveBrigade(ReserveBrigadeRequest) returns (ReserveBrigadeResponse);
+  rpc ConfirmDispatch(ConfirmDispatchRequest) returns (ConfirmDispatchResponse);
+  rpc AutoDispatch(AutoDispatchRequest) returns (AutoDispatchResponse);
+  rpc GetDispatch(GetDispatchRequest) returns (GetDispatchResponse);
+  rpc ListDispatches(ListDispatchesRequest) returns (ListDispatchesResponse);
+  rpc CancelDispatch(CancelDispatchRequest) returns (CancelDispatchResponse);
+}
+
+enum DispatchMode { DISPATCH_MODE_UNSPECIFIED = 0; DISPATCH_MODE_MANUAL = 1; DISPATCH_MODE_AUTOMATIC = 2; }
+enum DispatchStatus {
+  DISPATCH_STATUS_UNSPECIFIED = 0;
+  DISPATCH_STATUS_PENDING = 1;
+  DISPATCH_STATUS_RESERVED = 2;
+  DISPATCH_STATUS_CONFIRMING = 3;
+  DISPATCH_STATUS_ASSIGNED = 4;
+  DISPATCH_STATUS_FAILED = 5;
+  DISPATCH_STATUS_CANCELLED = 6;
+  DISPATCH_STATUS_EXPIRED = 7;
+}
+
+message DispatchCandidate {
+  string brigade_id = 1;
+  int32 rank = 2;
+  double distance_meters = 3;
+  int64 eta_seconds = 4;
+  bool reachable = 5;
+  double latitude = 6;
+  double longitude = 7;
+}
+message DispatchOperation {
+  string id = 1; string ticket_id = 2; string brigade_id = 3; string route_id = 4;
+  DispatchMode mode = 5; DispatchStatus status = 6; int32 version = 7;
+  string requested_by = 8; string failure_reason = 9;
+  int64 expires_at_unix_ms = 10; int64 created_at_unix_ms = 11; int64 updated_at_unix_ms = 12;
+}
+message PreviewDispatchRequest { string ticket_id = 1; repeated string required_skill_ids = 2; int32 limit = 3; }
+message PreviewDispatchResponse { repeated DispatchCandidate candidates = 1; }
+message ReserveBrigadeRequest { string ticket_id = 1; string brigade_id = 2; repeated string required_skill_ids = 3; string requested_by = 4; optional int64 reservation_ttl_seconds = 5; }
+message ReserveBrigadeResponse { DispatchOperation operation = 1; }
+message ConfirmDispatchRequest { string id = 1; string confirmed_by = 2; int32 expected_version = 3; }
+message ConfirmDispatchResponse { DispatchOperation operation = 1; }
+message AutoDispatchRequest { string ticket_id = 1; repeated string required_skill_ids = 2; string requested_by = 3; int32 candidate_limit = 4; }
+message AutoDispatchResponse { DispatchOperation operation = 1; }
+message GetDispatchRequest { string id = 1; }
+message GetDispatchResponse { DispatchOperation operation = 1; }
+message ListDispatchesRequest { optional string ticket_id = 1; optional string brigade_id = 2; optional DispatchStatus status = 3; int32 limit = 4; int32 offset = 5; }
+message ListDispatchesResponse { repeated DispatchOperation operations = 1; int64 total = 2; }
+message CancelDispatchRequest { string id = 1; string cancelled_by = 2; int32 expected_version = 3; string reason = 4; }
+message CancelDispatchResponse { DispatchOperation operation = 1; }

@@ -1,0 +1,196 @@
+syntax = "proto3";
+
+package routing.v1;
+
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/routing/v1";
+
+import "google/protobuf/timestamp.proto";
+
+service RoutingService {
+  rpc BuildRoute(BuildRouteRequest) returns (BuildRouteResponse);
+  rpc BuildMatrix(BuildMatrixRequest) returns (BuildMatrixResponse);
+  rpc RankCandidates(RankCandidatesRequest) returns (RankCandidatesResponse);
+  rpc CreateRoute(CreateRouteRequest) returns (CreateRouteResponse);
+  rpc GetRoute(GetRouteRequest) returns (GetRouteResponse);
+  rpc RecalculateRoute(RecalculateRouteRequest) returns (RecalculateRouteResponse);
+  rpc SetRouteStatus(SetRouteStatusRequest) returns (SetRouteStatusResponse);
+  rpc ListRoutes(ListRoutesRequest) returns (ListRoutesResponse);
+}
+
+enum TravelMode {
+  TRAVEL_MODE_UNSPECIFIED = 0;
+  TRAVEL_MODE_AUTO = 1;
+  TRAVEL_MODE_TRUCK = 2;
+  TRAVEL_MODE_BICYCLE = 3;
+  TRAVEL_MODE_PEDESTRIAN = 4;
+}
+
+enum RouteStatus {
+  ROUTE_STATUS_UNSPECIFIED = 0;
+  ROUTE_STATUS_PLANNED = 1;
+  ROUTE_STATUS_ACTIVE = 2;
+  ROUTE_STATUS_COMPLETED = 3;
+  ROUTE_STATUS_CANCELLED = 4;
+}
+
+message Point {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message VehicleConstraints {
+  optional double height_meters = 1;
+  optional double width_meters = 2;
+  optional double length_meters = 3;
+  optional double weight_tons = 4;
+  optional double axle_load_tons = 5;
+  bool hazardous_materials = 6;
+}
+
+message RouteOptions {
+  TravelMode travel_mode = 1;
+  optional google.protobuf.Timestamp departure_at = 2;
+  bool alternatives = 3;
+  VehicleConstraints vehicle = 4;
+}
+
+message RouteSummary {
+  double distance_meters = 1;
+  int64 duration_seconds = 2;
+}
+
+message RouteLeg {
+  Point from = 1;
+  Point to = 2;
+  double distance_meters = 3;
+  int64 duration_seconds = 4;
+}
+
+message CalculatedRoute {
+  RouteSummary summary = 1;
+  string encoded_polyline = 2;
+  repeated RouteLeg legs = 3;
+  repeated Point snapped_points = 4;
+  string engine = 5;
+}
+
+message Route {
+  string id = 1;
+  string ticket_id = 2;
+  string brigade_id = 3;
+  RouteStatus status = 4;
+  Point origin = 5;
+  Point destination = 6;
+  repeated Point waypoints = 7;
+  RouteOptions options = 8;
+  CalculatedRoute calculation = 9;
+  int32 revision = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}
+
+message BuildRouteRequest {
+  Point origin = 1;
+  Point destination = 2;
+  repeated Point waypoints = 3;
+  RouteOptions options = 4;
+}
+
+message BuildRouteResponse {
+  CalculatedRoute route = 1;
+}
+
+message BuildMatrixRequest {
+  repeated Point sources = 1;
+  repeated Point targets = 2;
+  RouteOptions options = 3;
+}
+
+message MatrixCell {
+  int32 source_index = 1;
+  int32 target_index = 2;
+  double distance_meters = 3;
+  int64 duration_seconds = 4;
+  bool reachable = 5;
+}
+
+message BuildMatrixResponse {
+  repeated MatrixCell cells = 1;
+}
+
+message Candidate {
+  string brigade_id = 1;
+  Point location = 2;
+}
+
+message RankedCandidate {
+  string brigade_id = 1;
+  Point location = 2;
+  int32 rank = 3;
+  double distance_meters = 4;
+  int64 eta_seconds = 5;
+  bool reachable = 6;
+}
+
+message RankCandidatesRequest {
+  Point destination = 1;
+  repeated Candidate candidates = 2;
+  RouteOptions options = 3;
+  int32 limit = 4;
+}
+
+message RankCandidatesResponse {
+  repeated RankedCandidate candidates = 1;
+}
+
+message CreateRouteRequest {
+  string ticket_id = 1;
+  string brigade_id = 2;
+  Point origin = 3;
+  Point destination = 4;
+  repeated Point waypoints = 5;
+  RouteOptions options = 6;
+}
+
+message CreateRouteResponse {
+  Route route = 1;
+}
+
+message GetRouteRequest {
+  string id = 1;
+}
+
+message GetRouteResponse {
+  Route route = 1;
+}
+
+message RecalculateRouteRequest {
+  string id = 1;
+  Point current_position = 2;
+}
+
+message RecalculateRouteResponse {
+  Route route = 1;
+}
+
+message SetRouteStatusRequest {
+  string id = 1;
+  RouteStatus status = 2;
+}
+
+message SetRouteStatusResponse {
+  Route route = 1;
+}
+
+message ListRoutesRequest {
+  optional string ticket_id = 1;
+  optional string brigade_id = 2;
+  optional RouteStatus status = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message ListRoutesResponse {
+  repeated Route routes = 1;
+  int64 total = 2;
+}

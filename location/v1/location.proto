@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+package location.v1;
+
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/location/v1";
+
+import "google/protobuf/timestamp.proto";
+
+service LocationService {
+  rpc RecordPosition(RecordPositionRequest) returns (RecordPositionResponse);
+  rpc GetCurrentLocation(GetCurrentLocationRequest) returns (GetCurrentLocationResponse);
+  rpc GetCurrentLocations(GetCurrentLocationsRequest) returns (GetCurrentLocationsResponse);
+  rpc ListPositionHistory(ListPositionHistoryRequest) returns (ListPositionHistoryResponse);
+  rpc FindNearbyBrigades(FindNearbyBrigadesRequest) returns (FindNearbyBrigadesResponse);
+
+  rpc CreateGeoZone(CreateGeoZoneRequest) returns (CreateGeoZoneResponse);
+  rpc UpdateGeoZone(UpdateGeoZoneRequest) returns (UpdateGeoZoneResponse);
+  rpc DeleteGeoZone(DeleteGeoZoneRequest) returns (DeleteGeoZoneResponse);
+  rpc ListGeoZones(ListGeoZonesRequest) returns (ListGeoZonesResponse);
+  rpc CheckPointInZones(CheckPointInZonesRequest) returns (CheckPointInZonesResponse);
+}
+
+enum SubjectType {
+  SUBJECT_TYPE_UNSPECIFIED = 0;
+  SUBJECT_TYPE_BRIGADE = 1;
+  SUBJECT_TYPE_VEHICLE = 2;
+  SUBJECT_TYPE_DEVICE = 3;
+}
+
+enum SignalStatus {
+  SIGNAL_STATUS_UNSPECIFIED = 0;
+  SIGNAL_STATUS_ONLINE = 1;
+  SIGNAL_STATUS_STALE = 2;
+  SIGNAL_STATUS_OFFLINE = 3;
+}
+
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+
+message Position {
+  string id = 1;
+  string event_id = 2;
+  string device_id = 3;
+  string vehicle_id = 4;
+  string brigade_id = 5;
+  uint64 sequence = 6;
+  double latitude = 7;
+  double longitude = 8;
+  double speed_kmh = 9;
+  double heading = 10;
+  double accuracy_meters = 11;
+  optional double altitude_meters = 12;
+  bool simulated = 13;
+  google.protobuf.Timestamp recorded_at = 14;
+  google.protobuf.Timestamp received_at = 15;
+}
+
+message CurrentLocation {
+  Position position = 1;
+  SignalStatus signal_status = 2;
+  google.protobuf.Timestamp stale_after = 3;
+}
+
+message GeoZone {
+  string id = 1;
+  string department_id = 2;
+  string name = 3;
+  string geo_json = 4;
+  bool active = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message NearbyBrigade {
+  string brigade_id = 1;
+  CurrentLocation location = 2;
+  double distance_meters = 3;
+}
+
+message RecordPositionRequest {
+  string event_id = 1;
+  int32 event_version = 2;
+  google.protobuf.Timestamp occurred_at = 3;
+  string device_id = 4;
+  string vehicle_id = 5;
+  string brigade_id = 6;
+  uint64 sequence = 7;
+  double latitude = 8;
+  double longitude = 9;
+  double speed_kmh = 10;
+  double heading = 11;
+  double accuracy_meters = 12;
+  optional double altitude_meters = 13;
+  bool simulated = 14;
+}
+
+message RecordPositionResponse {
+  Position position = 1;
+  bool duplicate = 2;
+}
+
+message GetCurrentLocationRequest {
+  SubjectType subject_type = 1;
+  string subject_id = 2;
+}
+
+message GetCurrentLocationResponse {
+  CurrentLocation location = 1;
+}
+
+message GetCurrentLocationsRequest {
+  repeated string brigade_ids = 1;
+  bool allow_stale = 2;
+}
+
+message GetCurrentLocationsResponse {
+  map<string, CurrentLocation> locations = 1;
+  repeated string missing_brigade_ids = 2;
+}
+
+message ListPositionHistoryRequest {
+  string brigade_id = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+  SortOrder order = 6;
+}
+
+message ListPositionHistoryResponse {
+  repeated Position positions = 1;
+  int64 total = 2;
+}
+
+message FindNearbyBrigadesRequest {
+  double latitude = 1;
+  double longitude = 2;
+  double radius_meters = 3;
+  repeated string brigade_ids = 4;
+  bool only_fresh = 5;
+  int64 freshness_window_seconds = 6;
+  int32 limit = 7;
+}
+
+message FindNearbyBrigadesResponse {
+  repeated NearbyBrigade brigades = 1;
+}
+
+message CreateGeoZoneRequest {
+  string department_id = 1;
+  string name = 2;
+  string geo_json = 3;
+}
+
+message CreateGeoZoneResponse {
+  GeoZone zone = 1;
+}
+
+message UpdateGeoZoneRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string geo_json = 3;
+  optional bool active = 4;
+}
+
+message UpdateGeoZoneResponse {
+  GeoZone zone = 1;
+}
+
+message DeleteGeoZoneRequest {
+  string id = 1;
+}
+
+message DeleteGeoZoneResponse {
+  GeoZone zone = 1;
+}
+
+message ListGeoZonesRequest {
+  optional string department_id = 1;
+  optional bool active = 2;
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message ListGeoZonesResponse {
+  repeated GeoZone zones = 1;
+  int64 total = 2;
+}
+
+message CheckPointInZonesRequest {
+  double latitude = 1;
+  double longitude = 2;
+  optional string department_id = 3;
+  repeated string zone_ids = 4;
+}
+
+message CheckPointInZonesResponse {
+  repeated GeoZone zones = 1;
+}
