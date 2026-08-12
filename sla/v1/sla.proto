@@ -1,0 +1,59 @@
+syntax = "proto3";
+package sla.v1;
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/sla/v1";
+import "google/protobuf/timestamp.proto";
+
+service SLAService {
+  rpc CreateRule(CreateRuleRequest) returns (RuleResponse);
+  rpc UpdateRule(UpdateRuleRequest) returns (RuleResponse);
+  rpc DeleteRule(DeleteRuleRequest) returns (RuleResponse);
+  rpc GetRule(GetRuleRequest) returns (RuleResponse);
+  rpc ListRules(ListRulesRequest) returns (ListRulesResponse);
+  rpc GetTicketSLA(GetTicketSLARequest) returns (TicketSLAResponse);
+  rpc ListTicketSLAs(ListTicketSLAsRequest) returns (ListTicketSLAsResponse);
+  rpc ListHistory(ListHistoryRequest) returns (ListHistoryResponse);
+}
+
+enum TicketPriority { TICKET_PRIORITY_UNSPECIFIED = 0; TICKET_PRIORITY_LOW = 1; TICKET_PRIORITY_MEDIUM = 2; TICKET_PRIORITY_HIGH = 3; TICKET_PRIORITY_EMERGENCY = 4; }
+enum SLAStatus { SLA_STATUS_UNSPECIFIED = 0; SLA_STATUS_ACTIVE = 1; SLA_STATUS_COMPLETED = 2; SLA_STATUS_CANCELLED = 3; }
+enum SLAEventType {
+  SLA_EVENT_TYPE_UNSPECIFIED = 0;
+  SLA_EVENT_TYPE_CREATED = 1;
+  SLA_EVENT_TYPE_RESPONSE_RECORDED = 2;
+  SLA_EVENT_TYPE_RESPONSE_WARNING = 3;
+  SLA_EVENT_TYPE_RESPONSE_BREACHED = 4;
+  SLA_EVENT_TYPE_RESOLUTION_WARNING = 5;
+  SLA_EVENT_TYPE_RESOLUTION_BREACHED = 6;
+  SLA_EVENT_TYPE_RECALCULATED = 7;
+  SLA_EVENT_TYPE_COMPLETED = 8;
+  SLA_EVENT_TYPE_CANCELLED = 9;
+}
+
+message SLARule {
+  string id = 1; string name = 2; optional string department_id = 3; optional string category_id = 4;
+  optional TicketPriority priority = 5; int64 response_time_seconds = 6; int64 resolution_time_seconds = 7;
+  int32 warning_percent = 8; bool active = 9; google.protobuf.Timestamp created_at = 10; google.protobuf.Timestamp updated_at = 11;
+}
+message TicketSLA {
+  string id = 1; string ticket_id = 2; string rule_id = 3; string department_id = 4; string category_id = 5;
+  TicketPriority priority = 6; SLAStatus status = 7; google.protobuf.Timestamp response_deadline = 8;
+  google.protobuf.Timestamp resolution_deadline = 9; optional google.protobuf.Timestamp responded_at = 10;
+  optional google.protobuf.Timestamp completed_at = 11; bool response_breached = 12; bool resolution_breached = 13;
+  bool response_warning_sent = 14; bool resolution_warning_sent = 15; int32 version = 16;
+  google.protobuf.Timestamp created_at = 17; google.protobuf.Timestamp updated_at = 18;
+}
+message SLAHistory { string id = 1; string ticket_sla_id = 2; string ticket_id = 3; SLAEventType event_type = 4; google.protobuf.Timestamp occurred_at = 5; string details = 6; }
+
+message CreateRuleRequest { string name = 1; optional string department_id = 2; optional string category_id = 3; optional TicketPriority priority = 4; int64 response_time_seconds = 5; int64 resolution_time_seconds = 6; int32 warning_percent = 7; }
+message UpdateRuleRequest { string id = 1; optional string name = 2; optional string department_id = 3; optional string category_id = 4; optional TicketPriority priority = 5; optional int64 response_time_seconds = 6; optional int64 resolution_time_seconds = 7; optional int32 warning_percent = 8; optional bool active = 9; }
+message DeleteRuleRequest { string id = 1; }
+message GetRuleRequest { string id = 1; }
+message RuleResponse { SLARule rule = 1; }
+message ListRulesRequest { optional string department_id = 1; optional string category_id = 2; optional TicketPriority priority = 3; optional bool active = 4; int32 limit = 5; int32 offset = 6; }
+message ListRulesResponse { repeated SLARule rules = 1; int64 total = 2; }
+message GetTicketSLARequest { string ticket_id = 1; }
+message TicketSLAResponse { TicketSLA sla = 1; }
+message ListTicketSLAsRequest { optional string department_id = 1; optional SLAStatus status = 2; optional bool breached = 3; int32 limit = 4; int32 offset = 5; }
+message ListTicketSLAsResponse { repeated TicketSLA slas = 1; int64 total = 2; }
+message ListHistoryRequest { string ticket_id = 1; int32 limit = 2; int32 offset = 3; }
+message ListHistoryResponse { repeated SLAHistory history = 1; int64 total = 2; }
