@@ -1,0 +1,34 @@
+syntax = "proto3";
+package report.v1;
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/report/v1";
+import "google/protobuf/timestamp.proto";
+import "analytics/v1/analytics.proto";
+
+service ReportService {
+  rpc CreateReport(CreateReportRequest) returns (CreateReportResponse);
+  rpc GetReport(GetReportRequest) returns (GetReportResponse);
+  rpc ListReports(ListReportsRequest) returns (ListReportsResponse);
+  rpc CancelReport(CancelReportRequest) returns (CancelReportResponse);
+  rpc RetryReport(RetryReportRequest) returns (RetryReportResponse);
+  rpc GetReportDownloadURL(GetReportDownloadURLRequest) returns (GetReportDownloadURLResponse);
+}
+enum ReportType { REPORT_TYPE_UNSPECIFIED = 0; REPORT_TYPE_TICKET_OVERVIEW = 1; REPORT_TYPE_SLA_SUMMARY = 2; REPORT_TYPE_TICKET_BREAKDOWN = 3; REPORT_TYPE_DAILY_TICKETS = 4; }
+enum ReportFormat { REPORT_FORMAT_UNSPECIFIED = 0; REPORT_FORMAT_PDF = 1; REPORT_FORMAT_XLSX = 2; REPORT_FORMAT_CSV = 3; }
+enum ReportStatus { REPORT_STATUS_UNSPECIFIED = 0; REPORT_STATUS_PENDING = 1; REPORT_STATUS_PROCESSING = 2; REPORT_STATUS_COMPLETED = 3; REPORT_STATUS_FAILED = 4; REPORT_STATUS_CANCELED = 5; }
+message Report {
+  string id = 1; string requested_by = 2; string name = 3; ReportType type = 4; ReportFormat format = 5; ReportStatus status = 6;
+  analytics.v1.AnalyticsFilter filter = 7; optional string file_id = 8; optional string error = 9; int32 attempts = 10;
+  google.protobuf.Timestamp created_at = 11; google.protobuf.Timestamp updated_at = 12; optional google.protobuf.Timestamp completed_at = 13;
+}
+message CreateReportRequest { string requested_by = 1; repeated string actor_roles = 2; string name = 3; ReportType type = 4; ReportFormat format = 5; analytics.v1.AnalyticsFilter filter = 6; }
+message CreateReportResponse { Report report = 1; }
+message GetReportRequest { string report_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message GetReportResponse { Report report = 1; }
+message ListReportsRequest { string actor_user_id = 1; repeated string actor_roles = 2; optional ReportStatus status = 3; int32 limit = 4; int32 offset = 5; }
+message ListReportsResponse { repeated Report reports = 1; int64 total = 2; }
+message CancelReportRequest { string report_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message CancelReportResponse { Report report = 1; }
+message RetryReportRequest { string report_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message RetryReportResponse { Report report = 1; }
+message GetReportDownloadURLRequest { string report_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message GetReportDownloadURLResponse { Report report = 1; string download_url = 2; google.protobuf.Timestamp expires_at = 3; }
