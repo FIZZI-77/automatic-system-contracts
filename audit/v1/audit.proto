@@ -1,0 +1,43 @@
+syntax = "proto3";
+package audit.v1;
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/audit/v1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+service AuditService {
+  rpc GetAuditEntry(GetAuditEntryRequest) returns (GetAuditEntryResponse);
+  rpc ListAuditEntries(ListAuditEntriesRequest) returns (ListAuditEntriesResponse);
+}
+
+message AuditEntry {
+  string id = 1;
+  string event_id = 2;
+  string topic = 3;
+  string action = 4;
+  optional string actor_id = 5;
+  optional string entity_type = 6;
+  optional string entity_id = 7;
+  optional string request_id = 8;
+  optional string trace_id = 9;
+  google.protobuf.Struct data = 10;
+  google.protobuf.Timestamp occurred_at = 11;
+  google.protobuf.Timestamp recorded_at = 12;
+}
+
+message GetAuditEntryRequest { string id = 1; }
+message GetAuditEntryResponse { AuditEntry entry = 1; }
+message ListAuditEntriesRequest {
+  optional string actor_id = 1;
+  optional string action = 2;
+  optional string entity_type = 3;
+  optional string entity_id = 4;
+  optional string request_id = 5;
+  optional string trace_id = 6;
+  optional string topic = 7;
+  optional google.protobuf.Timestamp from = 8;
+  optional google.protobuf.Timestamp to = 9;
+  int32 limit = 10;
+  int32 offset = 11;
+}
+message ListAuditEntriesResponse { repeated AuditEntry entries = 1; int64 total = 2; }
