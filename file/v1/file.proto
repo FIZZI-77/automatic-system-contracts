@@ -1,0 +1,49 @@
+syntax = "proto3";
+package file.v1;
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/file/v1";
+import "google/protobuf/timestamp.proto";
+
+service FileService {
+  rpc CreateUpload(CreateUploadRequest) returns (CreateUploadResponse);
+  rpc ConfirmUpload(ConfirmUploadRequest) returns (ConfirmUploadResponse);
+  rpc LinkFile(LinkFileRequest) returns (LinkFileResponse);
+  rpc GetDownloadURL(GetDownloadURLRequest) returns (GetDownloadURLResponse);
+  rpc ListResourceFiles(ListResourceFilesRequest) returns (ListResourceFilesResponse);
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+}
+
+enum FileStatus {
+  FILE_STATUS_UNSPECIFIED = 0;
+  FILE_STATUS_PENDING_UPLOAD = 1;
+  FILE_STATUS_UPLOADED = 2;
+  FILE_STATUS_LINKED = 3;
+  FILE_STATUS_DELETED = 4;
+  FILE_STATUS_QUARANTINED = 5;
+}
+
+message File {
+  string id = 1;
+  string owner_user_id = 2;
+  optional string resource_type = 3;
+  optional string resource_id = 4;
+  string name = 5;
+  string content_type = 6;
+  int64 size = 7;
+  string checksum = 8;
+  FileStatus status = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+message CreateUploadRequest { string owner_user_id = 1; string name = 2; string content_type = 3; int64 size = 4; string checksum = 5; }
+message CreateUploadResponse { File file = 1; string upload_url = 2; google.protobuf.Timestamp expires_at = 3; }
+message ConfirmUploadRequest { string file_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message ConfirmUploadResponse { File file = 1; }
+message LinkFileRequest { string file_id = 1; string resource_type = 2; string resource_id = 3; string actor_user_id = 4; repeated string actor_roles = 5; }
+message LinkFileResponse { File file = 1; }
+message GetDownloadURLRequest { string file_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message GetDownloadURLResponse { File file = 1; string download_url = 2; google.protobuf.Timestamp expires_at = 3; }
+message ListResourceFilesRequest { string resource_type = 1; string resource_id = 2; string actor_user_id = 3; repeated string actor_roles = 4; }
+message ListResourceFilesResponse { repeated File files = 1; }
+message DeleteFileRequest { string file_id = 1; string actor_user_id = 2; repeated string actor_roles = 3; }
+message DeleteFileResponse {}

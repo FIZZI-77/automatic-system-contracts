@@ -12,7 +12,6 @@ service AuthService {
   rpc LogoutAll(LogoutAllRequest) returns (LogoutAllResponse);
 
   rpc GetUserAuthInfo(GetUserAuthInfoRequest) returns (GetUserAuthInfoResponse);
-
   rpc GetJWKS(GetJWKSRequest) returns (GetJWKSResponse);
 
   rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
@@ -20,6 +19,11 @@ service AuthService {
   rpc VerifyEmail(VerifyEmailRequest) returns (VerifyEmailResponse);
   rpc RequestPasswordReset(RequestPasswordResetRequest) returns (RequestPasswordResetResponse);
   rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse);
+
+  rpc CreateRole(CreateRoleRequest) returns (RoleMutationResponse);
+  rpc DeleteRole(DeleteRoleRequest) returns (RoleMutationResponse);
+  rpc AssignRole(AssignRoleRequest) returns (RoleMutationResponse);
+  rpc RemoveRole(RemoveRoleRequest) returns (RoleMutationResponse);
 }
 
 message RegisterRequest {
@@ -109,19 +113,29 @@ message ChangePasswordRequest {
   string old_password = 2;
   string new_password = 3;
   string session_id = 4;
-  optional bool revoke_other_sessions  = 5;
+  optional bool revoke_other_sessions = 5;
 }
 
-message ChangePasswordResponse{
+message ChangePasswordResponse {
   bool success = 1;
   uint32 invalidated_sessions_count = 2;
 }
 
-message VerifyEmailRequest{
+message SendVerificationEmailRequest {
+  string user_id = 1;
+  string email = 2;
+}
+
+message SendVerificationEmailResponse {
+  bool success = 1;
+  int64 expires_at_unix = 2;
+}
+
+message VerifyEmailRequest {
   string token = 1;
 }
 
-message VerifyEmailResponse{
+message VerifyEmailResponse {
   bool success = 1;
   string user_id = 2;
   string email = 3;
@@ -129,21 +143,11 @@ message VerifyEmailResponse{
   string message = 5;
 }
 
-message SendVerificationEmailRequest{
-  string user_id = 1;
-  string email = 2;
-}
-
-message SendVerificationEmailResponse{
-  bool success = 1;
-  int64 expires_at_unix = 2;
-}
-
-message RequestPasswordResetRequest{
+message RequestPasswordResetRequest {
   string email = 1;
 }
 
-message RequestPasswordResetResponse{
+message RequestPasswordResetResponse {
   bool success = 1;
   int64 expires_at_unix = 2;
 }
@@ -156,4 +160,35 @@ message ResetPasswordRequest {
 message ResetPasswordResponse {
   bool success = 1;
   uint32 invalidated_sessions_count = 2;
+}
+
+message Role {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int64 created_at_unix = 4;
+}
+
+message CreateRoleRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message DeleteRoleRequest {
+  string name = 1;
+}
+
+message AssignRoleRequest {
+  string user_id = 1;
+  string role_name = 2;
+}
+
+message RemoveRoleRequest {
+  string user_id = 1;
+  string role_name = 2;
+}
+
+message RoleMutationResponse {
+  bool success = 1;
+  Role role = 2;
 }

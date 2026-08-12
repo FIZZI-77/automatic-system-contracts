@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ticket.v1;
 
-option go_package = "github.com/FIZZI-77/automatic-system-contracts/ticket/v1";
+option go_package = "github.com/FIZZI-77/automatic-system-contracts/gen/go/ticket/v1";
 
 import "google/protobuf/timestamp.proto";
 
@@ -16,6 +16,8 @@ service TicketService {
   rpc CancelTicket(CancelTicketRequest) returns (CancelTicketResponse);
   rpc CompleteTicket(CompleteTicketRequest) returns (CompleteTicketResponse);
   rpc GetTicketStatusHistory(GetTicketStatusHistoryRequest) returns (GetTicketStatusHistoryResponse);
+  rpc CreateWorkReport(CreateWorkReportRequest) returns (CreateWorkReportResponse);
+  rpc ListWorkReports(ListWorkReportsRequest) returns (ListWorkReportsResponse);
 
   rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc GetCategory(GetCategoryRequest) returns (GetCategoryResponse);
@@ -23,6 +25,27 @@ service TicketService {
   rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse);
   rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse);
 }
+
+message WorkReport {
+  string id = 1;
+  string ticket_id = 2;
+  string author_user_id = 3;
+  string description = 4;
+  repeated string file_ids = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message CreateWorkReportRequest {
+  string ticket_id = 1;
+  string author_user_id = 2;
+  string description = 3;
+  repeated string file_ids = 4;
+}
+
+message CreateWorkReportResponse { WorkReport report = 1; }
+message ListWorkReportsRequest { string ticket_id = 1; }
+message ListWorkReportsResponse { repeated WorkReport reports = 1; }
 
 
 enum TicketStatus {
