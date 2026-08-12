@@ -91,6 +91,7 @@ message Ticket {
   google.protobuf.Timestamp assigned_at = 15;
   google.protobuf.Timestamp completed_at = 16;
   google.protobuf.Timestamp canceled_at = 17;
+  optional string asset_id = 18;
 }
 
 message TicketCategory {
@@ -129,6 +130,7 @@ message CreateTicketRequest {
   string address = 7;
   optional double latitude = 8;
   optional double longitude = 9;
+  optional string asset_id = 10;
 }
 
 message CreateTicketResponse {
@@ -192,6 +194,7 @@ message UpdateTicketRequest {
   optional double latitude = 7;
   optional double longitude = 8;
   string updated_by = 9;
+  optional string asset_id = 10;
 }
 
 message UpdateTicketResponse {

@@ -9,6 +9,7 @@ service AnalyticsService {
   rpc GetSLASummary(GetSLASummaryRequest) returns (GetSLASummaryResponse);
   rpc ListTicketBreakdown(ListTicketBreakdownRequest) returns (ListTicketBreakdownResponse);
   rpc ListDailyTicketMetrics(ListDailyTicketMetricsRequest) returns (ListDailyTicketMetricsResponse);
+  rpc GetAssetSummary(GetAssetSummaryRequest) returns (GetAssetSummaryResponse);
 }
 
 message AnalyticsFilter {
@@ -50,3 +51,6 @@ message ListTicketBreakdownResponse { repeated TicketBreakdown items = 1; uint64
 message ListDailyTicketMetricsRequest { AnalyticsFilter filter = 1; }
 message DailyTicketMetric { google.protobuf.Timestamp day = 1; uint64 created = 2; uint64 completed = 3; uint64 canceled = 4; uint64 sla_breaches = 5; }
 message ListDailyTicketMetricsResponse { repeated DailyTicketMetric items = 1; }
+message GetAssetSummaryRequest { AnalyticsFilter filter = 1; optional string asset_type = 2; optional string district = 3; }
+message AssetBreakdown { string key = 1; uint64 incidents = 2; uint64 repeated_incidents = 3; uint64 repairs = 4; uint64 critical_risk_updates = 5; }
+message GetAssetSummaryResponse { uint64 assets_created = 1; uint64 incidents = 2; uint64 repeated_incidents = 3; uint64 repairs = 4; uint64 inspections = 5; uint64 critical_risk_updates = 6; repeated AssetBreakdown by_type = 7; repeated AssetBreakdown by_district = 8; }

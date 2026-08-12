@@ -753,6 +753,242 @@ func (x *ListDailyTicketMetricsResponse) GetItems() []*DailyTicketMetric {
 	return nil
 }
 
+type GetAssetSummaryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Filter        *AnalyticsFilter       `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	AssetType     *string                `protobuf:"bytes,2,opt,name=asset_type,json=assetType,proto3,oneof" json:"asset_type,omitempty"`
+	District      *string                `protobuf:"bytes,3,opt,name=district,proto3,oneof" json:"district,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAssetSummaryRequest) Reset() {
+	*x = GetAssetSummaryRequest{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetSummaryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetSummaryRequest) ProtoMessage() {}
+
+func (x *GetAssetSummaryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetSummaryRequest.ProtoReflect.Descriptor instead.
+func (*GetAssetSummaryRequest) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetAssetSummaryRequest) GetFilter() *AnalyticsFilter {
+	if x != nil {
+		return x.Filter
+	}
+	return nil
+}
+
+func (x *GetAssetSummaryRequest) GetAssetType() string {
+	if x != nil && x.AssetType != nil {
+		return *x.AssetType
+	}
+	return ""
+}
+
+func (x *GetAssetSummaryRequest) GetDistrict() string {
+	if x != nil && x.District != nil {
+		return *x.District
+	}
+	return ""
+}
+
+type AssetBreakdown struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Key                 string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Incidents           uint64                 `protobuf:"varint,2,opt,name=incidents,proto3" json:"incidents,omitempty"`
+	RepeatedIncidents   uint64                 `protobuf:"varint,3,opt,name=repeated_incidents,json=repeatedIncidents,proto3" json:"repeated_incidents,omitempty"`
+	Repairs             uint64                 `protobuf:"varint,4,opt,name=repairs,proto3" json:"repairs,omitempty"`
+	CriticalRiskUpdates uint64                 `protobuf:"varint,5,opt,name=critical_risk_updates,json=criticalRiskUpdates,proto3" json:"critical_risk_updates,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *AssetBreakdown) Reset() {
+	*x = AssetBreakdown{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssetBreakdown) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssetBreakdown) ProtoMessage() {}
+
+func (x *AssetBreakdown) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssetBreakdown.ProtoReflect.Descriptor instead.
+func (*AssetBreakdown) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *AssetBreakdown) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+func (x *AssetBreakdown) GetIncidents() uint64 {
+	if x != nil {
+		return x.Incidents
+	}
+	return 0
+}
+
+func (x *AssetBreakdown) GetRepeatedIncidents() uint64 {
+	if x != nil {
+		return x.RepeatedIncidents
+	}
+	return 0
+}
+
+func (x *AssetBreakdown) GetRepairs() uint64 {
+	if x != nil {
+		return x.Repairs
+	}
+	return 0
+}
+
+func (x *AssetBreakdown) GetCriticalRiskUpdates() uint64 {
+	if x != nil {
+		return x.CriticalRiskUpdates
+	}
+	return 0
+}
+
+type GetAssetSummaryResponse struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	AssetsCreated       uint64                 `protobuf:"varint,1,opt,name=assets_created,json=assetsCreated,proto3" json:"assets_created,omitempty"`
+	Incidents           uint64                 `protobuf:"varint,2,opt,name=incidents,proto3" json:"incidents,omitempty"`
+	RepeatedIncidents   uint64                 `protobuf:"varint,3,opt,name=repeated_incidents,json=repeatedIncidents,proto3" json:"repeated_incidents,omitempty"`
+	Repairs             uint64                 `protobuf:"varint,4,opt,name=repairs,proto3" json:"repairs,omitempty"`
+	Inspections         uint64                 `protobuf:"varint,5,opt,name=inspections,proto3" json:"inspections,omitempty"`
+	CriticalRiskUpdates uint64                 `protobuf:"varint,6,opt,name=critical_risk_updates,json=criticalRiskUpdates,proto3" json:"critical_risk_updates,omitempty"`
+	ByType              []*AssetBreakdown      `protobuf:"bytes,7,rep,name=by_type,json=byType,proto3" json:"by_type,omitempty"`
+	ByDistrict          []*AssetBreakdown      `protobuf:"bytes,8,rep,name=by_district,json=byDistrict,proto3" json:"by_district,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *GetAssetSummaryResponse) Reset() {
+	*x = GetAssetSummaryResponse{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetSummaryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetSummaryResponse) ProtoMessage() {}
+
+func (x *GetAssetSummaryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetSummaryResponse.ProtoReflect.Descriptor instead.
+func (*GetAssetSummaryResponse) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetAssetSummaryResponse) GetAssetsCreated() uint64 {
+	if x != nil {
+		return x.AssetsCreated
+	}
+	return 0
+}
+
+func (x *GetAssetSummaryResponse) GetIncidents() uint64 {
+	if x != nil {
+		return x.Incidents
+	}
+	return 0
+}
+
+func (x *GetAssetSummaryResponse) GetRepeatedIncidents() uint64 {
+	if x != nil {
+		return x.RepeatedIncidents
+	}
+	return 0
+}
+
+func (x *GetAssetSummaryResponse) GetRepairs() uint64 {
+	if x != nil {
+		return x.Repairs
+	}
+	return 0
+}
+
+func (x *GetAssetSummaryResponse) GetInspections() uint64 {
+	if x != nil {
+		return x.Inspections
+	}
+	return 0
+}
+
+func (x *GetAssetSummaryResponse) GetCriticalRiskUpdates() uint64 {
+	if x != nil {
+		return x.CriticalRiskUpdates
+	}
+	return 0
+}
+
+func (x *GetAssetSummaryResponse) GetByType() []*AssetBreakdown {
+	if x != nil {
+		return x.ByType
+	}
+	return nil
+}
+
+func (x *GetAssetSummaryResponse) GetByDistrict() []*AssetBreakdown {
+	if x != nil {
+		return x.ByDistrict
+	}
+	return nil
+}
+
 var File_analytics_v1_analytics_proto protoreflect.FileDescriptor
 
 const file_analytics_v1_analytics_proto_rawDesc = "" +
@@ -810,18 +1046,42 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\bcanceled\x18\x04 \x01(\x04R\bcanceled\x12!\n" +
 	"\fsla_breaches\x18\x05 \x01(\x04R\vslaBreaches\"W\n" +
 	"\x1eListDailyTicketMetricsResponse\x125\n" +
-	"\x05items\x18\x01 \x03(\v2\x1f.analytics.v1.DailyTicketMetricR\x05items*\xc1\x01\n" +
+	"\x05items\x18\x01 \x03(\v2\x1f.analytics.v1.DailyTicketMetricR\x05items\"\xb0\x01\n" +
+	"\x16GetAssetSummaryRequest\x125\n" +
+	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\x12\"\n" +
+	"\n" +
+	"asset_type\x18\x02 \x01(\tH\x00R\tassetType\x88\x01\x01\x12\x1f\n" +
+	"\bdistrict\x18\x03 \x01(\tH\x01R\bdistrict\x88\x01\x01B\r\n" +
+	"\v_asset_typeB\v\n" +
+	"\t_district\"\xbd\x01\n" +
+	"\x0eAssetBreakdown\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x1c\n" +
+	"\tincidents\x18\x02 \x01(\x04R\tincidents\x12-\n" +
+	"\x12repeated_incidents\x18\x03 \x01(\x04R\x11repeatedIncidents\x12\x18\n" +
+	"\arepairs\x18\x04 \x01(\x04R\arepairs\x122\n" +
+	"\x15critical_risk_updates\x18\x05 \x01(\x04R\x13criticalRiskUpdates\"\xf3\x02\n" +
+	"\x17GetAssetSummaryResponse\x12%\n" +
+	"\x0eassets_created\x18\x01 \x01(\x04R\rassetsCreated\x12\x1c\n" +
+	"\tincidents\x18\x02 \x01(\x04R\tincidents\x12-\n" +
+	"\x12repeated_incidents\x18\x03 \x01(\x04R\x11repeatedIncidents\x12\x18\n" +
+	"\arepairs\x18\x04 \x01(\x04R\arepairs\x12 \n" +
+	"\vinspections\x18\x05 \x01(\x04R\vinspections\x122\n" +
+	"\x15critical_risk_updates\x18\x06 \x01(\x04R\x13criticalRiskUpdates\x125\n" +
+	"\aby_type\x18\a \x03(\v2\x1c.analytics.v1.AssetBreakdownR\x06byType\x12=\n" +
+	"\vby_district\x18\b \x03(\v2\x1c.analytics.v1.AssetBreakdownR\n" +
+	"byDistrict*\xc1\x01\n" +
 	"\x12BreakdownDimension\x12#\n" +
 	"\x1fBREAKDOWN_DIMENSION_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eBREAKDOWN_DIMENSION_DEPARTMENT\x10\x01\x12 \n" +
 	"\x1cBREAKDOWN_DIMENSION_CATEGORY\x10\x02\x12 \n" +
 	"\x1cBREAKDOWN_DIMENSION_PRIORITY\x10\x03\x12\x1e\n" +
-	"\x1aBREAKDOWN_DIMENSION_STATUS\x10\x042\xb3\x03\n" +
+	"\x1aBREAKDOWN_DIMENSION_STATUS\x10\x042\x93\x04\n" +
 	"\x10AnalyticsService\x12d\n" +
 	"\x11GetTicketOverview\x12&.analytics.v1.GetTicketOverviewRequest\x1a'.analytics.v1.GetTicketOverviewResponse\x12X\n" +
 	"\rGetSLASummary\x12\".analytics.v1.GetSLASummaryRequest\x1a#.analytics.v1.GetSLASummaryResponse\x12j\n" +
 	"\x13ListTicketBreakdown\x12(.analytics.v1.ListTicketBreakdownRequest\x1a).analytics.v1.ListTicketBreakdownResponse\x12s\n" +
-	"\x16ListDailyTicketMetrics\x12+.analytics.v1.ListDailyTicketMetricsRequest\x1a,.analytics.v1.ListDailyTicketMetricsResponseBDZBgithub.com/FIZZI-77/automatic-system-contracts/gen/go/analytics/v1b\x06proto3"
+	"\x16ListDailyTicketMetrics\x12+.analytics.v1.ListDailyTicketMetricsRequest\x1a,.analytics.v1.ListDailyTicketMetricsResponse\x12^\n" +
+	"\x0fGetAssetSummary\x12$.analytics.v1.GetAssetSummaryRequest\x1a%.analytics.v1.GetAssetSummaryResponseBDZBgithub.com/FIZZI-77/automatic-system-contracts/gen/go/analytics/v1b\x06proto3"
 
 var (
 	file_analytics_v1_analytics_proto_rawDescOnce sync.Once
@@ -836,7 +1096,7 @@ func file_analytics_v1_analytics_proto_rawDescGZIP() []byte {
 }
 
 var file_analytics_v1_analytics_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_analytics_v1_analytics_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_analytics_v1_analytics_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_analytics_v1_analytics_proto_goTypes = []any{
 	(BreakdownDimension)(0),                // 0: analytics.v1.BreakdownDimension
 	(*AnalyticsFilter)(nil),                // 1: analytics.v1.AnalyticsFilter
@@ -850,32 +1110,40 @@ var file_analytics_v1_analytics_proto_goTypes = []any{
 	(*ListDailyTicketMetricsRequest)(nil),  // 9: analytics.v1.ListDailyTicketMetricsRequest
 	(*DailyTicketMetric)(nil),              // 10: analytics.v1.DailyTicketMetric
 	(*ListDailyTicketMetricsResponse)(nil), // 11: analytics.v1.ListDailyTicketMetricsResponse
-	(*timestamppb.Timestamp)(nil),          // 12: google.protobuf.Timestamp
+	(*GetAssetSummaryRequest)(nil),         // 12: analytics.v1.GetAssetSummaryRequest
+	(*AssetBreakdown)(nil),                 // 13: analytics.v1.AssetBreakdown
+	(*GetAssetSummaryResponse)(nil),        // 14: analytics.v1.GetAssetSummaryResponse
+	(*timestamppb.Timestamp)(nil),          // 15: google.protobuf.Timestamp
 }
 var file_analytics_v1_analytics_proto_depIdxs = []int32{
-	12, // 0: analytics.v1.AnalyticsFilter.from:type_name -> google.protobuf.Timestamp
-	12, // 1: analytics.v1.AnalyticsFilter.to:type_name -> google.protobuf.Timestamp
+	15, // 0: analytics.v1.AnalyticsFilter.from:type_name -> google.protobuf.Timestamp
+	15, // 1: analytics.v1.AnalyticsFilter.to:type_name -> google.protobuf.Timestamp
 	1,  // 2: analytics.v1.GetTicketOverviewRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	1,  // 3: analytics.v1.GetSLASummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	1,  // 4: analytics.v1.ListTicketBreakdownRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	0,  // 5: analytics.v1.ListTicketBreakdownRequest.dimension:type_name -> analytics.v1.BreakdownDimension
 	7,  // 6: analytics.v1.ListTicketBreakdownResponse.items:type_name -> analytics.v1.TicketBreakdown
 	1,  // 7: analytics.v1.ListDailyTicketMetricsRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	12, // 8: analytics.v1.DailyTicketMetric.day:type_name -> google.protobuf.Timestamp
+	15, // 8: analytics.v1.DailyTicketMetric.day:type_name -> google.protobuf.Timestamp
 	10, // 9: analytics.v1.ListDailyTicketMetricsResponse.items:type_name -> analytics.v1.DailyTicketMetric
-	2,  // 10: analytics.v1.AnalyticsService.GetTicketOverview:input_type -> analytics.v1.GetTicketOverviewRequest
-	4,  // 11: analytics.v1.AnalyticsService.GetSLASummary:input_type -> analytics.v1.GetSLASummaryRequest
-	6,  // 12: analytics.v1.AnalyticsService.ListTicketBreakdown:input_type -> analytics.v1.ListTicketBreakdownRequest
-	9,  // 13: analytics.v1.AnalyticsService.ListDailyTicketMetrics:input_type -> analytics.v1.ListDailyTicketMetricsRequest
-	3,  // 14: analytics.v1.AnalyticsService.GetTicketOverview:output_type -> analytics.v1.GetTicketOverviewResponse
-	5,  // 15: analytics.v1.AnalyticsService.GetSLASummary:output_type -> analytics.v1.GetSLASummaryResponse
-	8,  // 16: analytics.v1.AnalyticsService.ListTicketBreakdown:output_type -> analytics.v1.ListTicketBreakdownResponse
-	11, // 17: analytics.v1.AnalyticsService.ListDailyTicketMetrics:output_type -> analytics.v1.ListDailyTicketMetricsResponse
-	14, // [14:18] is the sub-list for method output_type
-	10, // [10:14] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	1,  // 10: analytics.v1.GetAssetSummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	13, // 11: analytics.v1.GetAssetSummaryResponse.by_type:type_name -> analytics.v1.AssetBreakdown
+	13, // 12: analytics.v1.GetAssetSummaryResponse.by_district:type_name -> analytics.v1.AssetBreakdown
+	2,  // 13: analytics.v1.AnalyticsService.GetTicketOverview:input_type -> analytics.v1.GetTicketOverviewRequest
+	4,  // 14: analytics.v1.AnalyticsService.GetSLASummary:input_type -> analytics.v1.GetSLASummaryRequest
+	6,  // 15: analytics.v1.AnalyticsService.ListTicketBreakdown:input_type -> analytics.v1.ListTicketBreakdownRequest
+	9,  // 16: analytics.v1.AnalyticsService.ListDailyTicketMetrics:input_type -> analytics.v1.ListDailyTicketMetricsRequest
+	12, // 17: analytics.v1.AnalyticsService.GetAssetSummary:input_type -> analytics.v1.GetAssetSummaryRequest
+	3,  // 18: analytics.v1.AnalyticsService.GetTicketOverview:output_type -> analytics.v1.GetTicketOverviewResponse
+	5,  // 19: analytics.v1.AnalyticsService.GetSLASummary:output_type -> analytics.v1.GetSLASummaryResponse
+	8,  // 20: analytics.v1.AnalyticsService.ListTicketBreakdown:output_type -> analytics.v1.ListTicketBreakdownResponse
+	11, // 21: analytics.v1.AnalyticsService.ListDailyTicketMetrics:output_type -> analytics.v1.ListDailyTicketMetricsResponse
+	14, // 22: analytics.v1.AnalyticsService.GetAssetSummary:output_type -> analytics.v1.GetAssetSummaryResponse
+	18, // [18:23] is the sub-list for method output_type
+	13, // [13:18] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_analytics_v1_analytics_proto_init() }
@@ -884,13 +1152,14 @@ func file_analytics_v1_analytics_proto_init() {
 		return
 	}
 	file_analytics_v1_analytics_proto_msgTypes[0].OneofWrappers = []any{}
+	file_analytics_v1_analytics_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_analytics_v1_analytics_proto_rawDesc), len(file_analytics_v1_analytics_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -23,6 +23,7 @@ const (
 	AnalyticsService_GetSLASummary_FullMethodName          = "/analytics.v1.AnalyticsService/GetSLASummary"
 	AnalyticsService_ListTicketBreakdown_FullMethodName    = "/analytics.v1.AnalyticsService/ListTicketBreakdown"
 	AnalyticsService_ListDailyTicketMetrics_FullMethodName = "/analytics.v1.AnalyticsService/ListDailyTicketMetrics"
+	AnalyticsService_GetAssetSummary_FullMethodName        = "/analytics.v1.AnalyticsService/GetAssetSummary"
 )
 
 // AnalyticsServiceClient is the client API for AnalyticsService service.
@@ -33,6 +34,7 @@ type AnalyticsServiceClient interface {
 	GetSLASummary(ctx context.Context, in *GetSLASummaryRequest, opts ...grpc.CallOption) (*GetSLASummaryResponse, error)
 	ListTicketBreakdown(ctx context.Context, in *ListTicketBreakdownRequest, opts ...grpc.CallOption) (*ListTicketBreakdownResponse, error)
 	ListDailyTicketMetrics(ctx context.Context, in *ListDailyTicketMetricsRequest, opts ...grpc.CallOption) (*ListDailyTicketMetricsResponse, error)
+	GetAssetSummary(ctx context.Context, in *GetAssetSummaryRequest, opts ...grpc.CallOption) (*GetAssetSummaryResponse, error)
 }
 
 type analyticsServiceClient struct {
@@ -83,6 +85,16 @@ func (c *analyticsServiceClient) ListDailyTicketMetrics(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *analyticsServiceClient) GetAssetSummary(ctx context.Context, in *GetAssetSummaryRequest, opts ...grpc.CallOption) (*GetAssetSummaryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetSummaryResponse)
+	err := c.cc.Invoke(ctx, AnalyticsService_GetAssetSummary_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AnalyticsServiceServer is the server API for AnalyticsService service.
 // All implementations must embed UnimplementedAnalyticsServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type AnalyticsServiceServer interface {
 	GetSLASummary(context.Context, *GetSLASummaryRequest) (*GetSLASummaryResponse, error)
 	ListTicketBreakdown(context.Context, *ListTicketBreakdownRequest) (*ListTicketBreakdownResponse, error)
 	ListDailyTicketMetrics(context.Context, *ListDailyTicketMetricsRequest) (*ListDailyTicketMetricsResponse, error)
+	GetAssetSummary(context.Context, *GetAssetSummaryRequest) (*GetAssetSummaryResponse, error)
 	mustEmbedUnimplementedAnalyticsServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedAnalyticsServiceServer) ListTicketBreakdown(context.Context, 
 }
 func (UnimplementedAnalyticsServiceServer) ListDailyTicketMetrics(context.Context, *ListDailyTicketMetricsRequest) (*ListDailyTicketMetricsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListDailyTicketMetrics not implemented")
+}
+func (UnimplementedAnalyticsServiceServer) GetAssetSummary(context.Context, *GetAssetSummaryRequest) (*GetAssetSummaryResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssetSummary not implemented")
 }
 func (UnimplementedAnalyticsServiceServer) mustEmbedUnimplementedAnalyticsServiceServer() {}
 func (UnimplementedAnalyticsServiceServer) testEmbeddedByValue()                          {}
@@ -206,6 +222,24 @@ func _AnalyticsService_ListDailyTicketMetrics_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AnalyticsService_GetAssetSummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetSummaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnalyticsServiceServer).GetAssetSummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnalyticsService_GetAssetSummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnalyticsServiceServer).GetAssetSummary(ctx, req.(*GetAssetSummaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AnalyticsService_ServiceDesc is the grpc.ServiceDesc for AnalyticsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var AnalyticsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListDailyTicketMetrics",
 			Handler:    _AnalyticsService_ListDailyTicketMetrics_Handler,
+		},
+		{
+			MethodName: "GetAssetSummary",
+			Handler:    _AnalyticsService_GetAssetSummary_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
