@@ -41,6 +41,27 @@ message CreateWorkReportRequest {
   string author_user_id = 2;
   string description = 3;
   repeated string file_ids = 4;
+  string idempotency_key = 5;
+  optional CompletionReportRequest completion = 6;
+}
+
+message CompletionReportRequest {
+  string requested_by = 1;
+  repeated string actor_roles = 2;
+  string opened_by = 3;
+  CompletionBrigade brigade = 4;
+}
+
+message CompletionBrigade {
+  string id = 1;
+  string name = 2;
+  repeated CompletionBrigadeMember members = 3;
+}
+
+message CompletionBrigadeMember {
+  string user_id = 1;
+  string full_name = 2;
+  string role = 3;
 }
 
 message CreateWorkReportResponse { WorkReport report = 1; }
