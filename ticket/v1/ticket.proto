@@ -34,6 +34,9 @@ message WorkReport {
   repeated string file_ids = 5;
   google.protobuf.Timestamp created_at = 6;
   google.protobuf.Timestamp updated_at = 7;
+  string completion_status = 8;
+  string completion_file_id = 9;
+  string completion_error = 10;
 }
 
 message CreateWorkReportRequest {

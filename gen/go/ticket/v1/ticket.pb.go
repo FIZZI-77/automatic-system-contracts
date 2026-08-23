@@ -240,16 +240,19 @@ func (SortOrder) EnumDescriptor() ([]byte, []int) {
 }
 
 type WorkReport struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	TicketId      string                 `protobuf:"bytes,2,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
-	AuthorUserId  string                 `protobuf:"bytes,3,opt,name=author_user_id,json=authorUserId,proto3" json:"author_user_id,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	FileIds       []string               `protobuf:"bytes,5,rep,name=file_ids,json=fileIds,proto3" json:"file_ids,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TicketId         string                 `protobuf:"bytes,2,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
+	AuthorUserId     string                 `protobuf:"bytes,3,opt,name=author_user_id,json=authorUserId,proto3" json:"author_user_id,omitempty"`
+	Description      string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	FileIds          []string               `protobuf:"bytes,5,rep,name=file_ids,json=fileIds,proto3" json:"file_ids,omitempty"`
+	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt        *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	CompletionStatus string                 `protobuf:"bytes,8,opt,name=completion_status,json=completionStatus,proto3" json:"completion_status,omitempty"`
+	CompletionFileId string                 `protobuf:"bytes,9,opt,name=completion_file_id,json=completionFileId,proto3" json:"completion_file_id,omitempty"`
+	CompletionError  string                 `protobuf:"bytes,10,opt,name=completion_error,json=completionError,proto3" json:"completion_error,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *WorkReport) Reset() {
@@ -329,6 +332,27 @@ func (x *WorkReport) GetUpdatedAt() *timestamppb.Timestamp {
 		return x.UpdatedAt
 	}
 	return nil
+}
+
+func (x *WorkReport) GetCompletionStatus() string {
+	if x != nil {
+		return x.CompletionStatus
+	}
+	return ""
+}
+
+func (x *WorkReport) GetCompletionFileId() string {
+	if x != nil {
+		return x.CompletionFileId
+	}
+	return ""
+}
+
+func (x *WorkReport) GetCompletionError() string {
+	if x != nil {
+		return x.CompletionError
+	}
+	return ""
 }
 
 type CreateWorkReportRequest struct {
@@ -2743,7 +2767,7 @@ var File_ticket_v1_ticket_proto protoreflect.FileDescriptor
 
 const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\n" +
-	"\x16ticket/v1/ticket.proto\x12\tticket.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x92\x02\n" +
+	"\x16ticket/v1/ticket.proto\x12\tticket.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x98\x03\n" +
 	"\n" +
 	"WorkReport\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
@@ -2754,7 +2778,11 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x9a\x02\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12+\n" +
+	"\x11completion_status\x18\b \x01(\tR\x10completionStatus\x12,\n" +
+	"\x12completion_file_id\x18\t \x01(\tR\x10completionFileId\x12)\n" +
+	"\x10completion_error\x18\n" +
+	" \x01(\tR\x0fcompletionError\"\x9a\x02\n" +
 	"\x17CreateWorkReportRequest\x12\x1b\n" +
 	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12$\n" +
 	"\x0eauthor_user_id\x18\x02 \x01(\tR\fauthorUserId\x12 \n" +
