@@ -14,6 +14,7 @@ service AnalyticsService {
   rpc GetDispatchFailureSummary(GetDispatchFailureSummaryRequest) returns (GetDispatchFailureSummaryResponse);
   rpc GetBrigadeWorkload(GetBrigadeWorkloadRequest) returns (GetBrigadeWorkloadResponse);
   rpc GetActiveWorkers(GetActiveWorkersRequest) returns (GetActiveWorkersResponse);
+  rpc GetAssignmentFunnel(GetAssignmentFunnelRequest) returns (GetAssignmentFunnelResponse);
 }
 
 message AnalyticsFilter {
@@ -144,4 +145,15 @@ message GetActiveWorkersResponse {
   uint64 available = 2;
   repeated ActiveWorkerGroup by_department = 3;
   repeated ActiveWorkerGroup by_brigade = 4;
+}
+
+message GetAssignmentFunnelRequest { AnalyticsFilter filter = 1; }
+message AssignmentFunnelStage {
+  string stage = 1;
+  uint64 count = 2;
+  double conversion_from_previous = 3;
+  LatencyDistribution transition_time = 4;
+}
+message GetAssignmentFunnelResponse {
+  repeated AssignmentFunnelStage stages = 1;
 }
