@@ -77,6 +77,76 @@ func (BreakdownDimension) EnumDescriptor() ([]byte, []int) {
 	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{0}
 }
 
+type OperationalLatencyDimension int32
+
+const (
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_UNSPECIFIED     OperationalLatencyDimension = 0
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_DEPARTMENT      OperationalLatencyDimension = 1
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_CATEGORY        OperationalLatencyDimension = 2
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_PRIORITY        OperationalLatencyDimension = 3
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_ASSIGNMENT_MODE OperationalLatencyDimension = 4
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_BRIGADE         OperationalLatencyDimension = 5
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_ENGINE          OperationalLatencyDimension = 6
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_TRAVEL_MODE     OperationalLatencyDimension = 7
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_SUCCESS         OperationalLatencyDimension = 8
+	OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE    OperationalLatencyDimension = 9
+)
+
+// Enum value maps for OperationalLatencyDimension.
+var (
+	OperationalLatencyDimension_name = map[int32]string{
+		0: "OPERATIONAL_LATENCY_DIMENSION_UNSPECIFIED",
+		1: "OPERATIONAL_LATENCY_DIMENSION_DEPARTMENT",
+		2: "OPERATIONAL_LATENCY_DIMENSION_CATEGORY",
+		3: "OPERATIONAL_LATENCY_DIMENSION_PRIORITY",
+		4: "OPERATIONAL_LATENCY_DIMENSION_ASSIGNMENT_MODE",
+		5: "OPERATIONAL_LATENCY_DIMENSION_BRIGADE",
+		6: "OPERATIONAL_LATENCY_DIMENSION_ENGINE",
+		7: "OPERATIONAL_LATENCY_DIMENSION_TRAVEL_MODE",
+		8: "OPERATIONAL_LATENCY_DIMENSION_SUCCESS",
+		9: "OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE",
+	}
+	OperationalLatencyDimension_value = map[string]int32{
+		"OPERATIONAL_LATENCY_DIMENSION_UNSPECIFIED":     0,
+		"OPERATIONAL_LATENCY_DIMENSION_DEPARTMENT":      1,
+		"OPERATIONAL_LATENCY_DIMENSION_CATEGORY":        2,
+		"OPERATIONAL_LATENCY_DIMENSION_PRIORITY":        3,
+		"OPERATIONAL_LATENCY_DIMENSION_ASSIGNMENT_MODE": 4,
+		"OPERATIONAL_LATENCY_DIMENSION_BRIGADE":         5,
+		"OPERATIONAL_LATENCY_DIMENSION_ENGINE":          6,
+		"OPERATIONAL_LATENCY_DIMENSION_TRAVEL_MODE":     7,
+		"OPERATIONAL_LATENCY_DIMENSION_SUCCESS":         8,
+		"OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE":    9,
+	}
+)
+
+func (x OperationalLatencyDimension) Enum() *OperationalLatencyDimension {
+	p := new(OperationalLatencyDimension)
+	*p = x
+	return p
+}
+
+func (x OperationalLatencyDimension) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (OperationalLatencyDimension) Descriptor() protoreflect.EnumDescriptor {
+	return file_analytics_v1_analytics_proto_enumTypes[1].Descriptor()
+}
+
+func (OperationalLatencyDimension) Type() protoreflect.EnumType {
+	return &file_analytics_v1_analytics_proto_enumTypes[1]
+}
+
+func (x OperationalLatencyDimension) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use OperationalLatencyDimension.Descriptor instead.
+func (OperationalLatencyDimension) EnumDescriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{1}
+}
+
 type AnalyticsFilter struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	From           *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3,oneof" json:"from,omitempty"`
@@ -1022,8 +1092,9 @@ func (x *GetAssetSummaryResponse) GetByDistrict() []*AssetBreakdown {
 }
 
 type GetOperationalLatencyRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *AnalyticsFilter       `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	Filter        *AnalyticsFilter            `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	GroupBy       OperationalLatencyDimension `protobuf:"varint,2,opt,name=group_by,json=groupBy,proto3,enum=analytics.v1.OperationalLatencyDimension" json:"group_by,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1063,6 +1134,13 @@ func (x *GetOperationalLatencyRequest) GetFilter() *AnalyticsFilter {
 		return x.Filter
 	}
 	return nil
+}
+
+func (x *GetOperationalLatencyRequest) GetGroupBy() OperationalLatencyDimension {
+	if x != nil {
+		return x.GroupBy
+	}
+	return OperationalLatencyDimension_OPERATIONAL_LATENCY_DIMENSION_UNSPECIFIED
 }
 
 type LatencyDistribution struct {
@@ -1150,9 +1228,10 @@ func (x *LatencyDistribution) GetP99Seconds() float64 {
 }
 
 type GetOperationalLatencyResponse struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	AssignmentTime         *LatencyDistribution   `protobuf:"bytes,1,opt,name=assignment_time,json=assignmentTime,proto3" json:"assignment_time,omitempty"`
-	RoutingCalculationTime *LatencyDistribution   `protobuf:"bytes,2,opt,name=routing_calculation_time,json=routingCalculationTime,proto3" json:"routing_calculation_time,omitempty"`
+	state                  protoimpl.MessageState     `protogen:"open.v1"`
+	AssignmentTime         *LatencyDistribution       `protobuf:"bytes,1,opt,name=assignment_time,json=assignmentTime,proto3" json:"assignment_time,omitempty"`
+	RoutingCalculationTime *LatencyDistribution       `protobuf:"bytes,2,opt,name=routing_calculation_time,json=routingCalculationTime,proto3" json:"routing_calculation_time,omitempty"`
+	Groups                 []*OperationalLatencyGroup `protobuf:"bytes,3,rep,name=groups,proto3" json:"groups,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -1195,6 +1274,81 @@ func (x *GetOperationalLatencyResponse) GetAssignmentTime() *LatencyDistribution
 }
 
 func (x *GetOperationalLatencyResponse) GetRoutingCalculationTime() *LatencyDistribution {
+	if x != nil {
+		return x.RoutingCalculationTime
+	}
+	return nil
+}
+
+func (x *GetOperationalLatencyResponse) GetGroups() []*OperationalLatencyGroup {
+	if x != nil {
+		return x.Groups
+	}
+	return nil
+}
+
+type OperationalLatencyGroup struct {
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	Dimension              string                 `protobuf:"bytes,1,opt,name=dimension,proto3" json:"dimension,omitempty"`
+	Key                    string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
+	AssignmentTime         *LatencyDistribution   `protobuf:"bytes,3,opt,name=assignment_time,json=assignmentTime,proto3" json:"assignment_time,omitempty"`
+	RoutingCalculationTime *LatencyDistribution   `protobuf:"bytes,4,opt,name=routing_calculation_time,json=routingCalculationTime,proto3" json:"routing_calculation_time,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *OperationalLatencyGroup) Reset() {
+	*x = OperationalLatencyGroup{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OperationalLatencyGroup) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OperationalLatencyGroup) ProtoMessage() {}
+
+func (x *OperationalLatencyGroup) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OperationalLatencyGroup.ProtoReflect.Descriptor instead.
+func (*OperationalLatencyGroup) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *OperationalLatencyGroup) GetDimension() string {
+	if x != nil {
+		return x.Dimension
+	}
+	return ""
+}
+
+func (x *OperationalLatencyGroup) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+func (x *OperationalLatencyGroup) GetAssignmentTime() *LatencyDistribution {
+	if x != nil {
+		return x.AssignmentTime
+	}
+	return nil
+}
+
+func (x *OperationalLatencyGroup) GetRoutingCalculationTime() *LatencyDistribution {
 	if x != nil {
 		return x.RoutingCalculationTime
 	}
@@ -1291,9 +1445,10 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x15critical_risk_updates\x18\x06 \x01(\x04R\x13criticalRiskUpdates\x125\n" +
 	"\aby_type\x18\a \x03(\v2\x1c.analytics.v1.AssetBreakdownR\x06byType\x12=\n" +
 	"\vby_district\x18\b \x03(\v2\x1c.analytics.v1.AssetBreakdownR\n" +
-	"byDistrict\"U\n" +
+	"byDistrict\"\x9b\x01\n" +
 	"\x1cGetOperationalLatencyRequest\x125\n" +
-	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\xeb\x01\n" +
+	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\x12D\n" +
+	"\bgroup_by\x18\x02 \x01(\x0e2).analytics.v1.OperationalLatencyDimensionR\agroupBy\"\xeb\x01\n" +
 	"\x13LatencyDistribution\x12!\n" +
 	"\fsample_count\x18\x01 \x01(\x04R\vsampleCount\x12'\n" +
 	"\x0faverage_seconds\x18\x02 \x01(\x01R\x0eaverageSeconds\x12%\n" +
@@ -1303,16 +1458,33 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\vp95_seconds\x18\x05 \x01(\x01R\n" +
 	"p95Seconds\x12\x1f\n" +
 	"\vp99_seconds\x18\x06 \x01(\x01R\n" +
-	"p99Seconds\"\xc8\x01\n" +
+	"p99Seconds\"\x87\x02\n" +
 	"\x1dGetOperationalLatencyResponse\x12J\n" +
 	"\x0fassignment_time\x18\x01 \x01(\v2!.analytics.v1.LatencyDistributionR\x0eassignmentTime\x12[\n" +
-	"\x18routing_calculation_time\x18\x02 \x01(\v2!.analytics.v1.LatencyDistributionR\x16routingCalculationTime*\xc1\x01\n" +
+	"\x18routing_calculation_time\x18\x02 \x01(\v2!.analytics.v1.LatencyDistributionR\x16routingCalculationTime\x12=\n" +
+	"\x06groups\x18\x03 \x03(\v2%.analytics.v1.OperationalLatencyGroupR\x06groups\"\xf2\x01\n" +
+	"\x17OperationalLatencyGroup\x12\x1c\n" +
+	"\tdimension\x18\x01 \x01(\tR\tdimension\x12\x10\n" +
+	"\x03key\x18\x02 \x01(\tR\x03key\x12J\n" +
+	"\x0fassignment_time\x18\x03 \x01(\v2!.analytics.v1.LatencyDistributionR\x0eassignmentTime\x12[\n" +
+	"\x18routing_calculation_time\x18\x04 \x01(\v2!.analytics.v1.LatencyDistributionR\x16routingCalculationTime*\xc1\x01\n" +
 	"\x12BreakdownDimension\x12#\n" +
 	"\x1fBREAKDOWN_DIMENSION_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eBREAKDOWN_DIMENSION_DEPARTMENT\x10\x01\x12 \n" +
 	"\x1cBREAKDOWN_DIMENSION_CATEGORY\x10\x02\x12 \n" +
 	"\x1cBREAKDOWN_DIMENSION_PRIORITY\x10\x03\x12\x1e\n" +
-	"\x1aBREAKDOWN_DIMENSION_STATUS\x10\x042\x85\x05\n" +
+	"\x1aBREAKDOWN_DIMENSION_STATUS\x10\x04*\xe4\x03\n" +
+	"\x1bOperationalLatencyDimension\x12-\n" +
+	")OPERATIONAL_LATENCY_DIMENSION_UNSPECIFIED\x10\x00\x12,\n" +
+	"(OPERATIONAL_LATENCY_DIMENSION_DEPARTMENT\x10\x01\x12*\n" +
+	"&OPERATIONAL_LATENCY_DIMENSION_CATEGORY\x10\x02\x12*\n" +
+	"&OPERATIONAL_LATENCY_DIMENSION_PRIORITY\x10\x03\x121\n" +
+	"-OPERATIONAL_LATENCY_DIMENSION_ASSIGNMENT_MODE\x10\x04\x12)\n" +
+	"%OPERATIONAL_LATENCY_DIMENSION_BRIGADE\x10\x05\x12(\n" +
+	"$OPERATIONAL_LATENCY_DIMENSION_ENGINE\x10\x06\x12-\n" +
+	")OPERATIONAL_LATENCY_DIMENSION_TRAVEL_MODE\x10\a\x12)\n" +
+	"%OPERATIONAL_LATENCY_DIMENSION_SUCCESS\x10\b\x12.\n" +
+	"*OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE\x10\t2\x85\x05\n" +
 	"\x10AnalyticsService\x12d\n" +
 	"\x11GetTicketOverview\x12&.analytics.v1.GetTicketOverviewRequest\x1a'.analytics.v1.GetTicketOverviewResponse\x12X\n" +
 	"\rGetSLASummary\x12\".analytics.v1.GetSLASummaryRequest\x1a#.analytics.v1.GetSLASummaryResponse\x12j\n" +
@@ -1333,63 +1505,69 @@ func file_analytics_v1_analytics_proto_rawDescGZIP() []byte {
 	return file_analytics_v1_analytics_proto_rawDescData
 }
 
-var file_analytics_v1_analytics_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_analytics_v1_analytics_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_analytics_v1_analytics_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_analytics_v1_analytics_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_analytics_v1_analytics_proto_goTypes = []any{
 	(BreakdownDimension)(0),                // 0: analytics.v1.BreakdownDimension
-	(*AnalyticsFilter)(nil),                // 1: analytics.v1.AnalyticsFilter
-	(*GetTicketOverviewRequest)(nil),       // 2: analytics.v1.GetTicketOverviewRequest
-	(*GetTicketOverviewResponse)(nil),      // 3: analytics.v1.GetTicketOverviewResponse
-	(*GetSLASummaryRequest)(nil),           // 4: analytics.v1.GetSLASummaryRequest
-	(*GetSLASummaryResponse)(nil),          // 5: analytics.v1.GetSLASummaryResponse
-	(*ListTicketBreakdownRequest)(nil),     // 6: analytics.v1.ListTicketBreakdownRequest
-	(*TicketBreakdown)(nil),                // 7: analytics.v1.TicketBreakdown
-	(*ListTicketBreakdownResponse)(nil),    // 8: analytics.v1.ListTicketBreakdownResponse
-	(*ListDailyTicketMetricsRequest)(nil),  // 9: analytics.v1.ListDailyTicketMetricsRequest
-	(*DailyTicketMetric)(nil),              // 10: analytics.v1.DailyTicketMetric
-	(*ListDailyTicketMetricsResponse)(nil), // 11: analytics.v1.ListDailyTicketMetricsResponse
-	(*GetAssetSummaryRequest)(nil),         // 12: analytics.v1.GetAssetSummaryRequest
-	(*AssetBreakdown)(nil),                 // 13: analytics.v1.AssetBreakdown
-	(*GetAssetSummaryResponse)(nil),        // 14: analytics.v1.GetAssetSummaryResponse
-	(*GetOperationalLatencyRequest)(nil),   // 15: analytics.v1.GetOperationalLatencyRequest
-	(*LatencyDistribution)(nil),            // 16: analytics.v1.LatencyDistribution
-	(*GetOperationalLatencyResponse)(nil),  // 17: analytics.v1.GetOperationalLatencyResponse
-	(*timestamppb.Timestamp)(nil),          // 18: google.protobuf.Timestamp
+	(OperationalLatencyDimension)(0),       // 1: analytics.v1.OperationalLatencyDimension
+	(*AnalyticsFilter)(nil),                // 2: analytics.v1.AnalyticsFilter
+	(*GetTicketOverviewRequest)(nil),       // 3: analytics.v1.GetTicketOverviewRequest
+	(*GetTicketOverviewResponse)(nil),      // 4: analytics.v1.GetTicketOverviewResponse
+	(*GetSLASummaryRequest)(nil),           // 5: analytics.v1.GetSLASummaryRequest
+	(*GetSLASummaryResponse)(nil),          // 6: analytics.v1.GetSLASummaryResponse
+	(*ListTicketBreakdownRequest)(nil),     // 7: analytics.v1.ListTicketBreakdownRequest
+	(*TicketBreakdown)(nil),                // 8: analytics.v1.TicketBreakdown
+	(*ListTicketBreakdownResponse)(nil),    // 9: analytics.v1.ListTicketBreakdownResponse
+	(*ListDailyTicketMetricsRequest)(nil),  // 10: analytics.v1.ListDailyTicketMetricsRequest
+	(*DailyTicketMetric)(nil),              // 11: analytics.v1.DailyTicketMetric
+	(*ListDailyTicketMetricsResponse)(nil), // 12: analytics.v1.ListDailyTicketMetricsResponse
+	(*GetAssetSummaryRequest)(nil),         // 13: analytics.v1.GetAssetSummaryRequest
+	(*AssetBreakdown)(nil),                 // 14: analytics.v1.AssetBreakdown
+	(*GetAssetSummaryResponse)(nil),        // 15: analytics.v1.GetAssetSummaryResponse
+	(*GetOperationalLatencyRequest)(nil),   // 16: analytics.v1.GetOperationalLatencyRequest
+	(*LatencyDistribution)(nil),            // 17: analytics.v1.LatencyDistribution
+	(*GetOperationalLatencyResponse)(nil),  // 18: analytics.v1.GetOperationalLatencyResponse
+	(*OperationalLatencyGroup)(nil),        // 19: analytics.v1.OperationalLatencyGroup
+	(*timestamppb.Timestamp)(nil),          // 20: google.protobuf.Timestamp
 }
 var file_analytics_v1_analytics_proto_depIdxs = []int32{
-	18, // 0: analytics.v1.AnalyticsFilter.from:type_name -> google.protobuf.Timestamp
-	18, // 1: analytics.v1.AnalyticsFilter.to:type_name -> google.protobuf.Timestamp
-	1,  // 2: analytics.v1.GetTicketOverviewRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	1,  // 3: analytics.v1.GetSLASummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	1,  // 4: analytics.v1.ListTicketBreakdownRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	20, // 0: analytics.v1.AnalyticsFilter.from:type_name -> google.protobuf.Timestamp
+	20, // 1: analytics.v1.AnalyticsFilter.to:type_name -> google.protobuf.Timestamp
+	2,  // 2: analytics.v1.GetTicketOverviewRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	2,  // 3: analytics.v1.GetSLASummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	2,  // 4: analytics.v1.ListTicketBreakdownRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	0,  // 5: analytics.v1.ListTicketBreakdownRequest.dimension:type_name -> analytics.v1.BreakdownDimension
-	7,  // 6: analytics.v1.ListTicketBreakdownResponse.items:type_name -> analytics.v1.TicketBreakdown
-	1,  // 7: analytics.v1.ListDailyTicketMetricsRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	18, // 8: analytics.v1.DailyTicketMetric.day:type_name -> google.protobuf.Timestamp
-	10, // 9: analytics.v1.ListDailyTicketMetricsResponse.items:type_name -> analytics.v1.DailyTicketMetric
-	1,  // 10: analytics.v1.GetAssetSummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	13, // 11: analytics.v1.GetAssetSummaryResponse.by_type:type_name -> analytics.v1.AssetBreakdown
-	13, // 12: analytics.v1.GetAssetSummaryResponse.by_district:type_name -> analytics.v1.AssetBreakdown
-	1,  // 13: analytics.v1.GetOperationalLatencyRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	16, // 14: analytics.v1.GetOperationalLatencyResponse.assignment_time:type_name -> analytics.v1.LatencyDistribution
-	16, // 15: analytics.v1.GetOperationalLatencyResponse.routing_calculation_time:type_name -> analytics.v1.LatencyDistribution
-	2,  // 16: analytics.v1.AnalyticsService.GetTicketOverview:input_type -> analytics.v1.GetTicketOverviewRequest
-	4,  // 17: analytics.v1.AnalyticsService.GetSLASummary:input_type -> analytics.v1.GetSLASummaryRequest
-	6,  // 18: analytics.v1.AnalyticsService.ListTicketBreakdown:input_type -> analytics.v1.ListTicketBreakdownRequest
-	9,  // 19: analytics.v1.AnalyticsService.ListDailyTicketMetrics:input_type -> analytics.v1.ListDailyTicketMetricsRequest
-	12, // 20: analytics.v1.AnalyticsService.GetAssetSummary:input_type -> analytics.v1.GetAssetSummaryRequest
-	15, // 21: analytics.v1.AnalyticsService.GetOperationalLatency:input_type -> analytics.v1.GetOperationalLatencyRequest
-	3,  // 22: analytics.v1.AnalyticsService.GetTicketOverview:output_type -> analytics.v1.GetTicketOverviewResponse
-	5,  // 23: analytics.v1.AnalyticsService.GetSLASummary:output_type -> analytics.v1.GetSLASummaryResponse
-	8,  // 24: analytics.v1.AnalyticsService.ListTicketBreakdown:output_type -> analytics.v1.ListTicketBreakdownResponse
-	11, // 25: analytics.v1.AnalyticsService.ListDailyTicketMetrics:output_type -> analytics.v1.ListDailyTicketMetricsResponse
-	14, // 26: analytics.v1.AnalyticsService.GetAssetSummary:output_type -> analytics.v1.GetAssetSummaryResponse
-	17, // 27: analytics.v1.AnalyticsService.GetOperationalLatency:output_type -> analytics.v1.GetOperationalLatencyResponse
-	22, // [22:28] is the sub-list for method output_type
-	16, // [16:22] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	8,  // 6: analytics.v1.ListTicketBreakdownResponse.items:type_name -> analytics.v1.TicketBreakdown
+	2,  // 7: analytics.v1.ListDailyTicketMetricsRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	20, // 8: analytics.v1.DailyTicketMetric.day:type_name -> google.protobuf.Timestamp
+	11, // 9: analytics.v1.ListDailyTicketMetricsResponse.items:type_name -> analytics.v1.DailyTicketMetric
+	2,  // 10: analytics.v1.GetAssetSummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	14, // 11: analytics.v1.GetAssetSummaryResponse.by_type:type_name -> analytics.v1.AssetBreakdown
+	14, // 12: analytics.v1.GetAssetSummaryResponse.by_district:type_name -> analytics.v1.AssetBreakdown
+	2,  // 13: analytics.v1.GetOperationalLatencyRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	1,  // 14: analytics.v1.GetOperationalLatencyRequest.group_by:type_name -> analytics.v1.OperationalLatencyDimension
+	17, // 15: analytics.v1.GetOperationalLatencyResponse.assignment_time:type_name -> analytics.v1.LatencyDistribution
+	17, // 16: analytics.v1.GetOperationalLatencyResponse.routing_calculation_time:type_name -> analytics.v1.LatencyDistribution
+	19, // 17: analytics.v1.GetOperationalLatencyResponse.groups:type_name -> analytics.v1.OperationalLatencyGroup
+	17, // 18: analytics.v1.OperationalLatencyGroup.assignment_time:type_name -> analytics.v1.LatencyDistribution
+	17, // 19: analytics.v1.OperationalLatencyGroup.routing_calculation_time:type_name -> analytics.v1.LatencyDistribution
+	3,  // 20: analytics.v1.AnalyticsService.GetTicketOverview:input_type -> analytics.v1.GetTicketOverviewRequest
+	5,  // 21: analytics.v1.AnalyticsService.GetSLASummary:input_type -> analytics.v1.GetSLASummaryRequest
+	7,  // 22: analytics.v1.AnalyticsService.ListTicketBreakdown:input_type -> analytics.v1.ListTicketBreakdownRequest
+	10, // 23: analytics.v1.AnalyticsService.ListDailyTicketMetrics:input_type -> analytics.v1.ListDailyTicketMetricsRequest
+	13, // 24: analytics.v1.AnalyticsService.GetAssetSummary:input_type -> analytics.v1.GetAssetSummaryRequest
+	16, // 25: analytics.v1.AnalyticsService.GetOperationalLatency:input_type -> analytics.v1.GetOperationalLatencyRequest
+	4,  // 26: analytics.v1.AnalyticsService.GetTicketOverview:output_type -> analytics.v1.GetTicketOverviewResponse
+	6,  // 27: analytics.v1.AnalyticsService.GetSLASummary:output_type -> analytics.v1.GetSLASummaryResponse
+	9,  // 28: analytics.v1.AnalyticsService.ListTicketBreakdown:output_type -> analytics.v1.ListTicketBreakdownResponse
+	12, // 29: analytics.v1.AnalyticsService.ListDailyTicketMetrics:output_type -> analytics.v1.ListDailyTicketMetricsResponse
+	15, // 30: analytics.v1.AnalyticsService.GetAssetSummary:output_type -> analytics.v1.GetAssetSummaryResponse
+	18, // 31: analytics.v1.AnalyticsService.GetOperationalLatency:output_type -> analytics.v1.GetOperationalLatencyResponse
+	26, // [26:32] is the sub-list for method output_type
+	20, // [20:26] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_analytics_v1_analytics_proto_init() }
@@ -1404,8 +1582,8 @@ func file_analytics_v1_analytics_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_analytics_v1_analytics_proto_rawDesc), len(file_analytics_v1_analytics_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   17,
+			NumEnums:      2,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

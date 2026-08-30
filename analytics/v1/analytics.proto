@@ -60,7 +60,22 @@ message GetAssetSummaryRequest { AnalyticsFilter filter = 1; optional string ass
 message AssetBreakdown { string key = 1; uint64 incidents = 2; uint64 repeated_incidents = 3; uint64 repairs = 4; uint64 critical_risk_updates = 5; }
 message GetAssetSummaryResponse { uint64 assets_created = 1; uint64 incidents = 2; uint64 repeated_incidents = 3; uint64 repairs = 4; uint64 inspections = 5; uint64 critical_risk_updates = 6; repeated AssetBreakdown by_type = 7; repeated AssetBreakdown by_district = 8; }
 
-message GetOperationalLatencyRequest { AnalyticsFilter filter = 1; }
+enum OperationalLatencyDimension {
+  OPERATIONAL_LATENCY_DIMENSION_UNSPECIFIED = 0;
+  OPERATIONAL_LATENCY_DIMENSION_DEPARTMENT = 1;
+  OPERATIONAL_LATENCY_DIMENSION_CATEGORY = 2;
+  OPERATIONAL_LATENCY_DIMENSION_PRIORITY = 3;
+  OPERATIONAL_LATENCY_DIMENSION_ASSIGNMENT_MODE = 4;
+  OPERATIONAL_LATENCY_DIMENSION_BRIGADE = 5;
+  OPERATIONAL_LATENCY_DIMENSION_ENGINE = 6;
+  OPERATIONAL_LATENCY_DIMENSION_TRAVEL_MODE = 7;
+  OPERATIONAL_LATENCY_DIMENSION_SUCCESS = 8;
+  OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE = 9;
+}
+message GetOperationalLatencyRequest {
+  AnalyticsFilter filter = 1;
+  OperationalLatencyDimension group_by = 2;
+}
 message LatencyDistribution {
   uint64 sample_count = 1;
   double average_seconds = 2;
@@ -72,4 +87,11 @@ message LatencyDistribution {
 message GetOperationalLatencyResponse {
   LatencyDistribution assignment_time = 1;
   LatencyDistribution routing_calculation_time = 2;
+  repeated OperationalLatencyGroup groups = 3;
+}
+message OperationalLatencyGroup {
+  string dimension = 1;
+  string key = 2;
+  LatencyDistribution assignment_time = 3;
+  LatencyDistribution routing_calculation_time = 4;
 }
