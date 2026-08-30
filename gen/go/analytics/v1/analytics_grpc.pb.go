@@ -27,6 +27,7 @@ const (
 	AnalyticsService_GetOperationalLatency_FullMethodName     = "/analytics.v1.AnalyticsService/GetOperationalLatency"
 	AnalyticsService_GetDispatchFailureSummary_FullMethodName = "/analytics.v1.AnalyticsService/GetDispatchFailureSummary"
 	AnalyticsService_GetBrigadeWorkload_FullMethodName        = "/analytics.v1.AnalyticsService/GetBrigadeWorkload"
+	AnalyticsService_GetActiveWorkers_FullMethodName          = "/analytics.v1.AnalyticsService/GetActiveWorkers"
 )
 
 // AnalyticsServiceClient is the client API for AnalyticsService service.
@@ -41,6 +42,7 @@ type AnalyticsServiceClient interface {
 	GetOperationalLatency(ctx context.Context, in *GetOperationalLatencyRequest, opts ...grpc.CallOption) (*GetOperationalLatencyResponse, error)
 	GetDispatchFailureSummary(ctx context.Context, in *GetDispatchFailureSummaryRequest, opts ...grpc.CallOption) (*GetDispatchFailureSummaryResponse, error)
 	GetBrigadeWorkload(ctx context.Context, in *GetBrigadeWorkloadRequest, opts ...grpc.CallOption) (*GetBrigadeWorkloadResponse, error)
+	GetActiveWorkers(ctx context.Context, in *GetActiveWorkersRequest, opts ...grpc.CallOption) (*GetActiveWorkersResponse, error)
 }
 
 type analyticsServiceClient struct {
@@ -131,6 +133,16 @@ func (c *analyticsServiceClient) GetBrigadeWorkload(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *analyticsServiceClient) GetActiveWorkers(ctx context.Context, in *GetActiveWorkersRequest, opts ...grpc.CallOption) (*GetActiveWorkersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetActiveWorkersResponse)
+	err := c.cc.Invoke(ctx, AnalyticsService_GetActiveWorkers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AnalyticsServiceServer is the server API for AnalyticsService service.
 // All implementations must embed UnimplementedAnalyticsServiceServer
 // for forward compatibility.
@@ -143,6 +155,7 @@ type AnalyticsServiceServer interface {
 	GetOperationalLatency(context.Context, *GetOperationalLatencyRequest) (*GetOperationalLatencyResponse, error)
 	GetDispatchFailureSummary(context.Context, *GetDispatchFailureSummaryRequest) (*GetDispatchFailureSummaryResponse, error)
 	GetBrigadeWorkload(context.Context, *GetBrigadeWorkloadRequest) (*GetBrigadeWorkloadResponse, error)
+	GetActiveWorkers(context.Context, *GetActiveWorkersRequest) (*GetActiveWorkersResponse, error)
 	mustEmbedUnimplementedAnalyticsServiceServer()
 }
 
@@ -176,6 +189,9 @@ func (UnimplementedAnalyticsServiceServer) GetDispatchFailureSummary(context.Con
 }
 func (UnimplementedAnalyticsServiceServer) GetBrigadeWorkload(context.Context, *GetBrigadeWorkloadRequest) (*GetBrigadeWorkloadResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetBrigadeWorkload not implemented")
+}
+func (UnimplementedAnalyticsServiceServer) GetActiveWorkers(context.Context, *GetActiveWorkersRequest) (*GetActiveWorkersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetActiveWorkers not implemented")
 }
 func (UnimplementedAnalyticsServiceServer) mustEmbedUnimplementedAnalyticsServiceServer() {}
 func (UnimplementedAnalyticsServiceServer) testEmbeddedByValue()                          {}
@@ -342,6 +358,24 @@ func _AnalyticsService_GetBrigadeWorkload_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AnalyticsService_GetActiveWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActiveWorkersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnalyticsServiceServer).GetActiveWorkers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnalyticsService_GetActiveWorkers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnalyticsServiceServer).GetActiveWorkers(ctx, req.(*GetActiveWorkersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AnalyticsService_ServiceDesc is the grpc.ServiceDesc for AnalyticsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -380,6 +414,10 @@ var AnalyticsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBrigadeWorkload",
 			Handler:    _AnalyticsService_GetBrigadeWorkload_Handler,
+		},
+		{
+			MethodName: "GetActiveWorkers",
+			Handler:    _AnalyticsService_GetActiveWorkers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

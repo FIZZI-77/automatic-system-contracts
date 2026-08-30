@@ -13,6 +13,7 @@ service AnalyticsService {
   rpc GetOperationalLatency(GetOperationalLatencyRequest) returns (GetOperationalLatencyResponse);
   rpc GetDispatchFailureSummary(GetDispatchFailureSummaryRequest) returns (GetDispatchFailureSummaryResponse);
   rpc GetBrigadeWorkload(GetBrigadeWorkloadRequest) returns (GetBrigadeWorkloadResponse);
+  rpc GetActiveWorkers(GetActiveWorkersRequest) returns (GetActiveWorkersResponse);
 }
 
 message AnalyticsFilter {
@@ -129,4 +130,18 @@ message GetBrigadeWorkloadResponse {
   uint64 active = 4;
   uint64 unassigned_backlog = 5;
   repeated BrigadeWorkloadItem brigades = 6;
+}
+
+message GetActiveWorkersRequest { AnalyticsFilter filter = 1; }
+message ActiveWorkerGroup {
+  string dimension = 1;
+  string key = 2;
+  uint64 active_members = 3;
+  uint64 available = 4;
+}
+message GetActiveWorkersResponse {
+  uint64 active_members = 1;
+  uint64 available = 2;
+  repeated ActiveWorkerGroup by_department = 3;
+  repeated ActiveWorkerGroup by_brigade = 4;
 }
