@@ -11,6 +11,8 @@ service AnalyticsService {
   rpc ListDailyTicketMetrics(ListDailyTicketMetricsRequest) returns (ListDailyTicketMetricsResponse);
   rpc GetAssetSummary(GetAssetSummaryRequest) returns (GetAssetSummaryResponse);
   rpc GetOperationalLatency(GetOperationalLatencyRequest) returns (GetOperationalLatencyResponse);
+  rpc GetDispatchFailureSummary(GetDispatchFailureSummaryRequest) returns (GetDispatchFailureSummaryResponse);
+  rpc GetBrigadeWorkload(GetBrigadeWorkloadRequest) returns (GetBrigadeWorkloadResponse);
 }
 
 message AnalyticsFilter {
@@ -94,4 +96,37 @@ message OperationalLatencyGroup {
   string key = 2;
   LatencyDistribution assignment_time = 3;
   LatencyDistribution routing_calculation_time = 4;
+}
+
+message GetDispatchFailureSummaryRequest { AnalyticsFilter filter = 1; }
+message DispatchFailureBreakdown {
+  string key = 1;
+  uint64 count = 2;
+  double percent = 3;
+}
+message GetDispatchFailureSummaryResponse {
+  uint64 requested = 1;
+  uint64 failed = 2;
+  uint64 expired = 3;
+  uint64 canceled = 4;
+  double failure_rate = 5;
+  repeated DispatchFailureBreakdown by_stage = 6;
+  repeated DispatchFailureBreakdown by_code = 7;
+}
+
+message GetBrigadeWorkloadRequest { AnalyticsFilter filter = 1; }
+message BrigadeWorkloadItem {
+  string brigade_id = 1;
+  uint64 incoming = 2;
+  uint64 assigned = 3;
+  uint64 completed = 4;
+  uint64 active = 5;
+}
+message GetBrigadeWorkloadResponse {
+  uint64 incoming = 1;
+  uint64 assigned = 2;
+  uint64 completed = 3;
+  uint64 active = 4;
+  uint64 unassigned_backlog = 5;
+  repeated BrigadeWorkloadItem brigades = 6;
 }
