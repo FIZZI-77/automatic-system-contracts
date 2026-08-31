@@ -15,6 +15,11 @@ service AnalyticsService {
   rpc GetBrigadeWorkload(GetBrigadeWorkloadRequest) returns (GetBrigadeWorkloadResponse);
   rpc GetActiveWorkers(GetActiveWorkersRequest) returns (GetActiveWorkersResponse);
   rpc GetAssignmentFunnel(GetAssignmentFunnelRequest) returns (GetAssignmentFunnelResponse);
+  rpc GetDispatchEffectiveness(GetDispatchEffectivenessRequest) returns (GetDispatchEffectivenessResponse);
+  rpc GetOperationalInsights(GetOperationalInsightsRequest) returns (GetOperationalInsightsResponse);
+  rpc GetProjectionHealth(GetProjectionHealthRequest) returns (GetProjectionHealthResponse);
+  rpc ListDispatchOperations(ListDispatchOperationsRequest) returns (ListDispatchOperationsResponse);
+  rpc GetBrigadePerformance(GetBrigadePerformanceRequest) returns (GetBrigadePerformanceResponse);
 }
 
 message AnalyticsFilter {
@@ -106,6 +111,17 @@ message DispatchFailureBreakdown {
   uint64 count = 2;
   double percent = 3;
 }
+message DispatchFailureReasonSummary {
+  string reason = 1;
+  uint64 count = 2;
+  double request_rate = 3;
+}
+message DispatchFailureReasonDimension {
+  string reason = 1;
+  string key = 2;
+  uint64 count = 3;
+  double reason_percent = 4;
+}
 message GetDispatchFailureSummaryResponse {
   uint64 requested = 1;
   uint64 failed = 2;
@@ -114,6 +130,9 @@ message GetDispatchFailureSummaryResponse {
   double failure_rate = 5;
   repeated DispatchFailureBreakdown by_stage = 6;
   repeated DispatchFailureBreakdown by_code = 7;
+  repeated DispatchFailureReasonSummary business_reasons = 8;
+  repeated DispatchFailureReasonDimension reasons_by_department = 9;
+  repeated DispatchFailureReasonDimension reasons_by_category = 10;
 }
 
 message GetBrigadeWorkloadRequest { AnalyticsFilter filter = 1; }
@@ -131,6 +150,12 @@ message GetBrigadeWorkloadResponse {
   uint64 active = 4;
   uint64 unassigned_backlog = 5;
   repeated BrigadeWorkloadItem brigades = 6;
+  uint64 brigade_count = 7;
+  uint64 max_active = 8;
+  double average_active = 9;
+  double standard_deviation = 10;
+  double coefficient_of_variation = 11;
+  double gini = 12;
 }
 
 message GetActiveWorkersRequest { AnalyticsFilter filter = 1; }
@@ -156,4 +181,111 @@ message AssignmentFunnelStage {
 }
 message GetAssignmentFunnelResponse {
   repeated AssignmentFunnelStage stages = 1;
+}
+
+message GetDispatchEffectivenessRequest { AnalyticsFilter filter = 1; }
+message DispatchModeEffectiveness {
+  string mode = 1;
+  uint64 requested = 2;
+  uint64 assigned = 3;
+  double success_rate = 4;
+  LatencyDistribution assignment_time = 5;
+}
+message GetDispatchEffectivenessResponse {
+  DispatchModeEffectiveness automatic = 1;
+  DispatchModeEffectiveness manual = 2;
+  bool manual_reassignment_available = 3;
+}
+
+message GetOperationalInsightsRequest { AnalyticsFilter filter = 1; }
+message QueueAgeBucket {
+  string range = 1;
+  uint64 count = 2;
+}
+message QueueAgeSummary {
+  uint64 active_unassigned = 1;
+  LatencyDistribution age = 2;
+  repeated QueueAgeBucket buckets = 3;
+}
+message RoutingEfficiency {
+  uint64 routes = 1;
+  uint64 recalculations = 2;
+  uint64 cancellations = 3;
+  double unreachable_candidate_rate = 4;
+  double average_distance_km = 5;
+  double kilometers_per_completed_ticket = 6;
+}
+message CapacityForecast {
+  uint32 observed_days = 1;
+  double average_daily_incoming = 2;
+  double forecast_next_day = 3;
+  double peak_hourly_incoming = 4;
+  uint64 required_brigades = 5;
+  string formula = 6;
+}
+message GetOperationalInsightsResponse {
+  LatencyDistribution departure_time = 1;
+  QueueAgeSummary queue_age = 2;
+  RoutingEfficiency routing = 3;
+  CapacityForecast capacity_forecast = 4;
+}
+message GetProjectionHealthRequest {}
+message ProjectionTopicHealth {
+  string topic = 1;
+  uint64 total_events = 2;
+  uint64 unknown_version_events = 3;
+  double projection_eligible_rate = 4;
+  google.protobuf.Timestamp last_occurred_at = 5;
+  google.protobuf.Timestamp last_ingested_at = 6;
+  double freshness_seconds = 7;
+  double ingestion_p95_seconds = 8;
+}
+message GetProjectionHealthResponse {
+  uint64 total_events = 1;
+  uint64 unknown_version_events = 2;
+  double projection_eligible_rate = 3;
+  google.protobuf.Timestamp last_occurred_at = 4;
+  google.protobuf.Timestamp last_ingested_at = 5;
+  double freshness_seconds = 6;
+  double ingestion_p95_seconds = 7;
+  repeated ProjectionTopicHealth topics = 8;
+}
+message ListDispatchOperationsRequest {
+  AnalyticsFilter filter = 1;
+  uint32 limit = 2;
+}
+message DispatchOperationItem {
+  string operation_id = 1;
+  string ticket_id = 2;
+  string department_id = 3;
+  string category_id = 4;
+  string brigade_id = 5;
+  string assignment_mode = 6;
+  string status = 7;
+  string failure_code = 8;
+  string failure_stage = 9;
+  string trace_id = 10;
+  google.protobuf.Timestamp requested_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}
+message ListDispatchOperationsResponse {
+  repeated DispatchOperationItem items = 1;
+}
+message GetBrigadePerformanceRequest { AnalyticsFilter filter = 1; }
+message BrigadePerformanceItem {
+  string brigade_id = 1;
+  uint64 completed = 2;
+  LatencyDistribution execution_time = 3;
+  uint64 sla_breaches = 4;
+  double sla_breach_rate = 5;
+  uint64 repeated_asset_tickets = 6;
+}
+message GetBrigadePerformanceResponse {
+  uint64 completed = 1;
+  LatencyDistribution execution_time = 2;
+  uint64 sla_breaches = 3;
+  double sla_breach_rate = 4;
+  uint64 repeated_asset_tickets = 5;
+  bool shift_metrics_available = 6;
+  repeated BrigadePerformanceItem brigades = 7;
 }
