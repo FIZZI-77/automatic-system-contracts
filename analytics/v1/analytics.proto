@@ -164,12 +164,14 @@ message ActiveWorkerGroup {
   string key = 2;
   uint64 active_members = 3;
   uint64 available = 4;
+  uint64 on_shift = 5;
 }
 message GetActiveWorkersResponse {
   uint64 active_members = 1;
   uint64 available = 2;
   repeated ActiveWorkerGroup by_department = 3;
   repeated ActiveWorkerGroup by_brigade = 4;
+  uint64 on_shift = 5;
 }
 
 message GetAssignmentFunnelRequest { AnalyticsFilter filter = 1; }
@@ -254,6 +256,9 @@ message GetProjectionHealthResponse {
   double freshness_seconds = 6;
   double ingestion_p95_seconds = 7;
   repeated ProjectionTopicHealth topics = 8;
+  uint64 projected_events = 9;
+  uint64 missing_projection_events = 10;
+  double projection_error_rate = 11;
 }
 message ListDispatchOperationsRequest {
   AnalyticsFilter filter = 1;
@@ -284,6 +289,12 @@ message BrigadePerformanceItem {
   uint64 sla_breaches = 4;
   double sla_breach_rate = 5;
   uint64 repeated_asset_tickets = 6;
+  uint64 shift_count = 7;
+  double shift_hours = 8;
+  double completed_per_shift = 9;
+  double utilization_rate = 10;
+  double busy_hours = 11;
+  double average_parallel_tasks = 12;
 }
 message GetBrigadePerformanceResponse {
   uint64 completed = 1;
@@ -293,4 +304,10 @@ message GetBrigadePerformanceResponse {
   uint64 repeated_asset_tickets = 5;
   bool shift_metrics_available = 6;
   repeated BrigadePerformanceItem brigades = 7;
+  uint64 shift_count = 8;
+  double shift_hours = 9;
+  double completed_per_shift = 10;
+  double utilization_rate = 11;
+  double busy_hours = 12;
+  double average_parallel_tasks = 13;
 }

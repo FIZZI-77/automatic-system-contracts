@@ -2005,6 +2005,7 @@ type ActiveWorkerGroup struct {
 	Key           string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
 	ActiveMembers uint64                 `protobuf:"varint,3,opt,name=active_members,json=activeMembers,proto3" json:"active_members,omitempty"`
 	Available     uint64                 `protobuf:"varint,4,opt,name=available,proto3" json:"available,omitempty"`
+	OnShift       uint64                 `protobuf:"varint,5,opt,name=on_shift,json=onShift,proto3" json:"on_shift,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2067,12 +2068,20 @@ func (x *ActiveWorkerGroup) GetAvailable() uint64 {
 	return 0
 }
 
+func (x *ActiveWorkerGroup) GetOnShift() uint64 {
+	if x != nil {
+		return x.OnShift
+	}
+	return 0
+}
+
 type GetActiveWorkersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ActiveMembers uint64                 `protobuf:"varint,1,opt,name=active_members,json=activeMembers,proto3" json:"active_members,omitempty"`
 	Available     uint64                 `protobuf:"varint,2,opt,name=available,proto3" json:"available,omitempty"`
 	ByDepartment  []*ActiveWorkerGroup   `protobuf:"bytes,3,rep,name=by_department,json=byDepartment,proto3" json:"by_department,omitempty"`
 	ByBrigade     []*ActiveWorkerGroup   `protobuf:"bytes,4,rep,name=by_brigade,json=byBrigade,proto3" json:"by_brigade,omitempty"`
+	OnShift       uint64                 `protobuf:"varint,5,opt,name=on_shift,json=onShift,proto3" json:"on_shift,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2133,6 +2142,13 @@ func (x *GetActiveWorkersResponse) GetByBrigade() []*ActiveWorkerGroup {
 		return x.ByBrigade
 	}
 	return nil
+}
+
+func (x *GetActiveWorkersResponse) GetOnShift() uint64 {
+	if x != nil {
+		return x.OnShift
+	}
+	return 0
 }
 
 type GetAssignmentFunnelRequest struct {
@@ -2635,6 +2651,11 @@ type RoutingEfficiency struct {
 	UnreachableCandidateRate     float64                `protobuf:"fixed64,4,opt,name=unreachable_candidate_rate,json=unreachableCandidateRate,proto3" json:"unreachable_candidate_rate,omitempty"`
 	AverageDistanceKm            float64                `protobuf:"fixed64,5,opt,name=average_distance_km,json=averageDistanceKm,proto3" json:"average_distance_km,omitempty"`
 	KilometersPerCompletedTicket float64                `protobuf:"fixed64,6,opt,name=kilometers_per_completed_ticket,json=kilometersPerCompletedTicket,proto3" json:"kilometers_per_completed_ticket,omitempty"`
+	EtaSampleCount               uint64                 `protobuf:"varint,7,opt,name=eta_sample_count,json=etaSampleCount,proto3" json:"eta_sample_count,omitempty"`
+	EtaMeanAbsoluteErrorSeconds  float64                `protobuf:"fixed64,8,opt,name=eta_mean_absolute_error_seconds,json=etaMeanAbsoluteErrorSeconds,proto3" json:"eta_mean_absolute_error_seconds,omitempty"`
+	EtaBiasSeconds               float64                `protobuf:"fixed64,9,opt,name=eta_bias_seconds,json=etaBiasSeconds,proto3" json:"eta_bias_seconds,omitempty"`
+	EtaP95AbsoluteErrorSeconds   float64                `protobuf:"fixed64,10,opt,name=eta_p95_absolute_error_seconds,json=etaP95AbsoluteErrorSeconds,proto3" json:"eta_p95_absolute_error_seconds,omitempty"`
+	EtaWithinFiveMinutesRate     float64                `protobuf:"fixed64,11,opt,name=eta_within_five_minutes_rate,json=etaWithinFiveMinutesRate,proto3" json:"eta_within_five_minutes_rate,omitempty"`
 	unknownFields                protoimpl.UnknownFields
 	sizeCache                    protoimpl.SizeCache
 }
@@ -2707,6 +2728,41 @@ func (x *RoutingEfficiency) GetAverageDistanceKm() float64 {
 func (x *RoutingEfficiency) GetKilometersPerCompletedTicket() float64 {
 	if x != nil {
 		return x.KilometersPerCompletedTicket
+	}
+	return 0
+}
+
+func (x *RoutingEfficiency) GetEtaSampleCount() uint64 {
+	if x != nil {
+		return x.EtaSampleCount
+	}
+	return 0
+}
+
+func (x *RoutingEfficiency) GetEtaMeanAbsoluteErrorSeconds() float64 {
+	if x != nil {
+		return x.EtaMeanAbsoluteErrorSeconds
+	}
+	return 0
+}
+
+func (x *RoutingEfficiency) GetEtaBiasSeconds() float64 {
+	if x != nil {
+		return x.EtaBiasSeconds
+	}
+	return 0
+}
+
+func (x *RoutingEfficiency) GetEtaP95AbsoluteErrorSeconds() float64 {
+	if x != nil {
+		return x.EtaP95AbsoluteErrorSeconds
+	}
+	return 0
+}
+
+func (x *RoutingEfficiency) GetEtaWithinFiveMinutesRate() float64 {
+	if x != nil {
+		return x.EtaWithinFiveMinutesRate
 	}
 	return 0
 }
@@ -3000,17 +3056,20 @@ func (x *ProjectionTopicHealth) GetIngestionP95Seconds() float64 {
 }
 
 type GetProjectionHealthResponse struct {
-	state                  protoimpl.MessageState   `protogen:"open.v1"`
-	TotalEvents            uint64                   `protobuf:"varint,1,opt,name=total_events,json=totalEvents,proto3" json:"total_events,omitempty"`
-	UnknownVersionEvents   uint64                   `protobuf:"varint,2,opt,name=unknown_version_events,json=unknownVersionEvents,proto3" json:"unknown_version_events,omitempty"`
-	ProjectionEligibleRate float64                  `protobuf:"fixed64,3,opt,name=projection_eligible_rate,json=projectionEligibleRate,proto3" json:"projection_eligible_rate,omitempty"`
-	LastOccurredAt         *timestamppb.Timestamp   `protobuf:"bytes,4,opt,name=last_occurred_at,json=lastOccurredAt,proto3" json:"last_occurred_at,omitempty"`
-	LastIngestedAt         *timestamppb.Timestamp   `protobuf:"bytes,5,opt,name=last_ingested_at,json=lastIngestedAt,proto3" json:"last_ingested_at,omitempty"`
-	FreshnessSeconds       float64                  `protobuf:"fixed64,6,opt,name=freshness_seconds,json=freshnessSeconds,proto3" json:"freshness_seconds,omitempty"`
-	IngestionP95Seconds    float64                  `protobuf:"fixed64,7,opt,name=ingestion_p95_seconds,json=ingestionP95Seconds,proto3" json:"ingestion_p95_seconds,omitempty"`
-	Topics                 []*ProjectionTopicHealth `protobuf:"bytes,8,rep,name=topics,proto3" json:"topics,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	state                   protoimpl.MessageState   `protogen:"open.v1"`
+	TotalEvents             uint64                   `protobuf:"varint,1,opt,name=total_events,json=totalEvents,proto3" json:"total_events,omitempty"`
+	UnknownVersionEvents    uint64                   `protobuf:"varint,2,opt,name=unknown_version_events,json=unknownVersionEvents,proto3" json:"unknown_version_events,omitempty"`
+	ProjectionEligibleRate  float64                  `protobuf:"fixed64,3,opt,name=projection_eligible_rate,json=projectionEligibleRate,proto3" json:"projection_eligible_rate,omitempty"`
+	LastOccurredAt          *timestamppb.Timestamp   `protobuf:"bytes,4,opt,name=last_occurred_at,json=lastOccurredAt,proto3" json:"last_occurred_at,omitempty"`
+	LastIngestedAt          *timestamppb.Timestamp   `protobuf:"bytes,5,opt,name=last_ingested_at,json=lastIngestedAt,proto3" json:"last_ingested_at,omitempty"`
+	FreshnessSeconds        float64                  `protobuf:"fixed64,6,opt,name=freshness_seconds,json=freshnessSeconds,proto3" json:"freshness_seconds,omitempty"`
+	IngestionP95Seconds     float64                  `protobuf:"fixed64,7,opt,name=ingestion_p95_seconds,json=ingestionP95Seconds,proto3" json:"ingestion_p95_seconds,omitempty"`
+	Topics                  []*ProjectionTopicHealth `protobuf:"bytes,8,rep,name=topics,proto3" json:"topics,omitempty"`
+	ProjectedEvents         uint64                   `protobuf:"varint,9,opt,name=projected_events,json=projectedEvents,proto3" json:"projected_events,omitempty"`
+	MissingProjectionEvents uint64                   `protobuf:"varint,10,opt,name=missing_projection_events,json=missingProjectionEvents,proto3" json:"missing_projection_events,omitempty"`
+	ProjectionErrorRate     float64                  `protobuf:"fixed64,11,opt,name=projection_error_rate,json=projectionErrorRate,proto3" json:"projection_error_rate,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *GetProjectionHealthResponse) Reset() {
@@ -3097,6 +3156,27 @@ func (x *GetProjectionHealthResponse) GetTopics() []*ProjectionTopicHealth {
 		return x.Topics
 	}
 	return nil
+}
+
+func (x *GetProjectionHealthResponse) GetProjectedEvents() uint64 {
+	if x != nil {
+		return x.ProjectedEvents
+	}
+	return 0
+}
+
+func (x *GetProjectionHealthResponse) GetMissingProjectionEvents() uint64 {
+	if x != nil {
+		return x.MissingProjectionEvents
+	}
+	return 0
+}
+
+func (x *GetProjectionHealthResponse) GetProjectionErrorRate() float64 {
+	if x != nil {
+		return x.ProjectionErrorRate
+	}
+	return 0
 }
 
 type ListDispatchOperationsRequest struct {
@@ -3379,6 +3459,12 @@ type BrigadePerformanceItem struct {
 	SlaBreaches          uint64                 `protobuf:"varint,4,opt,name=sla_breaches,json=slaBreaches,proto3" json:"sla_breaches,omitempty"`
 	SlaBreachRate        float64                `protobuf:"fixed64,5,opt,name=sla_breach_rate,json=slaBreachRate,proto3" json:"sla_breach_rate,omitempty"`
 	RepeatedAssetTickets uint64                 `protobuf:"varint,6,opt,name=repeated_asset_tickets,json=repeatedAssetTickets,proto3" json:"repeated_asset_tickets,omitempty"`
+	ShiftCount           uint64                 `protobuf:"varint,7,opt,name=shift_count,json=shiftCount,proto3" json:"shift_count,omitempty"`
+	ShiftHours           float64                `protobuf:"fixed64,8,opt,name=shift_hours,json=shiftHours,proto3" json:"shift_hours,omitempty"`
+	CompletedPerShift    float64                `protobuf:"fixed64,9,opt,name=completed_per_shift,json=completedPerShift,proto3" json:"completed_per_shift,omitempty"`
+	UtilizationRate      float64                `protobuf:"fixed64,10,opt,name=utilization_rate,json=utilizationRate,proto3" json:"utilization_rate,omitempty"`
+	BusyHours            float64                `protobuf:"fixed64,11,opt,name=busy_hours,json=busyHours,proto3" json:"busy_hours,omitempty"`
+	AverageParallelTasks float64                `protobuf:"fixed64,12,opt,name=average_parallel_tasks,json=averageParallelTasks,proto3" json:"average_parallel_tasks,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -3455,6 +3541,48 @@ func (x *BrigadePerformanceItem) GetRepeatedAssetTickets() uint64 {
 	return 0
 }
 
+func (x *BrigadePerformanceItem) GetShiftCount() uint64 {
+	if x != nil {
+		return x.ShiftCount
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetShiftHours() float64 {
+	if x != nil {
+		return x.ShiftHours
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetCompletedPerShift() float64 {
+	if x != nil {
+		return x.CompletedPerShift
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetUtilizationRate() float64 {
+	if x != nil {
+		return x.UtilizationRate
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetBusyHours() float64 {
+	if x != nil {
+		return x.BusyHours
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetAverageParallelTasks() float64 {
+	if x != nil {
+		return x.AverageParallelTasks
+	}
+	return 0
+}
+
 type GetBrigadePerformanceResponse struct {
 	state                 protoimpl.MessageState    `protogen:"open.v1"`
 	Completed             uint64                    `protobuf:"varint,1,opt,name=completed,proto3" json:"completed,omitempty"`
@@ -3464,6 +3592,12 @@ type GetBrigadePerformanceResponse struct {
 	RepeatedAssetTickets  uint64                    `protobuf:"varint,5,opt,name=repeated_asset_tickets,json=repeatedAssetTickets,proto3" json:"repeated_asset_tickets,omitempty"`
 	ShiftMetricsAvailable bool                      `protobuf:"varint,6,opt,name=shift_metrics_available,json=shiftMetricsAvailable,proto3" json:"shift_metrics_available,omitempty"`
 	Brigades              []*BrigadePerformanceItem `protobuf:"bytes,7,rep,name=brigades,proto3" json:"brigades,omitempty"`
+	ShiftCount            uint64                    `protobuf:"varint,8,opt,name=shift_count,json=shiftCount,proto3" json:"shift_count,omitempty"`
+	ShiftHours            float64                   `protobuf:"fixed64,9,opt,name=shift_hours,json=shiftHours,proto3" json:"shift_hours,omitempty"`
+	CompletedPerShift     float64                   `protobuf:"fixed64,10,opt,name=completed_per_shift,json=completedPerShift,proto3" json:"completed_per_shift,omitempty"`
+	UtilizationRate       float64                   `protobuf:"fixed64,11,opt,name=utilization_rate,json=utilizationRate,proto3" json:"utilization_rate,omitempty"`
+	BusyHours             float64                   `protobuf:"fixed64,12,opt,name=busy_hours,json=busyHours,proto3" json:"busy_hours,omitempty"`
+	AverageParallelTasks  float64                   `protobuf:"fixed64,13,opt,name=average_parallel_tasks,json=averageParallelTasks,proto3" json:"average_parallel_tasks,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -3545,6 +3679,48 @@ func (x *GetBrigadePerformanceResponse) GetBrigades() []*BrigadePerformanceItem 
 		return x.Brigades
 	}
 	return nil
+}
+
+func (x *GetBrigadePerformanceResponse) GetShiftCount() uint64 {
+	if x != nil {
+		return x.ShiftCount
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetShiftHours() float64 {
+	if x != nil {
+		return x.ShiftHours
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetCompletedPerShift() float64 {
+	if x != nil {
+		return x.CompletedPerShift
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetUtilizationRate() float64 {
+	if x != nil {
+		return x.UtilizationRate
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetBusyHours() float64 {
+	if x != nil {
+		return x.BusyHours
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetAverageParallelTasks() float64 {
+	if x != nil {
+		return x.AverageParallelTasks
+	}
+	return 0
 }
 
 var File_analytics_v1_analytics_proto protoreflect.FileDescriptor
@@ -3712,18 +3888,20 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x18coefficient_of_variation\x18\v \x01(\x01R\x16coefficientOfVariation\x12\x12\n" +
 	"\x04gini\x18\f \x01(\x01R\x04gini\"P\n" +
 	"\x17GetActiveWorkersRequest\x125\n" +
-	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\x88\x01\n" +
+	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\xa3\x01\n" +
 	"\x11ActiveWorkerGroup\x12\x1c\n" +
 	"\tdimension\x18\x01 \x01(\tR\tdimension\x12\x10\n" +
 	"\x03key\x18\x02 \x01(\tR\x03key\x12%\n" +
 	"\x0eactive_members\x18\x03 \x01(\x04R\ractiveMembers\x12\x1c\n" +
-	"\tavailable\x18\x04 \x01(\x04R\tavailable\"\xe5\x01\n" +
+	"\tavailable\x18\x04 \x01(\x04R\tavailable\x12\x19\n" +
+	"\bon_shift\x18\x05 \x01(\x04R\aonShift\"\x80\x02\n" +
 	"\x18GetActiveWorkersResponse\x12%\n" +
 	"\x0eactive_members\x18\x01 \x01(\x04R\ractiveMembers\x12\x1c\n" +
 	"\tavailable\x18\x02 \x01(\x04R\tavailable\x12D\n" +
 	"\rby_department\x18\x03 \x03(\v2\x1f.analytics.v1.ActiveWorkerGroupR\fbyDepartment\x12>\n" +
 	"\n" +
-	"by_brigade\x18\x04 \x03(\v2\x1f.analytics.v1.ActiveWorkerGroupR\tbyBrigade\"S\n" +
+	"by_brigade\x18\x04 \x03(\v2\x1f.analytics.v1.ActiveWorkerGroupR\tbyBrigade\x12\x19\n" +
+	"\bon_shift\x18\x05 \x01(\x04R\aonShift\"S\n" +
 	"\x1aGetAssignmentFunnelRequest\x125\n" +
 	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\xc9\x01\n" +
 	"\x15AssignmentFunnelStage\x12\x14\n" +
@@ -3753,14 +3931,20 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x0fQueueAgeSummary\x12+\n" +
 	"\x11active_unassigned\x18\x01 \x01(\x04R\x10activeUnassigned\x123\n" +
 	"\x03age\x18\x02 \x01(\v2!.analytics.v1.LatencyDistributionR\x03age\x126\n" +
-	"\abuckets\x18\x03 \x03(\v2\x1c.analytics.v1.QueueAgeBucketR\abuckets\"\xae\x02\n" +
+	"\abuckets\x18\x03 \x03(\v2\x1c.analytics.v1.QueueAgeBucketR\abuckets\"\xcc\x04\n" +
 	"\x11RoutingEfficiency\x12\x16\n" +
 	"\x06routes\x18\x01 \x01(\x04R\x06routes\x12&\n" +
 	"\x0erecalculations\x18\x02 \x01(\x04R\x0erecalculations\x12$\n" +
 	"\rcancellations\x18\x03 \x01(\x04R\rcancellations\x12<\n" +
 	"\x1aunreachable_candidate_rate\x18\x04 \x01(\x01R\x18unreachableCandidateRate\x12.\n" +
 	"\x13average_distance_km\x18\x05 \x01(\x01R\x11averageDistanceKm\x12E\n" +
-	"\x1fkilometers_per_completed_ticket\x18\x06 \x01(\x01R\x1ckilometersPerCompletedTicket\"\x92\x02\n" +
+	"\x1fkilometers_per_completed_ticket\x18\x06 \x01(\x01R\x1ckilometersPerCompletedTicket\x12(\n" +
+	"\x10eta_sample_count\x18\a \x01(\x04R\x0eetaSampleCount\x12D\n" +
+	"\x1feta_mean_absolute_error_seconds\x18\b \x01(\x01R\x1betaMeanAbsoluteErrorSeconds\x12(\n" +
+	"\x10eta_bias_seconds\x18\t \x01(\x01R\x0eetaBiasSeconds\x12B\n" +
+	"\x1eeta_p95_absolute_error_seconds\x18\n" +
+	" \x01(\x01R\x1aetaP95AbsoluteErrorSeconds\x12>\n" +
+	"\x1ceta_within_five_minutes_rate\x18\v \x01(\x01R\x18etaWithinFiveMinutesRate\"\x92\x02\n" +
 	"\x10CapacityForecast\x12#\n" +
 	"\robserved_days\x18\x01 \x01(\rR\fobservedDays\x124\n" +
 	"\x16average_daily_incoming\x18\x02 \x01(\x01R\x14averageDailyIncoming\x12*\n" +
@@ -3782,7 +3966,7 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x10last_occurred_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastOccurredAt\x12D\n" +
 	"\x10last_ingested_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastIngestedAt\x12+\n" +
 	"\x11freshness_seconds\x18\a \x01(\x01R\x10freshnessSeconds\x122\n" +
-	"\x15ingestion_p95_seconds\x18\b \x01(\x01R\x13ingestionP95Seconds\"\xda\x03\n" +
+	"\x15ingestion_p95_seconds\x18\b \x01(\x01R\x13ingestionP95Seconds\"\xf5\x04\n" +
 	"\x1bGetProjectionHealthResponse\x12!\n" +
 	"\ftotal_events\x18\x01 \x01(\x04R\vtotalEvents\x124\n" +
 	"\x16unknown_version_events\x18\x02 \x01(\x04R\x14unknownVersionEvents\x128\n" +
@@ -3791,7 +3975,11 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x10last_ingested_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastIngestedAt\x12+\n" +
 	"\x11freshness_seconds\x18\x06 \x01(\x01R\x10freshnessSeconds\x122\n" +
 	"\x15ingestion_p95_seconds\x18\a \x01(\x01R\x13ingestionP95Seconds\x12;\n" +
-	"\x06topics\x18\b \x03(\v2#.analytics.v1.ProjectionTopicHealthR\x06topics\"l\n" +
+	"\x06topics\x18\b \x03(\v2#.analytics.v1.ProjectionTopicHealthR\x06topics\x12)\n" +
+	"\x10projected_events\x18\t \x01(\x04R\x0fprojectedEvents\x12:\n" +
+	"\x19missing_projection_events\x18\n" +
+	" \x01(\x04R\x17missingProjectionEvents\x122\n" +
+	"\x15projection_error_rate\x18\v \x01(\x01R\x13projectionErrorRate\"l\n" +
 	"\x1dListDispatchOperationsRequest\x125\n" +
 	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\rR\x05limit\"\xda\x03\n" +
@@ -3815,7 +4003,7 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x1eListDispatchOperationsResponse\x129\n" +
 	"\x05items\x18\x01 \x03(\v2#.analytics.v1.DispatchOperationItemR\x05items\"U\n" +
 	"\x1cGetBrigadePerformanceRequest\x125\n" +
-	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\xa0\x02\n" +
+	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\x92\x04\n" +
 	"\x16BrigadePerformanceItem\x12\x1d\n" +
 	"\n" +
 	"brigade_id\x18\x01 \x01(\tR\tbrigadeId\x12\x1c\n" +
@@ -3823,7 +4011,17 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x0eexecution_time\x18\x03 \x01(\v2!.analytics.v1.LatencyDistributionR\rexecutionTime\x12!\n" +
 	"\fsla_breaches\x18\x04 \x01(\x04R\vslaBreaches\x12&\n" +
 	"\x0fsla_breach_rate\x18\x05 \x01(\x01R\rslaBreachRate\x124\n" +
-	"\x16repeated_asset_tickets\x18\x06 \x01(\x04R\x14repeatedAssetTickets\"\x82\x03\n" +
+	"\x16repeated_asset_tickets\x18\x06 \x01(\x04R\x14repeatedAssetTickets\x12\x1f\n" +
+	"\vshift_count\x18\a \x01(\x04R\n" +
+	"shiftCount\x12\x1f\n" +
+	"\vshift_hours\x18\b \x01(\x01R\n" +
+	"shiftHours\x12.\n" +
+	"\x13completed_per_shift\x18\t \x01(\x01R\x11completedPerShift\x12)\n" +
+	"\x10utilization_rate\x18\n" +
+	" \x01(\x01R\x0futilizationRate\x12\x1d\n" +
+	"\n" +
+	"busy_hours\x18\v \x01(\x01R\tbusyHours\x124\n" +
+	"\x16average_parallel_tasks\x18\f \x01(\x01R\x14averageParallelTasks\"\xf4\x04\n" +
 	"\x1dGetBrigadePerformanceResponse\x12\x1c\n" +
 	"\tcompleted\x18\x01 \x01(\x04R\tcompleted\x12H\n" +
 	"\x0eexecution_time\x18\x02 \x01(\v2!.analytics.v1.LatencyDistributionR\rexecutionTime\x12!\n" +
@@ -3831,7 +4029,17 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x0fsla_breach_rate\x18\x04 \x01(\x01R\rslaBreachRate\x124\n" +
 	"\x16repeated_asset_tickets\x18\x05 \x01(\x04R\x14repeatedAssetTickets\x126\n" +
 	"\x17shift_metrics_available\x18\x06 \x01(\bR\x15shiftMetricsAvailable\x12@\n" +
-	"\bbrigades\x18\a \x03(\v2$.analytics.v1.BrigadePerformanceItemR\bbrigades*\xc1\x01\n" +
+	"\bbrigades\x18\a \x03(\v2$.analytics.v1.BrigadePerformanceItemR\bbrigades\x12\x1f\n" +
+	"\vshift_count\x18\b \x01(\x04R\n" +
+	"shiftCount\x12\x1f\n" +
+	"\vshift_hours\x18\t \x01(\x01R\n" +
+	"shiftHours\x12.\n" +
+	"\x13completed_per_shift\x18\n" +
+	" \x01(\x01R\x11completedPerShift\x12)\n" +
+	"\x10utilization_rate\x18\v \x01(\x01R\x0futilizationRate\x12\x1d\n" +
+	"\n" +
+	"busy_hours\x18\f \x01(\x01R\tbusyHours\x124\n" +
+	"\x16average_parallel_tasks\x18\r \x01(\x01R\x14averageParallelTasks*\xc1\x01\n" +
 	"\x12BreakdownDimension\x12#\n" +
 	"\x1fBREAKDOWN_DIMENSION_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eBREAKDOWN_DIMENSION_DEPARTMENT\x10\x01\x12 \n" +
