@@ -3327,6 +3327,226 @@ func (x *ListDispatchOperationsResponse) GetItems() []*DispatchOperationItem {
 	return nil
 }
 
+type GetBrigadePerformanceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Filter        *AnalyticsFilter       `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBrigadePerformanceRequest) Reset() {
+	*x = GetBrigadePerformanceRequest{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBrigadePerformanceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBrigadePerformanceRequest) ProtoMessage() {}
+
+func (x *GetBrigadePerformanceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBrigadePerformanceRequest.ProtoReflect.Descriptor instead.
+func (*GetBrigadePerformanceRequest) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *GetBrigadePerformanceRequest) GetFilter() *AnalyticsFilter {
+	if x != nil {
+		return x.Filter
+	}
+	return nil
+}
+
+type BrigadePerformanceItem struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	BrigadeId            string                 `protobuf:"bytes,1,opt,name=brigade_id,json=brigadeId,proto3" json:"brigade_id,omitempty"`
+	Completed            uint64                 `protobuf:"varint,2,opt,name=completed,proto3" json:"completed,omitempty"`
+	ExecutionTime        *LatencyDistribution   `protobuf:"bytes,3,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
+	SlaBreaches          uint64                 `protobuf:"varint,4,opt,name=sla_breaches,json=slaBreaches,proto3" json:"sla_breaches,omitempty"`
+	SlaBreachRate        float64                `protobuf:"fixed64,5,opt,name=sla_breach_rate,json=slaBreachRate,proto3" json:"sla_breach_rate,omitempty"`
+	RepeatedAssetTickets uint64                 `protobuf:"varint,6,opt,name=repeated_asset_tickets,json=repeatedAssetTickets,proto3" json:"repeated_asset_tickets,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *BrigadePerformanceItem) Reset() {
+	*x = BrigadePerformanceItem{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BrigadePerformanceItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BrigadePerformanceItem) ProtoMessage() {}
+
+func (x *BrigadePerformanceItem) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BrigadePerformanceItem.ProtoReflect.Descriptor instead.
+func (*BrigadePerformanceItem) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *BrigadePerformanceItem) GetBrigadeId() string {
+	if x != nil {
+		return x.BrigadeId
+	}
+	return ""
+}
+
+func (x *BrigadePerformanceItem) GetCompleted() uint64 {
+	if x != nil {
+		return x.Completed
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetExecutionTime() *LatencyDistribution {
+	if x != nil {
+		return x.ExecutionTime
+	}
+	return nil
+}
+
+func (x *BrigadePerformanceItem) GetSlaBreaches() uint64 {
+	if x != nil {
+		return x.SlaBreaches
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetSlaBreachRate() float64 {
+	if x != nil {
+		return x.SlaBreachRate
+	}
+	return 0
+}
+
+func (x *BrigadePerformanceItem) GetRepeatedAssetTickets() uint64 {
+	if x != nil {
+		return x.RepeatedAssetTickets
+	}
+	return 0
+}
+
+type GetBrigadePerformanceResponse struct {
+	state                 protoimpl.MessageState    `protogen:"open.v1"`
+	Completed             uint64                    `protobuf:"varint,1,opt,name=completed,proto3" json:"completed,omitempty"`
+	ExecutionTime         *LatencyDistribution      `protobuf:"bytes,2,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
+	SlaBreaches           uint64                    `protobuf:"varint,3,opt,name=sla_breaches,json=slaBreaches,proto3" json:"sla_breaches,omitempty"`
+	SlaBreachRate         float64                   `protobuf:"fixed64,4,opt,name=sla_breach_rate,json=slaBreachRate,proto3" json:"sla_breach_rate,omitempty"`
+	RepeatedAssetTickets  uint64                    `protobuf:"varint,5,opt,name=repeated_asset_tickets,json=repeatedAssetTickets,proto3" json:"repeated_asset_tickets,omitempty"`
+	ShiftMetricsAvailable bool                      `protobuf:"varint,6,opt,name=shift_metrics_available,json=shiftMetricsAvailable,proto3" json:"shift_metrics_available,omitempty"`
+	Brigades              []*BrigadePerformanceItem `protobuf:"bytes,7,rep,name=brigades,proto3" json:"brigades,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *GetBrigadePerformanceResponse) Reset() {
+	*x = GetBrigadePerformanceResponse{}
+	mi := &file_analytics_v1_analytics_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBrigadePerformanceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBrigadePerformanceResponse) ProtoMessage() {}
+
+func (x *GetBrigadePerformanceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_analytics_v1_analytics_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBrigadePerformanceResponse.ProtoReflect.Descriptor instead.
+func (*GetBrigadePerformanceResponse) Descriptor() ([]byte, []int) {
+	return file_analytics_v1_analytics_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *GetBrigadePerformanceResponse) GetCompleted() uint64 {
+	if x != nil {
+		return x.Completed
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetExecutionTime() *LatencyDistribution {
+	if x != nil {
+		return x.ExecutionTime
+	}
+	return nil
+}
+
+func (x *GetBrigadePerformanceResponse) GetSlaBreaches() uint64 {
+	if x != nil {
+		return x.SlaBreaches
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetSlaBreachRate() float64 {
+	if x != nil {
+		return x.SlaBreachRate
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetRepeatedAssetTickets() uint64 {
+	if x != nil {
+		return x.RepeatedAssetTickets
+	}
+	return 0
+}
+
+func (x *GetBrigadePerformanceResponse) GetShiftMetricsAvailable() bool {
+	if x != nil {
+		return x.ShiftMetricsAvailable
+	}
+	return false
+}
+
+func (x *GetBrigadePerformanceResponse) GetBrigades() []*BrigadePerformanceItem {
+	if x != nil {
+		return x.Brigades
+	}
+	return nil
+}
+
 var File_analytics_v1_analytics_proto protoreflect.FileDescriptor
 
 const file_analytics_v1_analytics_proto_rawDesc = "" +
@@ -3593,7 +3813,25 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"[\n" +
 	"\x1eListDispatchOperationsResponse\x129\n" +
-	"\x05items\x18\x01 \x03(\v2#.analytics.v1.DispatchOperationItemR\x05items*\xc1\x01\n" +
+	"\x05items\x18\x01 \x03(\v2#.analytics.v1.DispatchOperationItemR\x05items\"U\n" +
+	"\x1cGetBrigadePerformanceRequest\x125\n" +
+	"\x06filter\x18\x01 \x01(\v2\x1d.analytics.v1.AnalyticsFilterR\x06filter\"\xa0\x02\n" +
+	"\x16BrigadePerformanceItem\x12\x1d\n" +
+	"\n" +
+	"brigade_id\x18\x01 \x01(\tR\tbrigadeId\x12\x1c\n" +
+	"\tcompleted\x18\x02 \x01(\x04R\tcompleted\x12H\n" +
+	"\x0eexecution_time\x18\x03 \x01(\v2!.analytics.v1.LatencyDistributionR\rexecutionTime\x12!\n" +
+	"\fsla_breaches\x18\x04 \x01(\x04R\vslaBreaches\x12&\n" +
+	"\x0fsla_breach_rate\x18\x05 \x01(\x01R\rslaBreachRate\x124\n" +
+	"\x16repeated_asset_tickets\x18\x06 \x01(\x04R\x14repeatedAssetTickets\"\x82\x03\n" +
+	"\x1dGetBrigadePerformanceResponse\x12\x1c\n" +
+	"\tcompleted\x18\x01 \x01(\x04R\tcompleted\x12H\n" +
+	"\x0eexecution_time\x18\x02 \x01(\v2!.analytics.v1.LatencyDistributionR\rexecutionTime\x12!\n" +
+	"\fsla_breaches\x18\x03 \x01(\x04R\vslaBreaches\x12&\n" +
+	"\x0fsla_breach_rate\x18\x04 \x01(\x01R\rslaBreachRate\x124\n" +
+	"\x16repeated_asset_tickets\x18\x05 \x01(\x04R\x14repeatedAssetTickets\x126\n" +
+	"\x17shift_metrics_available\x18\x06 \x01(\bR\x15shiftMetricsAvailable\x12@\n" +
+	"\bbrigades\x18\a \x03(\v2$.analytics.v1.BrigadePerformanceItemR\bbrigades*\xc1\x01\n" +
 	"\x12BreakdownDimension\x12#\n" +
 	"\x1fBREAKDOWN_DIMENSION_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eBREAKDOWN_DIMENSION_DEPARTMENT\x10\x01\x12 \n" +
@@ -3610,7 +3848,7 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"$OPERATIONAL_LATENCY_DIMENSION_ENGINE\x10\x06\x12-\n" +
 	")OPERATIONAL_LATENCY_DIMENSION_TRAVEL_MODE\x10\a\x12)\n" +
 	"%OPERATIONAL_LATENCY_DIMENSION_SUCCESS\x10\b\x12.\n" +
-	"*OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE\x10\t2\x8c\f\n" +
+	"*OPERATIONAL_LATENCY_DIMENSION_FAILURE_CODE\x10\t2\xfe\f\n" +
 	"\x10AnalyticsService\x12d\n" +
 	"\x11GetTicketOverview\x12&.analytics.v1.GetTicketOverviewRequest\x1a'.analytics.v1.GetTicketOverviewResponse\x12X\n" +
 	"\rGetSLASummary\x12\".analytics.v1.GetSLASummaryRequest\x1a#.analytics.v1.GetSLASummaryResponse\x12j\n" +
@@ -3625,7 +3863,8 @@ const file_analytics_v1_analytics_proto_rawDesc = "" +
 	"\x18GetDispatchEffectiveness\x12-.analytics.v1.GetDispatchEffectivenessRequest\x1a..analytics.v1.GetDispatchEffectivenessResponse\x12s\n" +
 	"\x16GetOperationalInsights\x12+.analytics.v1.GetOperationalInsightsRequest\x1a,.analytics.v1.GetOperationalInsightsResponse\x12j\n" +
 	"\x13GetProjectionHealth\x12(.analytics.v1.GetProjectionHealthRequest\x1a).analytics.v1.GetProjectionHealthResponse\x12s\n" +
-	"\x16ListDispatchOperations\x12+.analytics.v1.ListDispatchOperationsRequest\x1a,.analytics.v1.ListDispatchOperationsResponseBDZBgithub.com/FIZZI-77/automatic-system-contracts/gen/go/analytics/v1b\x06proto3"
+	"\x16ListDispatchOperations\x12+.analytics.v1.ListDispatchOperationsRequest\x1a,.analytics.v1.ListDispatchOperationsResponse\x12p\n" +
+	"\x15GetBrigadePerformance\x12*.analytics.v1.GetBrigadePerformanceRequest\x1a+.analytics.v1.GetBrigadePerformanceResponseBDZBgithub.com/FIZZI-77/automatic-system-contracts/gen/go/analytics/v1b\x06proto3"
 
 var (
 	file_analytics_v1_analytics_proto_rawDescOnce sync.Once
@@ -3640,7 +3879,7 @@ func file_analytics_v1_analytics_proto_rawDescGZIP() []byte {
 }
 
 var file_analytics_v1_analytics_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_analytics_v1_analytics_proto_msgTypes = make([]protoimpl.MessageInfo, 47)
+var file_analytics_v1_analytics_proto_msgTypes = make([]protoimpl.MessageInfo, 50)
 var file_analytics_v1_analytics_proto_goTypes = []any{
 	(BreakdownDimension)(0),                   // 0: analytics.v1.BreakdownDimension
 	(OperationalLatencyDimension)(0),          // 1: analytics.v1.OperationalLatencyDimension
@@ -3691,18 +3930,21 @@ var file_analytics_v1_analytics_proto_goTypes = []any{
 	(*ListDispatchOperationsRequest)(nil),     // 46: analytics.v1.ListDispatchOperationsRequest
 	(*DispatchOperationItem)(nil),             // 47: analytics.v1.DispatchOperationItem
 	(*ListDispatchOperationsResponse)(nil),    // 48: analytics.v1.ListDispatchOperationsResponse
-	(*timestamppb.Timestamp)(nil),             // 49: google.protobuf.Timestamp
+	(*GetBrigadePerformanceRequest)(nil),      // 49: analytics.v1.GetBrigadePerformanceRequest
+	(*BrigadePerformanceItem)(nil),            // 50: analytics.v1.BrigadePerformanceItem
+	(*GetBrigadePerformanceResponse)(nil),     // 51: analytics.v1.GetBrigadePerformanceResponse
+	(*timestamppb.Timestamp)(nil),             // 52: google.protobuf.Timestamp
 }
 var file_analytics_v1_analytics_proto_depIdxs = []int32{
-	49, // 0: analytics.v1.AnalyticsFilter.from:type_name -> google.protobuf.Timestamp
-	49, // 1: analytics.v1.AnalyticsFilter.to:type_name -> google.protobuf.Timestamp
+	52, // 0: analytics.v1.AnalyticsFilter.from:type_name -> google.protobuf.Timestamp
+	52, // 1: analytics.v1.AnalyticsFilter.to:type_name -> google.protobuf.Timestamp
 	2,  // 2: analytics.v1.GetTicketOverviewRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	2,  // 3: analytics.v1.GetSLASummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	2,  // 4: analytics.v1.ListTicketBreakdownRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	0,  // 5: analytics.v1.ListTicketBreakdownRequest.dimension:type_name -> analytics.v1.BreakdownDimension
 	8,  // 6: analytics.v1.ListTicketBreakdownResponse.items:type_name -> analytics.v1.TicketBreakdown
 	2,  // 7: analytics.v1.ListDailyTicketMetricsRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	49, // 8: analytics.v1.DailyTicketMetric.day:type_name -> google.protobuf.Timestamp
+	52, // 8: analytics.v1.DailyTicketMetric.day:type_name -> google.protobuf.Timestamp
 	11, // 9: analytics.v1.ListDailyTicketMetricsResponse.items:type_name -> analytics.v1.DailyTicketMetric
 	2,  // 10: analytics.v1.GetAssetSummaryRequest.filter:type_name -> analytics.v1.AnalyticsFilter
 	14, // 11: analytics.v1.GetAssetSummaryResponse.by_type:type_name -> analytics.v1.AssetBreakdown
@@ -3739,48 +3981,54 @@ var file_analytics_v1_analytics_proto_depIdxs = []int32{
 	39, // 42: analytics.v1.GetOperationalInsightsResponse.queue_age:type_name -> analytics.v1.QueueAgeSummary
 	40, // 43: analytics.v1.GetOperationalInsightsResponse.routing:type_name -> analytics.v1.RoutingEfficiency
 	41, // 44: analytics.v1.GetOperationalInsightsResponse.capacity_forecast:type_name -> analytics.v1.CapacityForecast
-	49, // 45: analytics.v1.ProjectionTopicHealth.last_occurred_at:type_name -> google.protobuf.Timestamp
-	49, // 46: analytics.v1.ProjectionTopicHealth.last_ingested_at:type_name -> google.protobuf.Timestamp
-	49, // 47: analytics.v1.GetProjectionHealthResponse.last_occurred_at:type_name -> google.protobuf.Timestamp
-	49, // 48: analytics.v1.GetProjectionHealthResponse.last_ingested_at:type_name -> google.protobuf.Timestamp
+	52, // 45: analytics.v1.ProjectionTopicHealth.last_occurred_at:type_name -> google.protobuf.Timestamp
+	52, // 46: analytics.v1.ProjectionTopicHealth.last_ingested_at:type_name -> google.protobuf.Timestamp
+	52, // 47: analytics.v1.GetProjectionHealthResponse.last_occurred_at:type_name -> google.protobuf.Timestamp
+	52, // 48: analytics.v1.GetProjectionHealthResponse.last_ingested_at:type_name -> google.protobuf.Timestamp
 	44, // 49: analytics.v1.GetProjectionHealthResponse.topics:type_name -> analytics.v1.ProjectionTopicHealth
 	2,  // 50: analytics.v1.ListDispatchOperationsRequest.filter:type_name -> analytics.v1.AnalyticsFilter
-	49, // 51: analytics.v1.DispatchOperationItem.requested_at:type_name -> google.protobuf.Timestamp
-	49, // 52: analytics.v1.DispatchOperationItem.updated_at:type_name -> google.protobuf.Timestamp
+	52, // 51: analytics.v1.DispatchOperationItem.requested_at:type_name -> google.protobuf.Timestamp
+	52, // 52: analytics.v1.DispatchOperationItem.updated_at:type_name -> google.protobuf.Timestamp
 	47, // 53: analytics.v1.ListDispatchOperationsResponse.items:type_name -> analytics.v1.DispatchOperationItem
-	3,  // 54: analytics.v1.AnalyticsService.GetTicketOverview:input_type -> analytics.v1.GetTicketOverviewRequest
-	5,  // 55: analytics.v1.AnalyticsService.GetSLASummary:input_type -> analytics.v1.GetSLASummaryRequest
-	7,  // 56: analytics.v1.AnalyticsService.ListTicketBreakdown:input_type -> analytics.v1.ListTicketBreakdownRequest
-	10, // 57: analytics.v1.AnalyticsService.ListDailyTicketMetrics:input_type -> analytics.v1.ListDailyTicketMetricsRequest
-	13, // 58: analytics.v1.AnalyticsService.GetAssetSummary:input_type -> analytics.v1.GetAssetSummaryRequest
-	16, // 59: analytics.v1.AnalyticsService.GetOperationalLatency:input_type -> analytics.v1.GetOperationalLatencyRequest
-	20, // 60: analytics.v1.AnalyticsService.GetDispatchFailureSummary:input_type -> analytics.v1.GetDispatchFailureSummaryRequest
-	25, // 61: analytics.v1.AnalyticsService.GetBrigadeWorkload:input_type -> analytics.v1.GetBrigadeWorkloadRequest
-	28, // 62: analytics.v1.AnalyticsService.GetActiveWorkers:input_type -> analytics.v1.GetActiveWorkersRequest
-	31, // 63: analytics.v1.AnalyticsService.GetAssignmentFunnel:input_type -> analytics.v1.GetAssignmentFunnelRequest
-	34, // 64: analytics.v1.AnalyticsService.GetDispatchEffectiveness:input_type -> analytics.v1.GetDispatchEffectivenessRequest
-	37, // 65: analytics.v1.AnalyticsService.GetOperationalInsights:input_type -> analytics.v1.GetOperationalInsightsRequest
-	43, // 66: analytics.v1.AnalyticsService.GetProjectionHealth:input_type -> analytics.v1.GetProjectionHealthRequest
-	46, // 67: analytics.v1.AnalyticsService.ListDispatchOperations:input_type -> analytics.v1.ListDispatchOperationsRequest
-	4,  // 68: analytics.v1.AnalyticsService.GetTicketOverview:output_type -> analytics.v1.GetTicketOverviewResponse
-	6,  // 69: analytics.v1.AnalyticsService.GetSLASummary:output_type -> analytics.v1.GetSLASummaryResponse
-	9,  // 70: analytics.v1.AnalyticsService.ListTicketBreakdown:output_type -> analytics.v1.ListTicketBreakdownResponse
-	12, // 71: analytics.v1.AnalyticsService.ListDailyTicketMetrics:output_type -> analytics.v1.ListDailyTicketMetricsResponse
-	15, // 72: analytics.v1.AnalyticsService.GetAssetSummary:output_type -> analytics.v1.GetAssetSummaryResponse
-	18, // 73: analytics.v1.AnalyticsService.GetOperationalLatency:output_type -> analytics.v1.GetOperationalLatencyResponse
-	24, // 74: analytics.v1.AnalyticsService.GetDispatchFailureSummary:output_type -> analytics.v1.GetDispatchFailureSummaryResponse
-	27, // 75: analytics.v1.AnalyticsService.GetBrigadeWorkload:output_type -> analytics.v1.GetBrigadeWorkloadResponse
-	30, // 76: analytics.v1.AnalyticsService.GetActiveWorkers:output_type -> analytics.v1.GetActiveWorkersResponse
-	33, // 77: analytics.v1.AnalyticsService.GetAssignmentFunnel:output_type -> analytics.v1.GetAssignmentFunnelResponse
-	36, // 78: analytics.v1.AnalyticsService.GetDispatchEffectiveness:output_type -> analytics.v1.GetDispatchEffectivenessResponse
-	42, // 79: analytics.v1.AnalyticsService.GetOperationalInsights:output_type -> analytics.v1.GetOperationalInsightsResponse
-	45, // 80: analytics.v1.AnalyticsService.GetProjectionHealth:output_type -> analytics.v1.GetProjectionHealthResponse
-	48, // 81: analytics.v1.AnalyticsService.ListDispatchOperations:output_type -> analytics.v1.ListDispatchOperationsResponse
-	68, // [68:82] is the sub-list for method output_type
-	54, // [54:68] is the sub-list for method input_type
-	54, // [54:54] is the sub-list for extension type_name
-	54, // [54:54] is the sub-list for extension extendee
-	0,  // [0:54] is the sub-list for field type_name
+	2,  // 54: analytics.v1.GetBrigadePerformanceRequest.filter:type_name -> analytics.v1.AnalyticsFilter
+	17, // 55: analytics.v1.BrigadePerformanceItem.execution_time:type_name -> analytics.v1.LatencyDistribution
+	17, // 56: analytics.v1.GetBrigadePerformanceResponse.execution_time:type_name -> analytics.v1.LatencyDistribution
+	50, // 57: analytics.v1.GetBrigadePerformanceResponse.brigades:type_name -> analytics.v1.BrigadePerformanceItem
+	3,  // 58: analytics.v1.AnalyticsService.GetTicketOverview:input_type -> analytics.v1.GetTicketOverviewRequest
+	5,  // 59: analytics.v1.AnalyticsService.GetSLASummary:input_type -> analytics.v1.GetSLASummaryRequest
+	7,  // 60: analytics.v1.AnalyticsService.ListTicketBreakdown:input_type -> analytics.v1.ListTicketBreakdownRequest
+	10, // 61: analytics.v1.AnalyticsService.ListDailyTicketMetrics:input_type -> analytics.v1.ListDailyTicketMetricsRequest
+	13, // 62: analytics.v1.AnalyticsService.GetAssetSummary:input_type -> analytics.v1.GetAssetSummaryRequest
+	16, // 63: analytics.v1.AnalyticsService.GetOperationalLatency:input_type -> analytics.v1.GetOperationalLatencyRequest
+	20, // 64: analytics.v1.AnalyticsService.GetDispatchFailureSummary:input_type -> analytics.v1.GetDispatchFailureSummaryRequest
+	25, // 65: analytics.v1.AnalyticsService.GetBrigadeWorkload:input_type -> analytics.v1.GetBrigadeWorkloadRequest
+	28, // 66: analytics.v1.AnalyticsService.GetActiveWorkers:input_type -> analytics.v1.GetActiveWorkersRequest
+	31, // 67: analytics.v1.AnalyticsService.GetAssignmentFunnel:input_type -> analytics.v1.GetAssignmentFunnelRequest
+	34, // 68: analytics.v1.AnalyticsService.GetDispatchEffectiveness:input_type -> analytics.v1.GetDispatchEffectivenessRequest
+	37, // 69: analytics.v1.AnalyticsService.GetOperationalInsights:input_type -> analytics.v1.GetOperationalInsightsRequest
+	43, // 70: analytics.v1.AnalyticsService.GetProjectionHealth:input_type -> analytics.v1.GetProjectionHealthRequest
+	46, // 71: analytics.v1.AnalyticsService.ListDispatchOperations:input_type -> analytics.v1.ListDispatchOperationsRequest
+	49, // 72: analytics.v1.AnalyticsService.GetBrigadePerformance:input_type -> analytics.v1.GetBrigadePerformanceRequest
+	4,  // 73: analytics.v1.AnalyticsService.GetTicketOverview:output_type -> analytics.v1.GetTicketOverviewResponse
+	6,  // 74: analytics.v1.AnalyticsService.GetSLASummary:output_type -> analytics.v1.GetSLASummaryResponse
+	9,  // 75: analytics.v1.AnalyticsService.ListTicketBreakdown:output_type -> analytics.v1.ListTicketBreakdownResponse
+	12, // 76: analytics.v1.AnalyticsService.ListDailyTicketMetrics:output_type -> analytics.v1.ListDailyTicketMetricsResponse
+	15, // 77: analytics.v1.AnalyticsService.GetAssetSummary:output_type -> analytics.v1.GetAssetSummaryResponse
+	18, // 78: analytics.v1.AnalyticsService.GetOperationalLatency:output_type -> analytics.v1.GetOperationalLatencyResponse
+	24, // 79: analytics.v1.AnalyticsService.GetDispatchFailureSummary:output_type -> analytics.v1.GetDispatchFailureSummaryResponse
+	27, // 80: analytics.v1.AnalyticsService.GetBrigadeWorkload:output_type -> analytics.v1.GetBrigadeWorkloadResponse
+	30, // 81: analytics.v1.AnalyticsService.GetActiveWorkers:output_type -> analytics.v1.GetActiveWorkersResponse
+	33, // 82: analytics.v1.AnalyticsService.GetAssignmentFunnel:output_type -> analytics.v1.GetAssignmentFunnelResponse
+	36, // 83: analytics.v1.AnalyticsService.GetDispatchEffectiveness:output_type -> analytics.v1.GetDispatchEffectivenessResponse
+	42, // 84: analytics.v1.AnalyticsService.GetOperationalInsights:output_type -> analytics.v1.GetOperationalInsightsResponse
+	45, // 85: analytics.v1.AnalyticsService.GetProjectionHealth:output_type -> analytics.v1.GetProjectionHealthResponse
+	48, // 86: analytics.v1.AnalyticsService.ListDispatchOperations:output_type -> analytics.v1.ListDispatchOperationsResponse
+	51, // 87: analytics.v1.AnalyticsService.GetBrigadePerformance:output_type -> analytics.v1.GetBrigadePerformanceResponse
+	73, // [73:88] is the sub-list for method output_type
+	58, // [58:73] is the sub-list for method input_type
+	58, // [58:58] is the sub-list for extension type_name
+	58, // [58:58] is the sub-list for extension extendee
+	0,  // [0:58] is the sub-list for field type_name
 }
 
 func init() { file_analytics_v1_analytics_proto_init() }
@@ -3796,7 +4044,7 @@ func file_analytics_v1_analytics_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_analytics_v1_analytics_proto_rawDesc), len(file_analytics_v1_analytics_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   47,
+			NumMessages:   50,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

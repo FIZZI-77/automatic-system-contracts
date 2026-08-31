@@ -33,6 +33,7 @@ const (
 	AnalyticsService_GetOperationalInsights_FullMethodName    = "/analytics.v1.AnalyticsService/GetOperationalInsights"
 	AnalyticsService_GetProjectionHealth_FullMethodName       = "/analytics.v1.AnalyticsService/GetProjectionHealth"
 	AnalyticsService_ListDispatchOperations_FullMethodName    = "/analytics.v1.AnalyticsService/ListDispatchOperations"
+	AnalyticsService_GetBrigadePerformance_FullMethodName     = "/analytics.v1.AnalyticsService/GetBrigadePerformance"
 )
 
 // AnalyticsServiceClient is the client API for AnalyticsService service.
@@ -53,6 +54,7 @@ type AnalyticsServiceClient interface {
 	GetOperationalInsights(ctx context.Context, in *GetOperationalInsightsRequest, opts ...grpc.CallOption) (*GetOperationalInsightsResponse, error)
 	GetProjectionHealth(ctx context.Context, in *GetProjectionHealthRequest, opts ...grpc.CallOption) (*GetProjectionHealthResponse, error)
 	ListDispatchOperations(ctx context.Context, in *ListDispatchOperationsRequest, opts ...grpc.CallOption) (*ListDispatchOperationsResponse, error)
+	GetBrigadePerformance(ctx context.Context, in *GetBrigadePerformanceRequest, opts ...grpc.CallOption) (*GetBrigadePerformanceResponse, error)
 }
 
 type analyticsServiceClient struct {
@@ -203,6 +205,16 @@ func (c *analyticsServiceClient) ListDispatchOperations(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *analyticsServiceClient) GetBrigadePerformance(ctx context.Context, in *GetBrigadePerformanceRequest, opts ...grpc.CallOption) (*GetBrigadePerformanceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBrigadePerformanceResponse)
+	err := c.cc.Invoke(ctx, AnalyticsService_GetBrigadePerformance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AnalyticsServiceServer is the server API for AnalyticsService service.
 // All implementations must embed UnimplementedAnalyticsServiceServer
 // for forward compatibility.
@@ -221,6 +233,7 @@ type AnalyticsServiceServer interface {
 	GetOperationalInsights(context.Context, *GetOperationalInsightsRequest) (*GetOperationalInsightsResponse, error)
 	GetProjectionHealth(context.Context, *GetProjectionHealthRequest) (*GetProjectionHealthResponse, error)
 	ListDispatchOperations(context.Context, *ListDispatchOperationsRequest) (*ListDispatchOperationsResponse, error)
+	GetBrigadePerformance(context.Context, *GetBrigadePerformanceRequest) (*GetBrigadePerformanceResponse, error)
 	mustEmbedUnimplementedAnalyticsServiceServer()
 }
 
@@ -272,6 +285,9 @@ func (UnimplementedAnalyticsServiceServer) GetProjectionHealth(context.Context, 
 }
 func (UnimplementedAnalyticsServiceServer) ListDispatchOperations(context.Context, *ListDispatchOperationsRequest) (*ListDispatchOperationsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListDispatchOperations not implemented")
+}
+func (UnimplementedAnalyticsServiceServer) GetBrigadePerformance(context.Context, *GetBrigadePerformanceRequest) (*GetBrigadePerformanceResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetBrigadePerformance not implemented")
 }
 func (UnimplementedAnalyticsServiceServer) mustEmbedUnimplementedAnalyticsServiceServer() {}
 func (UnimplementedAnalyticsServiceServer) testEmbeddedByValue()                          {}
@@ -546,6 +562,24 @@ func _AnalyticsService_ListDispatchOperations_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AnalyticsService_GetBrigadePerformance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBrigadePerformanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnalyticsServiceServer).GetBrigadePerformance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnalyticsService_GetBrigadePerformance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnalyticsServiceServer).GetBrigadePerformance(ctx, req.(*GetBrigadePerformanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AnalyticsService_ServiceDesc is the grpc.ServiceDesc for AnalyticsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -608,6 +642,10 @@ var AnalyticsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListDispatchOperations",
 			Handler:    _AnalyticsService_ListDispatchOperations_Handler,
+		},
+		{
+			MethodName: "GetBrigadePerformance",
+			Handler:    _AnalyticsService_GetBrigadePerformance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

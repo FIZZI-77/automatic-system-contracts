@@ -214,6 +214,11 @@ message RoutingEfficiency {
   double unreachable_candidate_rate = 4;
   double average_distance_km = 5;
   double kilometers_per_completed_ticket = 6;
+  uint64 eta_sample_count = 7;
+  double eta_mean_absolute_error_seconds = 8;
+  double eta_bias_seconds = 9;
+  double eta_p95_absolute_error_seconds = 10;
+  double eta_within_five_minutes_rate = 11;
 }
 message CapacityForecast {
   uint32 observed_days = 1;
