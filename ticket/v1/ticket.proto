@@ -18,6 +18,8 @@ service TicketService {
   rpc GetTicketStatusHistory(GetTicketStatusHistoryRequest) returns (GetTicketStatusHistoryResponse);
   rpc CreateWorkReport(CreateWorkReportRequest) returns (CreateWorkReportResponse);
   rpc ListWorkReports(ListWorkReportsRequest) returns (ListWorkReportsResponse);
+  rpc SubmitTicketFeedback(SubmitTicketFeedbackRequest) returns (SubmitTicketFeedbackResponse);
+  rpc GetTicketFeedback(GetTicketFeedbackRequest) returns (GetTicketFeedbackResponse);
 
   rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc GetCategory(GetCategoryRequest) returns (GetCategoryResponse);
@@ -326,3 +328,22 @@ message DeleteCategoryRequest {
 message DeleteCategoryResponse {
   TicketCategory category = 1;
 }
+
+message TicketFeedback {
+  string ticket_id = 1;
+  string user_id = 2;
+  uint32 rating = 3;
+  bool problem_resolved = 4;
+  string comment = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+message SubmitTicketFeedbackRequest {
+  string ticket_id = 1;
+  uint32 rating = 2;
+  bool problem_resolved = 3;
+  string comment = 4;
+}
+message SubmitTicketFeedbackResponse { TicketFeedback feedback = 1; }
+message GetTicketFeedbackRequest { string ticket_id = 1; }
+message GetTicketFeedbackResponse { TicketFeedback feedback = 1; }

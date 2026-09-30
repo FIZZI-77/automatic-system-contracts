@@ -20,6 +20,7 @@ service AnalyticsService {
   rpc GetProjectionHealth(GetProjectionHealthRequest) returns (GetProjectionHealthResponse);
   rpc ListDispatchOperations(ListDispatchOperationsRequest) returns (ListDispatchOperationsResponse);
   rpc GetBrigadePerformance(GetBrigadePerformanceRequest) returns (GetBrigadePerformanceResponse);
+  rpc GetDepartmentPerformance(GetDepartmentPerformanceRequest) returns (GetDepartmentPerformanceResponse);
 }
 
 message AnalyticsFilter {
@@ -310,4 +311,33 @@ message GetBrigadePerformanceResponse {
   double utilization_rate = 11;
   double busy_hours = 12;
   double average_parallel_tasks = 13;
+}
+
+message GetDepartmentPerformanceRequest { AnalyticsFilter filter = 1; }
+message DepartmentPerformance {
+  string department_id = 1;
+  uint64 created = 2;
+  uint64 completed = 3;
+  uint64 canceled = 4;
+  uint64 active = 5;
+  double completion_rate = 6;
+  double average_response_seconds = 7;
+  double average_resolution_seconds = 8;
+  uint64 response_sla_sample_count = 9;
+  uint64 response_sla_breaches = 10;
+  double average_response_sla_deviation_seconds = 11;
+  uint64 resolution_sla_sample_count = 12;
+  uint64 resolution_sla_breaches = 13;
+  double average_resolution_sla_deviation_seconds = 14;
+  uint64 feedback_count = 15;
+  double average_rating = 16;
+  double positive_rating_rate = 17;
+  double resolved_feedback_rate = 18;
+  double feedback_response_rate = 19;
+  uint64 response_sample_count = 20;
+  uint64 resolution_sample_count = 21;
+}
+message GetDepartmentPerformanceResponse {
+  repeated DepartmentPerformance departments = 1;
+  DepartmentPerformance organization = 2;
 }

@@ -30,6 +30,8 @@ const (
 	TicketService_GetTicketStatusHistory_FullMethodName = "/ticket.v1.TicketService/GetTicketStatusHistory"
 	TicketService_CreateWorkReport_FullMethodName       = "/ticket.v1.TicketService/CreateWorkReport"
 	TicketService_ListWorkReports_FullMethodName        = "/ticket.v1.TicketService/ListWorkReports"
+	TicketService_SubmitTicketFeedback_FullMethodName   = "/ticket.v1.TicketService/SubmitTicketFeedback"
+	TicketService_GetTicketFeedback_FullMethodName      = "/ticket.v1.TicketService/GetTicketFeedback"
 	TicketService_CreateCategory_FullMethodName         = "/ticket.v1.TicketService/CreateCategory"
 	TicketService_GetCategory_FullMethodName            = "/ticket.v1.TicketService/GetCategory"
 	TicketService_ListCategories_FullMethodName         = "/ticket.v1.TicketService/ListCategories"
@@ -52,6 +54,8 @@ type TicketServiceClient interface {
 	GetTicketStatusHistory(ctx context.Context, in *GetTicketStatusHistoryRequest, opts ...grpc.CallOption) (*GetTicketStatusHistoryResponse, error)
 	CreateWorkReport(ctx context.Context, in *CreateWorkReportRequest, opts ...grpc.CallOption) (*CreateWorkReportResponse, error)
 	ListWorkReports(ctx context.Context, in *ListWorkReportsRequest, opts ...grpc.CallOption) (*ListWorkReportsResponse, error)
+	SubmitTicketFeedback(ctx context.Context, in *SubmitTicketFeedbackRequest, opts ...grpc.CallOption) (*SubmitTicketFeedbackResponse, error)
+	GetTicketFeedback(ctx context.Context, in *GetTicketFeedbackRequest, opts ...grpc.CallOption) (*GetTicketFeedbackResponse, error)
 	CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error)
 	GetCategory(ctx context.Context, in *GetCategoryRequest, opts ...grpc.CallOption) (*GetCategoryResponse, error)
 	ListCategories(ctx context.Context, in *ListCategoriesRequest, opts ...grpc.CallOption) (*ListCategoriesResponse, error)
@@ -177,6 +181,26 @@ func (c *ticketServiceClient) ListWorkReports(ctx context.Context, in *ListWorkR
 	return out, nil
 }
 
+func (c *ticketServiceClient) SubmitTicketFeedback(ctx context.Context, in *SubmitTicketFeedbackRequest, opts ...grpc.CallOption) (*SubmitTicketFeedbackResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitTicketFeedbackResponse)
+	err := c.cc.Invoke(ctx, TicketService_SubmitTicketFeedback_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ticketServiceClient) GetTicketFeedback(ctx context.Context, in *GetTicketFeedbackRequest, opts ...grpc.CallOption) (*GetTicketFeedbackResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTicketFeedbackResponse)
+	err := c.cc.Invoke(ctx, TicketService_GetTicketFeedback_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *ticketServiceClient) CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateCategoryResponse)
@@ -242,6 +266,8 @@ type TicketServiceServer interface {
 	GetTicketStatusHistory(context.Context, *GetTicketStatusHistoryRequest) (*GetTicketStatusHistoryResponse, error)
 	CreateWorkReport(context.Context, *CreateWorkReportRequest) (*CreateWorkReportResponse, error)
 	ListWorkReports(context.Context, *ListWorkReportsRequest) (*ListWorkReportsResponse, error)
+	SubmitTicketFeedback(context.Context, *SubmitTicketFeedbackRequest) (*SubmitTicketFeedbackResponse, error)
+	GetTicketFeedback(context.Context, *GetTicketFeedbackRequest) (*GetTicketFeedbackResponse, error)
 	CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
 	GetCategory(context.Context, *GetCategoryRequest) (*GetCategoryResponse, error)
 	ListCategories(context.Context, *ListCategoriesRequest) (*ListCategoriesResponse, error)
@@ -289,6 +315,12 @@ func (UnimplementedTicketServiceServer) CreateWorkReport(context.Context, *Creat
 }
 func (UnimplementedTicketServiceServer) ListWorkReports(context.Context, *ListWorkReportsRequest) (*ListWorkReportsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListWorkReports not implemented")
+}
+func (UnimplementedTicketServiceServer) SubmitTicketFeedback(context.Context, *SubmitTicketFeedbackRequest) (*SubmitTicketFeedbackResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitTicketFeedback not implemented")
+}
+func (UnimplementedTicketServiceServer) GetTicketFeedback(context.Context, *GetTicketFeedbackRequest) (*GetTicketFeedbackResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTicketFeedback not implemented")
 }
 func (UnimplementedTicketServiceServer) CreateCategory(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateCategory not implemented")
@@ -524,6 +556,42 @@ func _TicketService_ListWorkReports_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TicketService_SubmitTicketFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitTicketFeedbackRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketServiceServer).SubmitTicketFeedback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TicketService_SubmitTicketFeedback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketServiceServer).SubmitTicketFeedback(ctx, req.(*SubmitTicketFeedbackRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TicketService_GetTicketFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTicketFeedbackRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TicketServiceServer).GetTicketFeedback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TicketService_GetTicketFeedback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TicketServiceServer).GetTicketFeedback(ctx, req.(*GetTicketFeedbackRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TicketService_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateCategoryRequest)
 	if err := dec(in); err != nil {
@@ -664,6 +732,14 @@ var TicketService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWorkReports",
 			Handler:    _TicketService_ListWorkReports_Handler,
+		},
+		{
+			MethodName: "SubmitTicketFeedback",
+			Handler:    _TicketService_SubmitTicketFeedback_Handler,
+		},
+		{
+			MethodName: "GetTicketFeedback",
+			Handler:    _TicketService_GetTicketFeedback_Handler,
 		},
 		{
 			MethodName: "CreateCategory",

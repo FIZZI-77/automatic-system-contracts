@@ -2763,6 +2763,298 @@ func (x *DeleteCategoryResponse) GetCategory() *TicketCategory {
 	return nil
 }
 
+type TicketFeedback struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TicketId        string                 `protobuf:"bytes,1,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
+	UserId          string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Rating          uint32                 `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"`
+	ProblemResolved bool                   `protobuf:"varint,4,opt,name=problem_resolved,json=problemResolved,proto3" json:"problem_resolved,omitempty"`
+	Comment         string                 `protobuf:"bytes,5,opt,name=comment,proto3" json:"comment,omitempty"`
+	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *TicketFeedback) Reset() {
+	*x = TicketFeedback{}
+	mi := &file_ticket_v1_ticket_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TicketFeedback) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TicketFeedback) ProtoMessage() {}
+
+func (x *TicketFeedback) ProtoReflect() protoreflect.Message {
+	mi := &file_ticket_v1_ticket_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TicketFeedback.ProtoReflect.Descriptor instead.
+func (*TicketFeedback) Descriptor() ([]byte, []int) {
+	return file_ticket_v1_ticket_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *TicketFeedback) GetTicketId() string {
+	if x != nil {
+		return x.TicketId
+	}
+	return ""
+}
+
+func (x *TicketFeedback) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *TicketFeedback) GetRating() uint32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *TicketFeedback) GetProblemResolved() bool {
+	if x != nil {
+		return x.ProblemResolved
+	}
+	return false
+}
+
+func (x *TicketFeedback) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+func (x *TicketFeedback) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *TicketFeedback) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type SubmitTicketFeedbackRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TicketId        string                 `protobuf:"bytes,1,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
+	Rating          uint32                 `protobuf:"varint,2,opt,name=rating,proto3" json:"rating,omitempty"`
+	ProblemResolved bool                   `protobuf:"varint,3,opt,name=problem_resolved,json=problemResolved,proto3" json:"problem_resolved,omitempty"`
+	Comment         string                 `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *SubmitTicketFeedbackRequest) Reset() {
+	*x = SubmitTicketFeedbackRequest{}
+	mi := &file_ticket_v1_ticket_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitTicketFeedbackRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitTicketFeedbackRequest) ProtoMessage() {}
+
+func (x *SubmitTicketFeedbackRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_ticket_v1_ticket_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitTicketFeedbackRequest.ProtoReflect.Descriptor instead.
+func (*SubmitTicketFeedbackRequest) Descriptor() ([]byte, []int) {
+	return file_ticket_v1_ticket_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *SubmitTicketFeedbackRequest) GetTicketId() string {
+	if x != nil {
+		return x.TicketId
+	}
+	return ""
+}
+
+func (x *SubmitTicketFeedbackRequest) GetRating() uint32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *SubmitTicketFeedbackRequest) GetProblemResolved() bool {
+	if x != nil {
+		return x.ProblemResolved
+	}
+	return false
+}
+
+func (x *SubmitTicketFeedbackRequest) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+type SubmitTicketFeedbackResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Feedback      *TicketFeedback        `protobuf:"bytes,1,opt,name=feedback,proto3" json:"feedback,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitTicketFeedbackResponse) Reset() {
+	*x = SubmitTicketFeedbackResponse{}
+	mi := &file_ticket_v1_ticket_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitTicketFeedbackResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitTicketFeedbackResponse) ProtoMessage() {}
+
+func (x *SubmitTicketFeedbackResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_ticket_v1_ticket_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitTicketFeedbackResponse.ProtoReflect.Descriptor instead.
+func (*SubmitTicketFeedbackResponse) Descriptor() ([]byte, []int) {
+	return file_ticket_v1_ticket_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *SubmitTicketFeedbackResponse) GetFeedback() *TicketFeedback {
+	if x != nil {
+		return x.Feedback
+	}
+	return nil
+}
+
+type GetTicketFeedbackRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TicketId      string                 `protobuf:"bytes,1,opt,name=ticket_id,json=ticketId,proto3" json:"ticket_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTicketFeedbackRequest) Reset() {
+	*x = GetTicketFeedbackRequest{}
+	mi := &file_ticket_v1_ticket_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTicketFeedbackRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTicketFeedbackRequest) ProtoMessage() {}
+
+func (x *GetTicketFeedbackRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_ticket_v1_ticket_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTicketFeedbackRequest.ProtoReflect.Descriptor instead.
+func (*GetTicketFeedbackRequest) Descriptor() ([]byte, []int) {
+	return file_ticket_v1_ticket_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *GetTicketFeedbackRequest) GetTicketId() string {
+	if x != nil {
+		return x.TicketId
+	}
+	return ""
+}
+
+type GetTicketFeedbackResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Feedback      *TicketFeedback        `protobuf:"bytes,1,opt,name=feedback,proto3" json:"feedback,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTicketFeedbackResponse) Reset() {
+	*x = GetTicketFeedbackResponse{}
+	mi := &file_ticket_v1_ticket_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTicketFeedbackResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTicketFeedbackResponse) ProtoMessage() {}
+
+func (x *GetTicketFeedbackResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_ticket_v1_ticket_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTicketFeedbackResponse.ProtoReflect.Descriptor instead.
+func (*GetTicketFeedbackResponse) Descriptor() ([]byte, []int) {
+	return file_ticket_v1_ticket_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *GetTicketFeedbackResponse) GetFeedback() *TicketFeedback {
+	if x != nil {
+		return x.Feedback
+	}
+	return nil
+}
+
 var File_ticket_v1_ticket_proto protoreflect.FileDescriptor
 
 const file_ticket_v1_ticket_proto_rawDesc = "" +
@@ -3018,7 +3310,28 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\vcategory_id\x18\x01 \x01(\tR\n" +
 	"categoryId\"O\n" +
 	"\x16DeleteCategoryResponse\x125\n" +
-	"\bcategory\x18\x01 \x01(\v2\x19.ticket.v1.TicketCategoryR\bcategory*\xb3\x01\n" +
+	"\bcategory\x18\x01 \x01(\v2\x19.ticket.v1.TicketCategoryR\bcategory\"\x99\x02\n" +
+	"\x0eTicketFeedback\x12\x1b\n" +
+	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
+	"\x06rating\x18\x03 \x01(\rR\x06rating\x12)\n" +
+	"\x10problem_resolved\x18\x04 \x01(\bR\x0fproblemResolved\x12\x18\n" +
+	"\acomment\x18\x05 \x01(\tR\acomment\x129\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x97\x01\n" +
+	"\x1bSubmitTicketFeedbackRequest\x12\x1b\n" +
+	"\tticket_id\x18\x01 \x01(\tR\bticketId\x12\x16\n" +
+	"\x06rating\x18\x02 \x01(\rR\x06rating\x12)\n" +
+	"\x10problem_resolved\x18\x03 \x01(\bR\x0fproblemResolved\x12\x18\n" +
+	"\acomment\x18\x04 \x01(\tR\acomment\"U\n" +
+	"\x1cSubmitTicketFeedbackResponse\x125\n" +
+	"\bfeedback\x18\x01 \x01(\v2\x19.ticket.v1.TicketFeedbackR\bfeedback\"7\n" +
+	"\x18GetTicketFeedbackRequest\x12\x1b\n" +
+	"\tticket_id\x18\x01 \x01(\tR\bticketId\"R\n" +
+	"\x19GetTicketFeedbackResponse\x125\n" +
+	"\bfeedback\x18\x01 \x01(\v2\x19.ticket.v1.TicketFeedbackR\bfeedback*\xb3\x01\n" +
 	"\fTicketStatus\x12\x1d\n" +
 	"\x19TICKET_STATUS_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11TICKET_STATUS_NEW\x10\x01\x12\x1a\n" +
@@ -3041,8 +3354,7 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\tSortOrder\x12\x1a\n" +
 	"\x16SORT_ORDER_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eSORT_ORDER_ASC\x10\x01\x12\x13\n" +
-	"\x0fSORT_ORDER_DESC\x10\x022\xf6\n" +
-	"\n" +
+	"\x0fSORT_ORDER_DESC\x10\x022\xbf\f\n" +
 	"\rTicketService\x12O\n" +
 	"\fCreateTicket\x12\x1e.ticket.v1.CreateTicketRequest\x1a\x1f.ticket.v1.CreateTicketResponse\x12F\n" +
 	"\tGetTicket\x12\x1b.ticket.v1.GetTicketRequest\x1a\x1c.ticket.v1.GetTicketResponse\x12L\n" +
@@ -3054,7 +3366,9 @@ const file_ticket_v1_ticket_proto_rawDesc = "" +
 	"\x0eCompleteTicket\x12 .ticket.v1.CompleteTicketRequest\x1a!.ticket.v1.CompleteTicketResponse\x12m\n" +
 	"\x16GetTicketStatusHistory\x12(.ticket.v1.GetTicketStatusHistoryRequest\x1a).ticket.v1.GetTicketStatusHistoryResponse\x12[\n" +
 	"\x10CreateWorkReport\x12\".ticket.v1.CreateWorkReportRequest\x1a#.ticket.v1.CreateWorkReportResponse\x12X\n" +
-	"\x0fListWorkReports\x12!.ticket.v1.ListWorkReportsRequest\x1a\".ticket.v1.ListWorkReportsResponse\x12U\n" +
+	"\x0fListWorkReports\x12!.ticket.v1.ListWorkReportsRequest\x1a\".ticket.v1.ListWorkReportsResponse\x12g\n" +
+	"\x14SubmitTicketFeedback\x12&.ticket.v1.SubmitTicketFeedbackRequest\x1a'.ticket.v1.SubmitTicketFeedbackResponse\x12^\n" +
+	"\x11GetTicketFeedback\x12#.ticket.v1.GetTicketFeedbackRequest\x1a$.ticket.v1.GetTicketFeedbackResponse\x12U\n" +
 	"\x0eCreateCategory\x12 .ticket.v1.CreateCategoryRequest\x1a!.ticket.v1.CreateCategoryResponse\x12L\n" +
 	"\vGetCategory\x12\x1d.ticket.v1.GetCategoryRequest\x1a\x1e.ticket.v1.GetCategoryResponse\x12U\n" +
 	"\x0eListCategories\x12 .ticket.v1.ListCategoriesRequest\x1a!.ticket.v1.ListCategoriesResponse\x12U\n" +
@@ -3074,7 +3388,7 @@ func file_ticket_v1_ticket_proto_rawDescGZIP() []byte {
 }
 
 var file_ticket_v1_ticket_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_ticket_v1_ticket_proto_msgTypes = make([]protoimpl.MessageInfo, 39)
+var file_ticket_v1_ticket_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
 var file_ticket_v1_ticket_proto_goTypes = []any{
 	(TicketStatus)(0),                      // 0: ticket.v1.TicketStatus
 	(TicketPriority)(0),                    // 1: ticket.v1.TicketPriority
@@ -3119,11 +3433,16 @@ var file_ticket_v1_ticket_proto_goTypes = []any{
 	(*UpdateCategoryResponse)(nil),         // 40: ticket.v1.UpdateCategoryResponse
 	(*DeleteCategoryRequest)(nil),          // 41: ticket.v1.DeleteCategoryRequest
 	(*DeleteCategoryResponse)(nil),         // 42: ticket.v1.DeleteCategoryResponse
-	(*timestamppb.Timestamp)(nil),          // 43: google.protobuf.Timestamp
+	(*TicketFeedback)(nil),                 // 43: ticket.v1.TicketFeedback
+	(*SubmitTicketFeedbackRequest)(nil),    // 44: ticket.v1.SubmitTicketFeedbackRequest
+	(*SubmitTicketFeedbackResponse)(nil),   // 45: ticket.v1.SubmitTicketFeedbackResponse
+	(*GetTicketFeedbackRequest)(nil),       // 46: ticket.v1.GetTicketFeedbackRequest
+	(*GetTicketFeedbackResponse)(nil),      // 47: ticket.v1.GetTicketFeedbackResponse
+	(*timestamppb.Timestamp)(nil),          // 48: google.protobuf.Timestamp
 }
 var file_ticket_v1_ticket_proto_depIdxs = []int32{
-	43, // 0: ticket.v1.WorkReport.created_at:type_name -> google.protobuf.Timestamp
-	43, // 1: ticket.v1.WorkReport.updated_at:type_name -> google.protobuf.Timestamp
+	48, // 0: ticket.v1.WorkReport.created_at:type_name -> google.protobuf.Timestamp
+	48, // 1: ticket.v1.WorkReport.updated_at:type_name -> google.protobuf.Timestamp
 	6,  // 2: ticket.v1.CreateWorkReportRequest.completion:type_name -> ticket.v1.CompletionReportRequest
 	7,  // 3: ticket.v1.CompletionReportRequest.brigade:type_name -> ticket.v1.CompletionBrigade
 	8,  // 4: ticket.v1.CompletionBrigade.members:type_name -> ticket.v1.CompletionBrigadeMember
@@ -3131,23 +3450,23 @@ var file_ticket_v1_ticket_proto_depIdxs = []int32{
 	4,  // 6: ticket.v1.ListWorkReportsResponse.reports:type_name -> ticket.v1.WorkReport
 	0,  // 7: ticket.v1.Ticket.status:type_name -> ticket.v1.TicketStatus
 	1,  // 8: ticket.v1.Ticket.priority:type_name -> ticket.v1.TicketPriority
-	43, // 9: ticket.v1.Ticket.created_at:type_name -> google.protobuf.Timestamp
-	43, // 10: ticket.v1.Ticket.updated_at:type_name -> google.protobuf.Timestamp
-	43, // 11: ticket.v1.Ticket.assigned_at:type_name -> google.protobuf.Timestamp
-	43, // 12: ticket.v1.Ticket.completed_at:type_name -> google.protobuf.Timestamp
-	43, // 13: ticket.v1.Ticket.canceled_at:type_name -> google.protobuf.Timestamp
-	43, // 14: ticket.v1.TicketCategory.created_at:type_name -> google.protobuf.Timestamp
-	43, // 15: ticket.v1.TicketCategory.updated_at:type_name -> google.protobuf.Timestamp
+	48, // 9: ticket.v1.Ticket.created_at:type_name -> google.protobuf.Timestamp
+	48, // 10: ticket.v1.Ticket.updated_at:type_name -> google.protobuf.Timestamp
+	48, // 11: ticket.v1.Ticket.assigned_at:type_name -> google.protobuf.Timestamp
+	48, // 12: ticket.v1.Ticket.completed_at:type_name -> google.protobuf.Timestamp
+	48, // 13: ticket.v1.Ticket.canceled_at:type_name -> google.protobuf.Timestamp
+	48, // 14: ticket.v1.TicketCategory.created_at:type_name -> google.protobuf.Timestamp
+	48, // 15: ticket.v1.TicketCategory.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 16: ticket.v1.TicketStatusHistory.old_status:type_name -> ticket.v1.TicketStatus
 	0,  // 17: ticket.v1.TicketStatusHistory.new_status:type_name -> ticket.v1.TicketStatus
-	43, // 18: ticket.v1.TicketStatusHistory.created_at:type_name -> google.protobuf.Timestamp
+	48, // 18: ticket.v1.TicketStatusHistory.created_at:type_name -> google.protobuf.Timestamp
 	1,  // 19: ticket.v1.CreateTicketRequest.priority:type_name -> ticket.v1.TicketPriority
 	12, // 20: ticket.v1.CreateTicketResponse.ticket:type_name -> ticket.v1.Ticket
 	12, // 21: ticket.v1.GetTicketResponse.ticket:type_name -> ticket.v1.Ticket
 	0,  // 22: ticket.v1.ListTicketsRequest.status:type_name -> ticket.v1.TicketStatus
 	1,  // 23: ticket.v1.ListTicketsRequest.priority:type_name -> ticket.v1.TicketPriority
-	43, // 24: ticket.v1.ListTicketsRequest.created_from:type_name -> google.protobuf.Timestamp
-	43, // 25: ticket.v1.ListTicketsRequest.created_to:type_name -> google.protobuf.Timestamp
+	48, // 24: ticket.v1.ListTicketsRequest.created_from:type_name -> google.protobuf.Timestamp
+	48, // 25: ticket.v1.ListTicketsRequest.created_to:type_name -> google.protobuf.Timestamp
 	2,  // 26: ticket.v1.ListTicketsRequest.sort_by:type_name -> ticket.v1.TicketSortBy
 	3,  // 27: ticket.v1.ListTicketsRequest.sort_order:type_name -> ticket.v1.SortOrder
 	12, // 28: ticket.v1.ListTicketsResponse.tickets:type_name -> ticket.v1.Ticket
@@ -3164,43 +3483,51 @@ var file_ticket_v1_ticket_proto_depIdxs = []int32{
 	13, // 39: ticket.v1.ListCategoriesResponse.categories:type_name -> ticket.v1.TicketCategory
 	13, // 40: ticket.v1.UpdateCategoryResponse.category:type_name -> ticket.v1.TicketCategory
 	13, // 41: ticket.v1.DeleteCategoryResponse.category:type_name -> ticket.v1.TicketCategory
-	15, // 42: ticket.v1.TicketService.CreateTicket:input_type -> ticket.v1.CreateTicketRequest
-	17, // 43: ticket.v1.TicketService.GetTicket:input_type -> ticket.v1.GetTicketRequest
-	19, // 44: ticket.v1.TicketService.ListTickets:input_type -> ticket.v1.ListTicketsRequest
-	21, // 45: ticket.v1.TicketService.UpdateTicket:input_type -> ticket.v1.UpdateTicketRequest
-	23, // 46: ticket.v1.TicketService.ChangeTicketStatus:input_type -> ticket.v1.ChangeTicketStatusRequest
-	25, // 47: ticket.v1.TicketService.AssignBrigade:input_type -> ticket.v1.AssignBrigadeRequest
-	27, // 48: ticket.v1.TicketService.CancelTicket:input_type -> ticket.v1.CancelTicketRequest
-	29, // 49: ticket.v1.TicketService.CompleteTicket:input_type -> ticket.v1.CompleteTicketRequest
-	31, // 50: ticket.v1.TicketService.GetTicketStatusHistory:input_type -> ticket.v1.GetTicketStatusHistoryRequest
-	5,  // 51: ticket.v1.TicketService.CreateWorkReport:input_type -> ticket.v1.CreateWorkReportRequest
-	10, // 52: ticket.v1.TicketService.ListWorkReports:input_type -> ticket.v1.ListWorkReportsRequest
-	33, // 53: ticket.v1.TicketService.CreateCategory:input_type -> ticket.v1.CreateCategoryRequest
-	35, // 54: ticket.v1.TicketService.GetCategory:input_type -> ticket.v1.GetCategoryRequest
-	37, // 55: ticket.v1.TicketService.ListCategories:input_type -> ticket.v1.ListCategoriesRequest
-	39, // 56: ticket.v1.TicketService.UpdateCategory:input_type -> ticket.v1.UpdateCategoryRequest
-	41, // 57: ticket.v1.TicketService.DeleteCategory:input_type -> ticket.v1.DeleteCategoryRequest
-	16, // 58: ticket.v1.TicketService.CreateTicket:output_type -> ticket.v1.CreateTicketResponse
-	18, // 59: ticket.v1.TicketService.GetTicket:output_type -> ticket.v1.GetTicketResponse
-	20, // 60: ticket.v1.TicketService.ListTickets:output_type -> ticket.v1.ListTicketsResponse
-	22, // 61: ticket.v1.TicketService.UpdateTicket:output_type -> ticket.v1.UpdateTicketResponse
-	24, // 62: ticket.v1.TicketService.ChangeTicketStatus:output_type -> ticket.v1.ChangeTicketStatusResponse
-	26, // 63: ticket.v1.TicketService.AssignBrigade:output_type -> ticket.v1.AssignBrigadeResponse
-	28, // 64: ticket.v1.TicketService.CancelTicket:output_type -> ticket.v1.CancelTicketResponse
-	30, // 65: ticket.v1.TicketService.CompleteTicket:output_type -> ticket.v1.CompleteTicketResponse
-	32, // 66: ticket.v1.TicketService.GetTicketStatusHistory:output_type -> ticket.v1.GetTicketStatusHistoryResponse
-	9,  // 67: ticket.v1.TicketService.CreateWorkReport:output_type -> ticket.v1.CreateWorkReportResponse
-	11, // 68: ticket.v1.TicketService.ListWorkReports:output_type -> ticket.v1.ListWorkReportsResponse
-	34, // 69: ticket.v1.TicketService.CreateCategory:output_type -> ticket.v1.CreateCategoryResponse
-	36, // 70: ticket.v1.TicketService.GetCategory:output_type -> ticket.v1.GetCategoryResponse
-	38, // 71: ticket.v1.TicketService.ListCategories:output_type -> ticket.v1.ListCategoriesResponse
-	40, // 72: ticket.v1.TicketService.UpdateCategory:output_type -> ticket.v1.UpdateCategoryResponse
-	42, // 73: ticket.v1.TicketService.DeleteCategory:output_type -> ticket.v1.DeleteCategoryResponse
-	58, // [58:74] is the sub-list for method output_type
-	42, // [42:58] is the sub-list for method input_type
-	42, // [42:42] is the sub-list for extension type_name
-	42, // [42:42] is the sub-list for extension extendee
-	0,  // [0:42] is the sub-list for field type_name
+	48, // 42: ticket.v1.TicketFeedback.created_at:type_name -> google.protobuf.Timestamp
+	48, // 43: ticket.v1.TicketFeedback.updated_at:type_name -> google.protobuf.Timestamp
+	43, // 44: ticket.v1.SubmitTicketFeedbackResponse.feedback:type_name -> ticket.v1.TicketFeedback
+	43, // 45: ticket.v1.GetTicketFeedbackResponse.feedback:type_name -> ticket.v1.TicketFeedback
+	15, // 46: ticket.v1.TicketService.CreateTicket:input_type -> ticket.v1.CreateTicketRequest
+	17, // 47: ticket.v1.TicketService.GetTicket:input_type -> ticket.v1.GetTicketRequest
+	19, // 48: ticket.v1.TicketService.ListTickets:input_type -> ticket.v1.ListTicketsRequest
+	21, // 49: ticket.v1.TicketService.UpdateTicket:input_type -> ticket.v1.UpdateTicketRequest
+	23, // 50: ticket.v1.TicketService.ChangeTicketStatus:input_type -> ticket.v1.ChangeTicketStatusRequest
+	25, // 51: ticket.v1.TicketService.AssignBrigade:input_type -> ticket.v1.AssignBrigadeRequest
+	27, // 52: ticket.v1.TicketService.CancelTicket:input_type -> ticket.v1.CancelTicketRequest
+	29, // 53: ticket.v1.TicketService.CompleteTicket:input_type -> ticket.v1.CompleteTicketRequest
+	31, // 54: ticket.v1.TicketService.GetTicketStatusHistory:input_type -> ticket.v1.GetTicketStatusHistoryRequest
+	5,  // 55: ticket.v1.TicketService.CreateWorkReport:input_type -> ticket.v1.CreateWorkReportRequest
+	10, // 56: ticket.v1.TicketService.ListWorkReports:input_type -> ticket.v1.ListWorkReportsRequest
+	44, // 57: ticket.v1.TicketService.SubmitTicketFeedback:input_type -> ticket.v1.SubmitTicketFeedbackRequest
+	46, // 58: ticket.v1.TicketService.GetTicketFeedback:input_type -> ticket.v1.GetTicketFeedbackRequest
+	33, // 59: ticket.v1.TicketService.CreateCategory:input_type -> ticket.v1.CreateCategoryRequest
+	35, // 60: ticket.v1.TicketService.GetCategory:input_type -> ticket.v1.GetCategoryRequest
+	37, // 61: ticket.v1.TicketService.ListCategories:input_type -> ticket.v1.ListCategoriesRequest
+	39, // 62: ticket.v1.TicketService.UpdateCategory:input_type -> ticket.v1.UpdateCategoryRequest
+	41, // 63: ticket.v1.TicketService.DeleteCategory:input_type -> ticket.v1.DeleteCategoryRequest
+	16, // 64: ticket.v1.TicketService.CreateTicket:output_type -> ticket.v1.CreateTicketResponse
+	18, // 65: ticket.v1.TicketService.GetTicket:output_type -> ticket.v1.GetTicketResponse
+	20, // 66: ticket.v1.TicketService.ListTickets:output_type -> ticket.v1.ListTicketsResponse
+	22, // 67: ticket.v1.TicketService.UpdateTicket:output_type -> ticket.v1.UpdateTicketResponse
+	24, // 68: ticket.v1.TicketService.ChangeTicketStatus:output_type -> ticket.v1.ChangeTicketStatusResponse
+	26, // 69: ticket.v1.TicketService.AssignBrigade:output_type -> ticket.v1.AssignBrigadeResponse
+	28, // 70: ticket.v1.TicketService.CancelTicket:output_type -> ticket.v1.CancelTicketResponse
+	30, // 71: ticket.v1.TicketService.CompleteTicket:output_type -> ticket.v1.CompleteTicketResponse
+	32, // 72: ticket.v1.TicketService.GetTicketStatusHistory:output_type -> ticket.v1.GetTicketStatusHistoryResponse
+	9,  // 73: ticket.v1.TicketService.CreateWorkReport:output_type -> ticket.v1.CreateWorkReportResponse
+	11, // 74: ticket.v1.TicketService.ListWorkReports:output_type -> ticket.v1.ListWorkReportsResponse
+	45, // 75: ticket.v1.TicketService.SubmitTicketFeedback:output_type -> ticket.v1.SubmitTicketFeedbackResponse
+	47, // 76: ticket.v1.TicketService.GetTicketFeedback:output_type -> ticket.v1.GetTicketFeedbackResponse
+	34, // 77: ticket.v1.TicketService.CreateCategory:output_type -> ticket.v1.CreateCategoryResponse
+	36, // 78: ticket.v1.TicketService.GetCategory:output_type -> ticket.v1.GetCategoryResponse
+	38, // 79: ticket.v1.TicketService.ListCategories:output_type -> ticket.v1.ListCategoriesResponse
+	40, // 80: ticket.v1.TicketService.UpdateCategory:output_type -> ticket.v1.UpdateCategoryResponse
+	42, // 81: ticket.v1.TicketService.DeleteCategory:output_type -> ticket.v1.DeleteCategoryResponse
+	64, // [64:82] is the sub-list for method output_type
+	46, // [46:64] is the sub-list for method input_type
+	46, // [46:46] is the sub-list for extension type_name
+	46, // [46:46] is the sub-list for extension extendee
+	0,  // [0:46] is the sub-list for field type_name
 }
 
 func init() { file_ticket_v1_ticket_proto_init() }
@@ -3221,7 +3548,7 @@ func file_ticket_v1_ticket_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ticket_v1_ticket_proto_rawDesc), len(file_ticket_v1_ticket_proto_rawDesc)),
 			NumEnums:      4,
-			NumMessages:   39,
+			NumMessages:   44,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
