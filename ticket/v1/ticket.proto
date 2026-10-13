@@ -8,6 +8,12 @@ import "google/protobuf/timestamp.proto";
 
 service TicketService {
   rpc CreateTicket(CreateTicketRequest) returns (CreateTicketResponse);
+  rpc CreateRequest(CreateRequestRequest) returns (CreateRequestResponse);
+  rpc AttachRequest(AttachRequestRequest) returns (AttachRequestResponse);
+  rpc DetachRequest(DetachRequestRequest) returns (DetachRequestResponse);
+  rpc ListIncidentRequests(ListIncidentRequestsRequest) returns (ListIncidentRequestsResponse);
+  rpc RegisterIntegration(RegisterIntegrationRequest) returns (RegisterIntegrationResponse);
+  rpc CreateExternalRequest(CreateExternalRequestRequest) returns (CreateExternalRequestResponse);
   rpc GetTicket(GetTicketRequest) returns (GetTicketResponse);
   rpc ListTickets(ListTicketsRequest) returns (ListTicketsResponse);
   rpc UpdateTicket(UpdateTicketRequest) returns (UpdateTicketResponse);
@@ -91,6 +97,12 @@ enum TicketPriority {
   TICKET_PRIORITY_EMERGENCY = 4;
 }
 
+enum TicketType {
+  TICKET_TYPE_UNSPECIFIED = 0;
+  TICKET_TYPE_INCIDENT = 1;
+  TICKET_TYPE_REQUEST = 2;
+}
+
 
 message Ticket {
   string id = 1;
@@ -118,6 +130,101 @@ message Ticket {
   google.protobuf.Timestamp completed_at = 16;
   google.protobuf.Timestamp canceled_at = 17;
   optional string asset_id = 18;
+  TicketType ticket_type = 19;
+  optional string incident_id = 20;
+  optional string external_system_id = 21;
+  optional string external_id = 22;
+}
+
+message CreateRequestRequest {
+  string department_id = 1;
+  string category_id = 2;
+  string user_id = 3;
+  string title = 4;
+  string description = 5;
+  TicketPriority priority = 6;
+  string address = 7;
+  double latitude = 8;
+  double longitude = 9;
+  optional string asset_id = 10;
+}
+
+message CreateRequestResponse {
+  Ticket request = 1;
+  Ticket incident = 2;
+  bool duplicate_matched = 3;
+}
+
+message AttachRequestRequest {
+  string incident_id = 1;
+  string request_id = 2;
+  string reason = 3;
+}
+
+message AttachRequestResponse { Ticket request = 1; }
+
+message DetachRequestRequest {
+  string request_id = 1;
+  string reason = 2;
+}
+
+message DetachRequestResponse { Ticket request = 1; }
+
+message ListIncidentRequestsRequest {
+  string incident_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListIncidentRequestsResponse {
+  repeated Ticket requests = 1;
+  int64 total = 2;
+}
+
+message TicketIntegration {
+  string id = 1;
+  string name = 2;
+  string client_id = 3;
+  string secret_prefix = 4;
+  optional string allowed_department_id = 5;
+  bool is_active = 6;
+  string created_by = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  google.protobuf.Timestamp last_used_at = 10;
+}
+
+message RegisterIntegrationRequest {
+  string name = 1;
+  string client_id = 2;
+  optional string allowed_department_id = 3;
+}
+
+message RegisterIntegrationResponse {
+  TicketIntegration integration = 1;
+  string secret = 2;
+}
+
+message CreateExternalRequestRequest {
+  string client_id = 1;
+  string secret = 2;
+  string external_id = 3;
+  string department_id = 4;
+  string category_id = 5;
+  string user_id = 6;
+  string title = 7;
+  string description = 8;
+  TicketPriority priority = 9;
+  string address = 10;
+  double latitude = 11;
+  double longitude = 12;
+  optional string asset_id = 13;
+}
+
+message CreateExternalRequestResponse {
+  Ticket request = 1;
+  Ticket incident = 2;
+  bool duplicate_matched = 3;
 }
 
 message TicketCategory {
